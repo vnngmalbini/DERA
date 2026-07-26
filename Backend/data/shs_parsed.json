@@ -1,0 +1,4097 @@
+[
+  {
+    "school": "Bosome Senior High Technical School",
+    "type": "Senior High Technical School",
+    "location": "Asiwa",
+    "district": "Bosome Freho District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Akrofuom Senior High School",
+    "type": "Technical school",
+    "location": "Akrofuom",
+    "district": "Senior High Schools in Adansi North District and Adansi South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Asare Bediako Senior High School",
+    "type": "Public school",
+    "location": "Akrokerri",
+    "district": "Senior High Schools in Adansi North District and Adansi South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Bodwesango Senior High School",
+    "type": "Public school",
+    "location": "Bodwesango",
+    "district": "Senior High Schools in Adansi North District and Adansi South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Dompoase Senior High School",
+    "type": "Public school",
+    "location": "Dompoase",
+    "district": "Senior High Schools in Adansi North District and Adansi South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "New Edubiase Senior High School",
+    "type": "Public school",
+    "location": "New Edubiase",
+    "district": "Senior High Schools in Adansi North District and Adansi South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "T.I. Ahmadiyya Senior High School",
+    "type": "Public school",
+    "location": "Fomena",
+    "district": "Senior High Schools in Adansi North District and Adansi South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Christ the King Catholic Senior High School",
+    "type": "Catholic school",
+    "location": "Obuasi",
+    "district": "Senior High Schools in Obuasi Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Father Augustine Murphy Commercial School",
+    "type": "Commercial school",
+    "location": "Obuasi",
+    "district": "Senior High Schools in Obuasi Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Obuasi Senior High Technical School",
+    "type": "Public school",
+    "location": "Obuasi",
+    "district": "Senior High Schools in Obuasi Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "St. Margaret Senior High School",
+    "type": "Private school",
+    "location": "Obuasi",
+    "district": "Senior High Schools in Obuasi Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Just Love Senior High School",
+    "type": "Private school",
+    "location": "Obuasi",
+    "district": "Senior High Schools in Obuasi Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Adansi Technical Institute",
+    "type": "Private school & Technical school",
+    "location": "Obuasi",
+    "district": "Senior High Schools in Obuasi Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Adu Gyamfi Senior High School",
+    "type": "Public school",
+    "location": "Jamasi",
+    "district": "Senior High Schools in Afigya-Sekyere District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Agona Senior High School",
+    "type": "Technical school",
+    "location": "Agona",
+    "district": "Senior High Schools in Afigya-Sekyere District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Konadu Yiadom Senior High School",
+    "type": "Public school",
+    "location": "Asaman",
+    "district": "Senior High Schools in Afigya-Sekyere District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Okomfo Anokye Senior High School",
+    "type": "Public school",
+    "location": "Wiamoase",
+    "district": "Senior High Schools in Afigya-Sekyere District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "S.D.A.  Senior High School",
+    "type": "Public school",
+    "location": "Agona",
+    "district": "Senior High Schools in Afigya-Sekyere District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Osei Tutu II College",
+    "type": "Public school",
+    "location": "Tetrem, Afigya-Sekyere District",
+    "district": "Senior High Schools in Afigya-Sekyere District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Maabang Senior High School",
+    "type": "Technical school",
+    "location": "Maabang",
+    "district": "Ahafo Ano North District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Tepa Senior High School",
+    "type": "Public school",
+    "location": "Tepa",
+    "district": "Ahafo Ano North District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Mankranso Senior High School",
+    "type": "Public school",
+    "location": "Mankranso",
+    "district": "Ahafo Ano South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Jacobu Senior High School",
+    "type": "Technical school",
+    "location": "Jacobu",
+    "district": "Amansie Central District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Jacobu Senior High School",
+    "type": "Technical school",
+    "location": "Jacobu",
+    "district": "Amansie East District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Oppong Memorial Senior High School",
+    "type": "Public school",
+    "location": "Kokofu",
+    "district": "Amansie East District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Saint Joseph Senior High School",
+    "type": "Technical school",
+    "location": "Ahwiren",
+    "district": "Amansie East District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Wesley High School",
+    "type": "Public school",
+    "location": "Bekwai",
+    "district": "Amansie East District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "SDA Senior High School",
+    "type": "Public school",
+    "location": "Bekwai",
+    "district": "Amansie East District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Danyaseman Catholic Senior High School",
+    "type": "Catholic school",
+    "location": "Huntado, Amansie East District",
+    "district": "Amansie West District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Esase Bontefufuo Senior High School",
+    "type": "Public school",
+    "location": "Esase Bontefufuo",
+    "district": "Amansie West District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Manso-Adubia Senior High School",
+    "type": "Public school",
+    "location": "Adubia",
+    "district": "Amansie West District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Mansoman Senior High School",
+    "type": "Public school",
+    "location": "Manso Atwere",
+    "district": "Amansie West District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Agogo State College",
+    "type": "Public school",
+    "location": "Agogo",
+    "district": "Asante Akim North District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Konongo Odumase Senior High School",
+    "type": "Public school",
+    "location": "Konongo-Odumase",
+    "district": "Asante Akim North District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Owerriman Senior High School",
+    "type": "Public school",
+    "location": "Domeabra",
+    "district": "Asante Akim North District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Agogo Collins Senior High School",
+    "type": "Public school",
+    "location": "Agogo",
+    "district": "Asante Akim North District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Bompata Presby Senior High School",
+    "type": "Public school",
+    "location": "Bompata",
+    "district": "Asante Akim South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Juaso Senior High School",
+    "type": "Technical school",
+    "location": "Juaso",
+    "district": "Asante Akim South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Ofoase Senior High School",
+    "type": "Technical school",
+    "location": "Ofoase",
+    "district": "Asante Akim South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Jubile senior High school",
+    "type": "Public school",
+    "location": "Dampong, Asante Akim South District",
+    "district": "Asante Akim South District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Nkawie Senior High Technical School",
+    "type": "Technical school",
+    "location": "Nkawie",
+    "district": "Senior High Schools in Atwima Mponua District and Atwima Nwabiagya District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Mpasatia Senior High School",
+    "type": "Technical school",
+    "location": "Mpasatia",
+    "district": "Senior High Schools in Atwima Mponua District and Atwima Nwabiagya District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Nyinahin Catholic Senior High School",
+    "type": "Catholic school",
+    "location": "Nyinahin",
+    "district": "Senior High Schools in Atwima Mponua District and Atwima Nwabiagya District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Osei Tutu Senior High School",
+    "type": "Public school",
+    "location": "Akropong",
+    "district": "Senior High Schools in Atwima Mponua District and Atwima Nwabiagya District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Toase Senior High School",
+    "type": "Public school",
+    "location": "Toase",
+    "district": "Senior High Schools in Atwima Mponua District and Atwima Nwabiagya District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Toase Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Tanoso",
+    "district": "Senior High Schools in Atwima Mponua District and Atwima Nwabiagya District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Afia Kobi Ampem Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Trabuom",
+    "district": "Senior High Schools in Botsomtwe/Atwima/Kwanhuma District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Beposo Senior High School",
+    "type": "Public school",
+    "location": "Beposo",
+    "district": "Senior High Schools in Botsomtwe/Atwima/Kwanhuma District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Jachie Pramso Senior High School",
+    "type": "Public school",
+    "location": "Jachie Pramso, Botsomtwe/Atwima/Kwanhuma District",
+    "district": "Senior High Schools in Botsomtwe/Atwima/Kwanhuma District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "St. Margaret High School",
+    "type": "Public school",
+    "location": "Feyiase, Botsomtwe/Atwima/Kwanhuma District",
+    "district": "Senior High Schools in Botsomtwe/Atwima/Kwanhuma District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Ejuraman Senior High School",
+    "type": "Public school",
+    "location": "Ejura",
+    "district": "Senior High Schools in Botsomtwe/Atwima/Kwanhuma District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Sekyedumase Senior High School",
+    "type": "Public school",
+    "location": "Seko, Botsomtwe/Atwima/Kwanhuma District",
+    "district": "Senior High Schools in Botsomtwe/Atwima/Kwanhuma District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Saint Hubert Minor Seminary Senior High School",
+    "type": "Public School",
+    "location": "Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Adventist Senior High School",
+    "type": "Public school",
+    "location": "Bantama-Kumasi, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Ghana Armed Forces Senior High School",
+    "type": "Commercial School",
+    "location": "Bantama-Kumasi, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Anglican Senior High School",
+    "type": "Public school",
+    "location": "Asem-Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Pentecost Senior High School",
+    "type": "Public school",
+    "location": "Breman-kumasi, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Roman Girls Nursing Training School",
+    "type": "Nursing school & Girls school",
+    "location": "Suame-Kumasi, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Asanteman Senior High School",
+    "type": "Public school",
+    "location": "Bantama",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Ashanti Kingdom Senior High School",
+    "type": "Public school",
+    "location": "Ahodwo Daban-Kumasi, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Kumasi Academy",
+    "type": "Public school",
+    "location": "Asokore Mampong",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Kumasi Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Abrepo-Kumasi, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Kumasi High School",
+    "type": "Public school",
+    "location": "Atonsu Gyenase, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Kumasi Senior High Technical School",
+    "type": "Technical school",
+    "location": "Patasi-Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Mmofraturo Girls Secondary School",
+    "type": "Public school & Girls school",
+    "location": "Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Opoku Ware School",
+    "type": "Public school",
+    "location": "Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "St. Louis Senior High School",
+    "type": "Public school",
+    "location": "Oduom",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Osei Kyeretwie Senior High School",
+    "type": "Public school",
+    "location": "Old Tafo",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Prempeh College",
+    "type": "Public school",
+    "location": "Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Angel Educational Complex - Kronom",
+    "type": "Commercial school",
+    "location": "Kronom, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "T.I. Ahmadiyya Senior High School",
+    "type": "Public school",
+    "location": "Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "KNUST Senior High School",
+    "type": "Public school",
+    "location": "Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Ideal College",
+    "type": "Public school",
+    "location": "Boadi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Serwaa Nyarko Senior High School",
+    "type": "Public school",
+    "location": "New Tafo, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Islamic Senior High School",
+    "type": "Public school",
+    "location": "Abrepo, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Sakafia Islamic Senior High School",
+    "type": "Public school",
+    "location": "Ayigya, Kumasi",
+    "district": "Senior High Schools in Kumasi Metropolitan District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Adanwomase Senior High School",
+    "type": "Public school",
+    "location": "Adanwomase",
+    "district": "Senior High Schools in Kwabre District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Aduman Senior High School",
+    "type": "Public school",
+    "location": "Aduman",
+    "district": "Senior High Schools in Kwabre District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Antoa Senior High School",
+    "type": "Public school",
+    "location": "Antoa",
+    "district": "Senior High Schools in Kwabre District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Gyeama Penson Senior High School",
+    "type": "Technical school",
+    "location": "Aboaso",
+    "district": "Senior High Schools in Kwabre District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Kofi Adjei Senior High School",
+    "type": "Technical school",
+    "location": "Bampanase",
+    "district": "Senior High Schools in Kwabre District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Simms Senior High School",
+    "type": "Technical school",
+    "location": "Fawoade",
+    "district": "Senior High Schools in Kwabre District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Namong Senior High School",
+    "type": "Public school",
+    "location": "Namong",
+    "district": "Senior High Schools in Offinso District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "St. Jerome Senior High School",
+    "type": "Public school",
+    "location": "Abofour",
+    "district": "Senior High Schools in Offinso District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Dwamena Akenten Senior High School",
+    "type": "Public school",
+    "location": "Newtown, Offinso District",
+    "district": "Senior High Schools in Offinso District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Akumadan Senior High School",
+    "type": "Public school",
+    "location": "Akumadan",
+    "district": "Senior High Schools in Offinso District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Dadease Agriculture Senior High School",
+    "type": "Commercial school",
+    "location": "Dadease",
+    "district": "Senior High Schools in Sekyere Kumawu District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Bankoman Senior High School",
+    "type": "Public school",
+    "location": "Banko",
+    "district": "Senior High Schools in Sekyere Kumawu District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Tweneboa Kodua Senior High School",
+    "type": "Commercial school & Technical school",
+    "location": "Kumawu",
+    "district": "Senior High Schools in Sekyere Kumawu District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Bodomase Senior High School",
+    "type": "Public School]",
+    "location": "Bodomase",
+    "district": "Senior High Schools in Sekyere Kumawu District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "T.I. Ahmadiyya Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Asokore",
+    "district": "Sekyere East District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Effiduase Senior High School",
+    "type": "Commercial school",
+    "location": "Effiduase",
+    "district": "Sekyere East District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Krobea Asante Vocational/Technical Institute",
+    "type": "Commercial school & Technical school",
+    "location": "Asokore",
+    "district": "Sekyere East District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Amaniampong Senior High School",
+    "type": "Public school",
+    "location": "Mampong",
+    "district": "Sekyere West District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Nsutaman Catholic Senior High School",
+    "type": "Catholic school",
+    "location": "Nsuta",
+    "district": "Sekyere West District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Saint Joseph Senior High School",
+    "type": "Commercial School",
+    "location": "Mampong",
+    "district": "Sekyere West District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "St. Monica's Senior High School",
+    "type": "Public school",
+    "location": "Mampong",
+    "district": "Sekyere West District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Ejisuman Senior High School",
+    "type": "Public school",
+    "location": "Ejisu",
+    "district": "Senior Secondary schools in Ejisu-Juaben Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Juaben Senior High School",
+    "type": "Public school",
+    "location": "Juaben",
+    "district": "Senior Secondary schools in Ejisu-Juaben Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Ejisu Senior High Technical School",
+    "type": "Technical school",
+    "location": "Ejisu",
+    "district": "Senior Secondary schools in Ejisu-Juaben Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Bonwire Senior High Technical School",
+    "type": "Technical school",
+    "location": "Bonwire",
+    "district": "Senior Secondary schools in Ejisu-Juaben Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Achinakrom Senior High School",
+    "type": "Public school",
+    "location": "Achinakrom, Ejisu",
+    "district": "Senior Secondary schools in Ejisu-Juaben Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Church of Christ Senior High School",
+    "type": "Public school",
+    "location": "Adadeentem",
+    "district": "Senior Secondary schools in Ejisu-Juaben Municipal District",
+    "region": "Ashanti"
+  },
+  {
+    "school": "Ahafoman Senior High School",
+    "type": "Technical school",
+    "location": "Goaso",
+    "district": "Senior High Schools in Asunafo North District and Asunafo South District",
+    "region": null
+  },
+  {
+    "school": "Kukuom Agriculture Senior High School",
+    "type": "public",
+    "location": "Kukuom",
+    "district": "Senior High Schools in Asunafo North District and Asunafo South District",
+    "region": null
+  },
+  {
+    "school": "Mim Senior High School",
+    "type": "Public school",
+    "location": "Mim, Asunafo South District",
+    "district": "Senior High Schools in Asunafo North District and Asunafo South District",
+    "region": null
+  },
+  {
+    "school": "Acherensua Senior High School",
+    "type": "Public school",
+    "location": "Acherensua",
+    "district": "Senior High Schools in Asutifi District",
+    "region": null
+  },
+  {
+    "school": "Gyamfi Kumanin Senior High School",
+    "type": "Technical school",
+    "location": "Wamahinso",
+    "district": "Senior High Schools in Asutifi District",
+    "region": null
+  },
+  {
+    "school": "Hwidiem Senior High School",
+    "type": "Public school",
+    "location": "Hwidiem",
+    "district": "Senior High Schools in Asutifi District",
+    "region": null
+  },
+  {
+    "school": "OLA Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Kenyasi",
+    "district": "Senior High Schools in Asutifi District",
+    "region": null
+  },
+  {
+    "school": "Atebubu Senior High School",
+    "type": "Public school",
+    "location": "Atebubu",
+    "district": "Senior Secondary schools in Atebubu-Amantin District",
+    "region": null
+  },
+  {
+    "school": "Amanten Senior High School",
+    "type": "Public school",
+    "location": "Amanten",
+    "district": "Senior Secondary schools in Atebubu-Amantin District",
+    "region": null
+  },
+  {
+    "school": "Prang Senior High School",
+    "type": "Public school",
+    "location": "Prang, Atebubu-Amantin District",
+    "district": "Senior Secondary schools in Atebubu-Amantin District",
+    "region": null
+  },
+  {
+    "school": "Yeji Senior High School",
+    "type": "Technical school",
+    "location": "Yeji",
+    "district": "Senior Secondary schools in Atebubu-Amantin District",
+    "region": null
+  },
+  {
+    "school": "Berekum Senior High School",
+    "type": "Public school",
+    "location": "Berekum",
+    "district": "Senior High Schools in Berekum District",
+    "region": null
+  },
+  {
+    "school": "Jinjini Senior High School",
+    "type": "Public school",
+    "location": "Jinjini",
+    "district": "Senior High Schools in Berekum District",
+    "region": null
+  },
+  {
+    "school": "Methodist Senior High School",
+    "type": "Public school",
+    "location": "Biadan",
+    "district": "Senior High Schools in Berekum District",
+    "region": null
+  },
+  {
+    "school": "Presbyterian Senior High School",
+    "type": "Technical school",
+    "location": "Berekum",
+    "district": "Senior High Schools in Berekum District",
+    "region": null
+  },
+  {
+    "school": "Dormaa Senior High School",
+    "type": "Public school",
+    "location": "Dormaa Ahenkro",
+    "district": "Senior High Schools in Dormaa District",
+    "region": null
+  },
+  {
+    "school": "Mansen Comm. Day Senior High School",
+    "type": "Commercial school",
+    "location": "Wamfie",
+    "district": "Senior High Schools in Dormaa District",
+    "region": null
+  },
+  {
+    "school": "Nkrankwanta Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Nkrankwanta",
+    "district": "Senior High Schools in Dormaa District",
+    "region": null
+  },
+  {
+    "school": "Wamanafo Comm. Day Senior High School",
+    "type": "Commercial school & Technical school",
+    "location": "Wamanafo",
+    "district": "Senior High Schools in Dormaa District",
+    "region": null
+  },
+  {
+    "school": "Drobo Senior High School",
+    "type": "Public school",
+    "location": "Drobo",
+    "district": "Senior High Schools in Jaman North District and Jaman South District",
+    "region": null
+  },
+  {
+    "school": "Goka Senior High School",
+    "type": "Technical school",
+    "location": "Goka, Jaman North District",
+    "district": "Senior High Schools in Jaman North District and Jaman South District",
+    "region": null
+  },
+  {
+    "school": "Nafana Senior High School",
+    "type": "Public school",
+    "location": "Sampa",
+    "district": "Senior High Schools in Jaman North District and Jaman South District",
+    "region": null
+  },
+  {
+    "school": "Our Lady of Providence Senior High School",
+    "type": "Public school",
+    "location": "Kwasi Buokrom",
+    "district": "Senior High Schools in Jaman North District and Jaman South District",
+    "region": null
+  },
+  {
+    "school": "Sumaman Senior High School",
+    "type": "Public school",
+    "location": "Suma-Ahenkro",
+    "district": "Senior High Schools in Jaman North District and Jaman South District",
+    "region": null
+  },
+  {
+    "school": "Jema Senior High School",
+    "type": "Public school",
+    "location": "Jema",
+    "district": "Senior High Schools in Kintampo North District and Kintampo South District",
+    "region": null
+  },
+  {
+    "school": "Kintampo Senior High School",
+    "type": "Public school",
+    "location": "Kintampo",
+    "district": "Senior High Schools in Kintampo North District and Kintampo South District",
+    "region": null
+  },
+  {
+    "school": "Busunya Senior High School",
+    "type": "Public school",
+    "location": "Busunya",
+    "district": "Senior High Schools in Nkoranza District",
+    "region": null
+  },
+  {
+    "school": "Nkoranza Senior High School",
+    "type": "Technical school",
+    "location": "Nkoranza",
+    "district": "Senior High Schools in Nkoranza District",
+    "region": null
+  },
+  {
+    "school": "Yefiriman Senior High School",
+    "type": "Public school",
+    "location": "Yefiri, Nkoranza District",
+    "district": "Senior High Schools in Nkoranza District",
+    "region": null
+  },
+  {
+    "school": "Kajaji Senior High School",
+    "type": "Public school",
+    "location": "Kajaji Settlement Town",
+    "district": "Senior High Schools in Sene District",
+    "region": null
+  },
+  {
+    "school": "Kwame Danso Senior High School",
+    "type": "Technical school",
+    "location": "Kwame Danso",
+    "district": "Senior High Schools in Sene District",
+    "region": null
+  },
+  {
+    "school": "Lawrence Demonstration Senior High School",
+    "type": "Commercial school",
+    "location": "Sunyani",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "Chiraa Senior High School",
+    "type": "Public school",
+    "location": "Chiraa",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "Odomaseman Day Senior High School",
+    "type": "Public school",
+    "location": "Odomase",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "Sunyani Senior High School",
+    "type": "Public school",
+    "location": "Sunyani",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "Sacred Heart Senior High School",
+    "type": "Public school",
+    "location": "Nsoatre",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "St. James Seminary Senior High School",
+    "type": "Public school",
+    "location": "Abesim",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "Twene Amanfo Senior High School",
+    "type": "Technical school",
+    "location": "Sunyani",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "Abesim Senior High School",
+    "type": "Community school",
+    "location": "Abesim",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "Sunyani Business Senior High School",
+    "type": "Commercial school",
+    "location": "Sunyani",
+    "district": "Senior High Schools in Sunyani District",
+    "region": null
+  },
+  {
+    "school": "Bechem Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Bechem",
+    "district": "Senior High Schools in Tano North District and Tano South District",
+    "region": null
+  },
+  {
+    "school": "Boakye Tromo Senior High School",
+    "type": "Technical school",
+    "location": "Duayaw Nkwanta",
+    "district": "Senior High Schools in Tano North District and Tano South District",
+    "region": null
+  },
+  {
+    "school": "Bomaa Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Bomaa",
+    "district": "Senior High Schools in Tano North District and Tano South District",
+    "region": null
+  },
+  {
+    "school": "Duayaw Nkwanta Senior High School",
+    "type": "Public school",
+    "location": "Duayaw Nkwanta",
+    "district": "Senior High Schools in Tano North District and Tano South District",
+    "region": null
+  },
+  {
+    "school": "Techimantia Presbyterian Senior High School",
+    "type": "Commercial school",
+    "location": "Techimantia",
+    "district": "Senior High Schools in Tano North District and Tano South District",
+    "region": null
+  },
+  {
+    "school": "Yamfo Anglican Senior High School",
+    "type": "Public school",
+    "location": "Yamfo",
+    "district": "Senior High Schools in Tano North District and Tano South District",
+    "region": null
+  },
+  {
+    "school": "Serwaa Kesse Girls' Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Duayaw Nkwanta",
+    "district": "Senior High Schools in Tano North District and Tano South District",
+    "region": null
+  },
+  {
+    "school": "Asuogyaman Senior High School",
+    "type": "Technical school Public school",
+    "location": "Aworowa",
+    "district": "Senior High Schools in Techiman Municipal District",
+    "region": null
+  },
+  {
+    "school": "Buoyem Senior High School",
+    "type": "Public school",
+    "location": "Boyem, Techiman Municipal District",
+    "district": "Senior High Schools in Techiman Municipal District",
+    "region": null
+  },
+  {
+    "school": "Guakro Effa Senior High School",
+    "type": "Public school",
+    "location": "Offuman",
+    "district": "Senior High Schools in Techiman Municipal District",
+    "region": null
+  },
+  {
+    "school": "Techiman Senior High School",
+    "type": "Public school",
+    "location": "Techiman",
+    "district": "Senior High Schools in Techiman Municipal District",
+    "region": null
+  },
+  {
+    "school": "Tuobodom Senior High School",
+    "type": "Technical school",
+    "location": "Tuobodom",
+    "district": "Senior High Schools in Techiman Municipal District",
+    "region": null
+  },
+  {
+    "school": "Wenchi Methodist Senior High School",
+    "type": "Public school",
+    "location": "Wenchi",
+    "district": "Senior High Schools in Wenchi District",
+    "region": null
+  },
+  {
+    "school": "Badu Senior High School",
+    "type": "Technical school",
+    "location": "Badu, Wenchi",
+    "district": "Senior High Schools in Wenchi District",
+    "region": null
+  },
+  {
+    "school": "Koase Senior High School",
+    "type": "Technical school",
+    "location": "Koase, Wenchi",
+    "district": "Senior High Schools in Wenchi District",
+    "region": null
+  },
+  {
+    "school": "Nkoranman Senior High School",
+    "type": "Public school",
+    "location": "Seikwa, Wenchi",
+    "district": "Senior High Schools in Wenchi District",
+    "region": null
+  },
+  {
+    "school": "Menji Senior High School",
+    "type": "Public school",
+    "location": "Menji, Wenchi",
+    "district": "Senior High Schools in Wenchi District",
+    "region": null
+  },
+  {
+    "school": "Abakrampa Senior High School",
+    "type": "Technical school",
+    "location": "Abakrampa",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Asuansi Technical Institute",
+    "type": "Technical Institute",
+    "location": "Nyamedom",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Aburaman Senior High School",
+    "type": "Public school",
+    "location": "Abura Dunkwa",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Andam Senior High & Technical School",
+    "type": "Technical school",
+    "location": "Oduponkpehe",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Kwanyako Senior High School",
+    "type": "Public school",
+    "location": "Kwanyako",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Nsaba Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Nsaba",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Nyakrom Day Senior High School",
+    "type": "Public school",
+    "location": "Nyakrom",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Pank Senior High School",
+    "type": "Public school",
+    "location": "Bawjiase, Agona District",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Siddiq Senior High School",
+    "type": "Public school",
+    "location": "Nyakrom",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Naana Khadijah Islamic Girls School",
+    "type": "Commercial School & Girls school",
+    "location": "Nyakrom",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Swedru School of Business",
+    "type": "Commercial School",
+    "location": "Swedru",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Swedru Senior High School",
+    "type": "Public school",
+    "location": "Swedru",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Besease Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Besease",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Enyan Denkyira Senior High School",
+    "type": "Public school",
+    "location": "Denkyira",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Mando Senior High Tech School",
+    "type": "Public school",
+    "location": "Mando, Ajumako",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Breman Asikuma Senior High School",
+    "type": "Public school",
+    "location": "Breman Asikuma",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Odoben Senior High School",
+    "type": "Public school",
+    "location": "Odoben",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Adankwaman Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Assin Darman",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Assin Manso Senior High School",
+    "type": "Public school",
+    "location": "Assin Manso",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Assin North Senior High School",
+    "type": "Technical school",
+    "location": "Assin Asempaneye",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Assin Nsuta Senior High School",
+    "type": "Public school",
+    "location": "Assin Nsuta",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Nyankumase Ahenkro Senior High School",
+    "type": "Public school",
+    "location": "Nyankumase Ahenkro",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Obiri Yeboah Senior High School",
+    "type": "Public school",
+    "location": "Assin Fosu",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Awutu-Winton Senior High School",
+    "type": "Private School (Fee-free)",
+    "location": "Awutu Breku",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Obrakyere Senior High School",
+    "type": "Technical school",
+    "location": "Obrakyere",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Senya Senior High School",
+    "type": "Public school",
+    "location": "Senya",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Winneba Senior High School",
+    "type": "Public school",
+    "location": "Winneba",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Aggrey Memorial A.M.E Zion Senior High School",
+    "type": "Boarding school & Public school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Academy of Christ the King",
+    "type": "Public school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Adisadel College",
+    "type": "Boarding school & Boys school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Cape Coast Technical Institute",
+    "type": "Technical school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Effutu Senior High School",
+    "type": "Technical school",
+    "location": "Effutu",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Ghana National College",
+    "type": "Public school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Commercial Service Institute",
+    "type": "Commercial school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Holy Child High School",
+    "type": "Public school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Mfantsipim School",
+    "type": "Public school & Boys school and established as \"Wesleyan High School\"",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Oguaa Senior High School",
+    "type": "Technical school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "University Practice Senior High School",
+    "type": "Public school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Wesley Girls' High School",
+    "type": "Public school and Girls school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Saint Augustine's College",
+    "type": "Public school",
+    "location": "Cape Coast",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Apam Senior High School",
+    "type": "Public school",
+    "location": "Great Apass, Gomoa District",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Gomoa Senior High School",
+    "type": "Technical school",
+    "location": "Dawurampon",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Mozano Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Mozano",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Mozano Experimental Senior High School",
+    "type": "Commercial School",
+    "location": "Mozano",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Potsin T.I. Ahmadiya Senior High School",
+    "type": "Public school",
+    "location": "Potsin",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Edinaman Day Senior High School",
+    "type": "Public school",
+    "location": "Elmina",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Eguafo-Abrem Senior High School",
+    "type": "Public school",
+    "location": "Agona Abirem",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Komenda Senior High School",
+    "type": "Public school",
+    "location": "Komenda",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Ekumfi T. I. Ahmadiiyya Senior High School",
+    "type": "Public school",
+    "location": "Esakyir",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Kwegyir Aggrey Senior High School",
+    "type": "Commercial school",
+    "location": "Anomabo",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Mankesim Senior High School",
+    "type": "Technical school",
+    "location": "Mankesim",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Mfantsiman Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Saltpond",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Saltpond Methodist High School",
+    "type": "Public school",
+    "location": "Saltpond",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Forever Young Senior High School",
+    "type": "Public school",
+    "location": "Hemang",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Jukwa Senior High School",
+    "type": "Public school",
+    "location": "Jukwa",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Twifo Praso Senior High School",
+    "type": "Public school",
+    "location": "Twifo Praso",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Boa-Amponsem Senior High School",
+    "type": "Public school",
+    "location": "Dunkwa-On-Offin",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Diaso Senior High School",
+    "type": "Public school",
+    "location": "Diaso",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Dunkwa Senior High School",
+    "type": "Technical school",
+    "location": "Dunkwa-On-Offin",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Oxford Senior High School",
+    "type": "Public school",
+    "location": "Dunkwa-On-Offin",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "St. Andrew's College",
+    "type": "Public school",
+    "location": "Dunkwa-On-Offin",
+    "district": null,
+    "region": "Central"
+  },
+  {
+    "school": "Presbyterian Senior High Technical School",
+    "type": "Public School",
+    "location": "Aburi",
+    "district": "Akuapim North District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Hark Mount Sinai Senior High School",
+    "type": "Public school",
+    "location": "Akuapem-Akropong",
+    "district": "Akuapim North District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Akuapim-Mampong",
+    "district": "Akuapim North District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Okuapeman Senior High School",
+    "type": "Public school",
+    "location": "Akuapem-Akropong",
+    "district": "Akuapim North District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Nifa Senior High School",
+    "type": "Public school",
+    "location": "Adukrom",
+    "district": "Akuapim North District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Asuom Senior High School",
+    "type": "Public school",
+    "location": "Akropong",
+    "district": "Akuapim North District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Presbyterian Senior High Technical School, Adukrom",
+    "type": "Technical school",
+    "location": "Adukrom",
+    "district": "Akuapim North District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Benkum Senior High School",
+    "type": "Public school",
+    "location": "Larteh-Akuapem",
+    "district": "Akuapim North District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Nsawam Senior High School",
+    "type": "Public school",
+    "location": "Nsawam",
+    "district": "Akuapim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Nsawam Business College",
+    "type": "Commercial school",
+    "location": "Nsawam",
+    "district": "Akuapim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Adeiso Senior High School",
+    "type": "Public school",
+    "location": "Adeiso",
+    "district": "Akuapim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Presbyterian Senior High Technical School",
+    "type": "Technical school",
+    "location": "Aburi",
+    "district": "Akuapim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Aburi Girls' Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Aburi",
+    "district": "Akuapim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Adonten Senior High School",
+    "type": "Public school",
+    "location": "Nsawam",
+    "district": "Akuapim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Presby Senior High Technical School",
+    "type": "Technical school",
+    "location": "Nsawam",
+    "district": "Akuapim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Saint Martin's Senior High School",
+    "type": "Public school",
+    "location": "Nsawam-Adoagyiri",
+    "district": "Akuapim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Ayirebi Senior High School- Akyem Ayirebi",
+    "type": "Public school",
+    "location": "Ofoase",
+    "district": "Senior High Schools in Akyemansa District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Akosombo International School",
+    "type": "",
+    "location": "Akosombo",
+    "district": "Senior High Schools in Asuogyaman District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Adjena Senior High Technical School",
+    "type": "Public school",
+    "location": "Akosombo",
+    "district": "Senior High Schools in Asuogyaman District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Gafad Afonope Senior High School",
+    "type": "Public school",
+    "location": "Atimpoku",
+    "district": "Senior High Schools in Asuogyaman District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Akwamuman Senior High School",
+    "type": "Public school",
+    "location": "Atimpoku",
+    "district": "Senior High Schools in Asuogyaman District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Apegusu Senior High School",
+    "type": "Public school",
+    "location": "Akwamu Apegusu, Atimpoku",
+    "district": "Senior High Schools in Asuogyaman District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Anum Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Anum",
+    "district": "Senior High Schools in Asuogyaman District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Boso Senior High Technical School",
+    "type": "Technical School",
+    "location": "Boso, Atimpoku",
+    "district": "Senior High Schools in Asuogyaman District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Kwabeng Anglican Senior High Technical",
+    "type": "Public school",
+    "location": "Kwabeng",
+    "district": "Senior High Schools in Atiwa West District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Akroso Senior High School",
+    "type": "Public school",
+    "location": "Akim Akroso",
+    "district": "Birim Central Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Oda Senior High School",
+    "type": "Public school",
+    "location": "Akim Oda",
+    "district": "Birim Central Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "St. Francis Senior High Technical School",
+    "type": "Secondary /Technical school",
+    "location": "Akim Oda",
+    "district": "Birim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Akim Swedru Senior High School",
+    "type": "Public Boarding school",
+    "location": "Akim Swedru",
+    "district": "Birim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Akim State College",
+    "type": "Public school",
+    "location": "Akim Swedru",
+    "district": "Birim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Akim State College",
+    "type": "Public school",
+    "location": "Akim Swedru",
+    "district": "Birim South District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Ofori Panin Senior High School",
+    "type": "Public school",
+    "location": "Kukurantumi, Abuakwa-North, East Akim Municipal District",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Nero Senior High School",
+    "type": "Public school",
+    "location": "Kibi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Christian Heritage Senior High Technical School",
+    "type": "Technical school",
+    "location": "Kukurantumi, Kibi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Saint Paul Technical School",
+    "type": "Technical school",
+    "location": "Kukurantumi, Kibi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Kibi Senior High Technical School",
+    "type": "Technical school",
+    "location": "Kibi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Abuakwa State College",
+    "type": "Public school",
+    "location": "Kibi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Suhum Senior High Technical School",
+    "type": "Technical school",
+    "location": "Suhum",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Asafo Akyem Senior High School",
+    "type": "Technical school",
+    "location": "Asafo, Kibi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Saint Stephen's Senior High Technical School",
+    "type": "Technical school",
+    "location": "Asiakwa, Kibi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Begoro Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Akim Begoro",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Osino Presbyterian Senior High Technical School",
+    "type": "Technical school",
+    "location": "Osino",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Dei Technical Institute",
+    "type": "Commercial school & Technical school",
+    "location": "Begoro",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Manchester Senior High School",
+    "type": "Public school",
+    "location": "Begoro",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "New Nsutam Senior High School",
+    "type": "Public school",
+    "location": "Nsutam, Begoro",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Kade Senior High Technical School",
+    "type": "Public school",
+    "location": "Kade",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Asuom Senior High School",
+    "type": "Public school",
+    "location": "Asuom",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "St Roses Senior High School",
+    "type": "Public school",
+    "location": "Akwatia",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Kwahu Ridge Senior High Technical School",
+    "type": "Technical school",
+    "location": "Obo Kwahu",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Mpraeso Senior High School(Mpass)",
+    "type": "Public school",
+    "location": "Mpraeso",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "St. Paul's Senior High School",
+    "type": "Public school",
+    "location": "Asakraka, Abetifi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Abetifi Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Abetifi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Abetifi Senior High Technical School",
+    "type": "Technical school",
+    "location": "Abetifi",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "St. Dominics Senior High School",
+    "type": "Public school",
+    "location": "Pepease",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Nkwatia Senior High School",
+    "type": "Public school",
+    "location": "Nkwatia Kwahu",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "St. Peter's Boys Senior High School",
+    "type": "Public school & Boys school",
+    "location": "Nkwatia Kwahu",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Nkawkaw Senior High School",
+    "type": "Public school",
+    "location": "Nkawkaw",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Somanya Senior High Technical School",
+    "type": "Technical school",
+    "location": "Odumase Krobo",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Manya Krobo Senior High School",
+    "type": "Public school",
+    "location": "Odumase Krobo",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Krobo Girls' Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Odumase Krobo",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Akro Senior High Technical School",
+    "type": "Public school",
+    "location": "Odumase Krobo",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Asesewa Day Senior High School",
+    "type": "Public school",
+    "location": "Odumase Krobo",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Asesewa Agriculture Senior High School",
+    "type": "Commercial school",
+    "location": "Odumase Krobo",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Akuse Senior High School",
+    "type": "Public school",
+    "location": "Odumase Krobo",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Suhum Senior High School",
+    "type": "Technical school",
+    "location": "Suhum",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Koforidua Senior High School",
+    "type": "Public school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Ghana Senior High School, Koforidua",
+    "type": "Public school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Koforidua Senior High Technical School",
+    "type": "Technical school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "New-Juaben Senior High Commercial School",
+    "type": "Public school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Pope John Senior High School and Minor Seminary",
+    "type": "Public school, Boys school and Roman Catholic school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Universal Girls Senior High School",
+    "type": "Private school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Pentecost Senior High School",
+    "type": "Private school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Oyoko Methodist Senior High School",
+    "type": "State school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Peace Hill Senior High School",
+    "type": "Private school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "SDA Senior High School",
+    "type": "Public school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Asamankese Senior High School",
+    "type": "Public school",
+    "location": "Asamankese, West Akim Municipal District",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "St. Thomas Senior High School",
+    "type": "Public school",
+    "location": "Asamankese, West Akim Municipal District",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Lydia Memorial School",
+    "type": "Private school / Independent school",
+    "location": "Asamankese, West Akim Municipal District",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Yilo Krobo Senior High School",
+    "type": "Public school",
+    "location": "Somanya, Yilo Krobo District",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Klo Agogo Senior High School",
+    "type": "Public school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Koforidua Technical Institute",
+    "type": "Commercial school & Technical school",
+    "location": "Koforidua",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Asesewa Senior High School",
+    "type": "Public school",
+    "location": "Asesewa",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Methodist Girls' High School",
+    "type": "Public school & Girls school",
+    "location": "Mamfe-Akuapem, Akuapim North District",
+    "district": "Senior High Schools in East Akim Municipal District",
+    "region": "Eastern"
+  },
+  {
+    "school": "Accra Academy",
+    "type": "Public school & Boys school",
+    "location": "Bubuashi, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ghana-Lebanon Islamic School (GLIS)",
+    "type": "Private School",
+    "location": "Kwame Nkrumah Circle, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Accra Technical Training Center",
+    "type": "Public school",
+    "location": "Kokomlemle, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Accra Girls Senor High School",
+    "type": "Public school & Girls school",
+    "location": "Maamobi",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Accra Grammar School",
+    "type": "Public school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Accra High School",
+    "type": "Public school",
+    "location": "Asylum Down",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Achimota School",
+    "type": "Boarding school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Alpha Beta Christian College",
+    "type": "International school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Al-Rayan International School (ARIS)",
+    "type": "International school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "American Curriculum International School",
+    "type": "International school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Armed Forces Senior High Technical School",
+    "type": "Technical school",
+    "location": "Burma Camp",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "St. Thomas AquinasSenior High School",
+    "type": "Public school & Boys school",
+    "location": "Cantonments",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "St. Francis Xavier Senior High School",
+    "type": "Catholic & Private School",
+    "location": "kotobabi",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Apostle Safo School of Arts and Sciences",
+    "type": "Private school",
+    "location": "Awoshie",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Christ International Senior High Secondary School",
+    "type": "Day & Boarding",
+    "location": "North Taifa, Kwabenya, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Christian Methodist Senior High School",
+    "type": "Public school",
+    "location": "New Aplaku, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Corpus Christi Senior High School",
+    "type": "Private school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Danquah International School",
+    "type": "Private school & mixed-sex education",
+    "location": "Tesano, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Dansoman Senior High School",
+    "type": "Public school",
+    "location": "Dansoman",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ebenezer Senior High School",
+    "type": "Public school",
+    "location": "Dansoman",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Edge Hill Senior High School",
+    "type": "Private school",
+    "location": "Awoshie",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Pank Senior High School",
+    "type": "Private school",
+    "location": "Awoshie",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Faith Montessori School and International College",
+    "type": "International school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ghana International School",
+    "type": "International school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Galaxy International School",
+    "type": "International school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Holy Trinity Senior High School",
+    "type": "Public school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Kaneshie Senior High School",
+    "type": "Technical school",
+    "location": "Kaneshie",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Kinbu Senior High and Technical School",
+    "type": "Secondary and Technical school",
+    "location": "Kinbu",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "La Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Labone Senior High School",
+    "type": "Public school",
+    "location": "Labone",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Liberty American School(LAS)",
+    "type": "Private school & International school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Lincoln Community School",
+    "type": "Private school & International school",
+    "location": "Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Madina Senior High School",
+    "type": "Public school",
+    "location": "Madina, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ngleshie Amanfro Senior High School",
+    "type": "Public school",
+    "location": "Ngleshie Amanfro",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Nungua Senior High School",
+    "type": "Public school",
+    "location": "Nungua",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "O'Reilly Senior High School",
+    "type": "Public school",
+    "location": "1St Circular Cl, Teshie Okpoi Gonno",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Odorgonno Senior High School",
+    "type": "Public school",
+    "location": "Awoshie",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Osu Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Osu, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Presbyterian Boys' Senior High School",
+    "type": "Public school & Boys school",
+    "location": "Legon, Accra",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Reverend John Teye Memorial Institute",
+    "type": "Private Christian School",
+    "location": "Ofankor",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "St. Margaret Mary Senior High School",
+    "type": "Public school",
+    "location": "Dansoman",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Saint Mary's Senior High School",
+    "type": "Public school",
+    "location": "Korle Gonno",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Teshie Presby Senior High School",
+    "type": "Public school",
+    "location": "Teshie",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Wesley Grammar wes G",
+    "type": "Public school",
+    "location": "Dansoman",
+    "district": null,
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ada Senior High School",
+    "type": "Public school",
+    "location": "Ada-Foah",
+    "district": "Dangme East District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ada Senior High Technical School",
+    "type": "Technical school",
+    "location": "Ada",
+    "district": "Dangme East District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ghanata Senior High School",
+    "type": "Public school",
+    "location": "P.O. Box DD 50, Dodowa. Shai-Osudoku District",
+    "district": "Shai-Osudoku District & Ningo-Prampram District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ningo Senior High School",
+    "type": "Public school",
+    "location": "Old Ningo",
+    "district": "Shai-Osudoku District & Ningo-Prampram District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Osudoku Secondary",
+    "type": "Technical school",
+    "location": "Asutsuare",
+    "district": "Shai-Osudoku District & Ningo-Prampram District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Zion Methodist Secondary Technical School",
+    "type": "Technical school",
+    "location": "Dawhenya, Dangme West District",
+    "district": "Shai-Osudoku District & Ningo-Prampram District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Ashiaman Senior High School",
+    "type": "Public school",
+    "location": "Ashiaman",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Chemu Senior High School",
+    "type": "Public school",
+    "location": "Tema Community 4",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Manhean Senior High School",
+    "type": "Technical school",
+    "location": "Tema New Town",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Our Lady of Mercy Senior High School",
+    "type": "Public school",
+    "location": "Tema Community 4",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Presbyterian Senior High School",
+    "type": "Public school",
+    "location": "Tema",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "SOS Hermann Gmeiner International College",
+    "type": "International school",
+    "location": "Tema",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Tema International College",
+    "type": "International school",
+    "location": "Tema",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Tema Methodist Day Senior High School",
+    "type": "Public school",
+    "location": "Tema",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Tema Senior High School",
+    "type": "Public school",
+    "location": "Tema Community 5",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Saint Stephen's International school",
+    "type": "International school",
+    "location": "Tema",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Witsands International Senior High School",
+    "type": "International school",
+    "location": "Tema",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "GIU International Christian Academy",
+    "type": "International School",
+    "location": "Tema",
+    "district": "Senior High Schools in Tema Municipal District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Action Senior High Technical School",
+    "type": "Private school",
+    "location": "Madina",
+    "district": "Ga East District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "St. Peter's Mission Schools (Day & Boarding)",
+    "type": "Private school",
+    "location": "Near Manet Palm, Ogbojo, East Legon, Accra, Ghana.",
+    "district": "Ga East District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "West Africa Senior High School",
+    "type": "Public school",
+    "location": "Adenta",
+    "district": "Ga East District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Madina Senior High School",
+    "type": "Public school",
+    "location": "Madina",
+    "district": "Ga East District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Amasaman Senior High School",
+    "type": "Technical school",
+    "location": "Amasaman",
+    "district": "Ga West District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Torkuase Senior High School",
+    "type": "Public school",
+    "location": "Torkuase",
+    "district": "Ga West District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Wadud Senior High School",
+    "type": "Public school",
+    "location": "Amasaman",
+    "district": "Ga West District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Haavad's Senior High School",
+    "type": "Private school",
+    "location": "Amasaman",
+    "district": "Ga West District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "North Legon Little Campus",
+    "type": "",
+    "location": "",
+    "district": "Ga West District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Crystal Heights International School",
+    "type": "Private School",
+    "location": "Amasaman",
+    "district": "Ga West District",
+    "region": "Greater Accra"
+  },
+  {
+    "school": "Salaga Senior High School",
+    "type": "Public school",
+    "location": "Salaga",
+    "district": "Senior High Schools in East Gonja District",
+    "region": "Northern"
+  },
+  {
+    "school": "Salaga T.I Amadiyya Senior High School",
+    "type": "Public school",
+    "location": "Salaga",
+    "district": "Senior High Schools in East Gonja District",
+    "region": "Northern"
+  },
+  {
+    "school": "Nalerigu Secondary School",
+    "type": "Public school",
+    "location": "Nalerigu",
+    "district": "Senior High Schools in East Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Nalerigu Youth Leadership Vocational Training Centre",
+    "type": "Public school",
+    "location": "Nalerigu",
+    "district": "Senior High Schools in East Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Gambaga Girls Senior High School",
+    "type": "Public school/Girls School",
+    "location": "Gambaga",
+    "district": "Senior High Schools in East Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Walewale Senior High Technical School",
+    "type": "Public school",
+    "location": "Walewale",
+    "district": "Senior High Schools in West Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Walewale Vocational/Technical Institute",
+    "type": "Public school",
+    "location": "Walewale,",
+    "district": "Senior High Schools in West Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Excellence Senior High",
+    "type": "Private school",
+    "location": "Jaagbanni,",
+    "district": "Senior High Schools in West Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Marakaz Islamic Senior High",
+    "type": "Private school",
+    "location": "Walewale,",
+    "district": "Senior High Schools in West Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Glorious Step Senior High",
+    "type": "Private school",
+    "location": "Kukuaazugu,",
+    "district": "Senior High Schools in West Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Saboba E. P Senior High School",
+    "type": "Public school",
+    "location": "Saboba, Saboba Chereponi",
+    "district": "Senior High Schools in West Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "St. Joseph's Senior High Technical School",
+    "type": "Public school",
+    "location": "Saboba, Saboba Chereponi",
+    "district": "Senior High Schools in West Mamprusi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Savelugu Senior High School",
+    "type": "Public school",
+    "location": "Savelugu",
+    "district": "Senior High Schools in Savelugu-Nanton District",
+    "region": "Northern"
+  },
+  {
+    "school": "Pong-Tamale Senior High School",
+    "type": "Public school",
+    "location": "Pong-Tamale",
+    "district": "Senior High Schools in Savelugu-Nanton District",
+    "region": "Northern"
+  },
+  {
+    "school": "Business Senior High School",
+    "type": "Public school",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Northern School of Business",
+    "type": "Public school",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "St. Charles Senior High School",
+    "type": "Public school",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Tamale Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Tamale Senior High School",
+    "type": "Public school",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Tamale Islamic Science Senior High School",
+    "type": "Islamic School",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Anbariya Senior High School",
+    "type": "Islamic School",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Kalpohin Senior High School",
+    "type": "Public school",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Vitting Senior High School Technical",
+    "type": "Public School",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Nuriya Islamic Senior High School",
+    "type": "Public Islamic School",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Dabokpa Technical Institute",
+    "type": "Vocational School",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Presbyterian Senior High School",
+    "type": "Public School",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Lamhegu technical institute",
+    "type": "Public",
+    "location": "Tamale",
+    "district": "Senior High Schools in Tamale Municipal District",
+    "region": "Northern"
+  },
+  {
+    "school": "Tolon Senior High School",
+    "type": "Public school",
+    "location": "Tolon",
+    "district": "Senior High Schools in Tolon/Kumbungu District",
+    "region": "Northern"
+  },
+  {
+    "school": "Kasuliyili Senior High School",
+    "type": "Public school",
+    "location": "Kasuliyili",
+    "district": "Senior High Schools in Tolon/Kumbungu District",
+    "region": "Northern"
+  },
+  {
+    "school": "Kumbungu Senior High School",
+    "type": "Public school",
+    "location": "Kumbungu",
+    "district": "Senior High Schools in Tolon/Kumbungu District",
+    "region": "Northern"
+  },
+  {
+    "school": "Kumbungu Vocational Technical Institute",
+    "type": "Public school",
+    "location": "Kumbungu",
+    "district": "Senior High Schools in Tolon/Kumbungu District",
+    "region": "Northern"
+  },
+  {
+    "school": "Kofi Annan Technical Institute",
+    "type": "Public school",
+    "location": "Nwodua",
+    "district": "Senior High Schools in Tolon/Kumbungu District",
+    "region": "Northern"
+  },
+  {
+    "school": "Zugu Dabogni Technical Institute",
+    "type": "Public school",
+    "location": "Zugu Dabogu",
+    "district": "Senior High Schools in Tolon/Kumbungu District",
+    "region": "Northern"
+  },
+  {
+    "school": "Damongo Senior High School",
+    "type": "Public school",
+    "location": "Damongo",
+    "district": "Senior High Schools in West Gonja District",
+    "region": "Northern"
+  },
+  {
+    "school": "Bole Senior High School",
+    "type": "Public School",
+    "location": "Bole",
+    "district": "Senior High Schools in West Gonja District",
+    "region": "Northern"
+  },
+  {
+    "school": "Ndewura Jakpa Senior High Technical School",
+    "type": "Technical school",
+    "location": "Damongo",
+    "district": "Senior High Schools in West Gonja District",
+    "region": "Northern"
+  },
+  {
+    "school": "Yendi Senior High School",
+    "type": "Public school",
+    "location": "Yendi",
+    "district": "Senior High Schools in Yendi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Dagbon State Senior High Technical School",
+    "type": "Technical school",
+    "location": "Yendi",
+    "district": "Senior High Schools in Yendi District",
+    "region": "Northern"
+  },
+  {
+    "school": "Zabzugu Senior High School",
+    "type": "Public school",
+    "location": "Zabzugu",
+    "district": "Senior High Schools in Zabzugu/Tatale District",
+    "region": "Northern"
+  },
+  {
+    "school": "Tatale EP Senior High Technical School",
+    "type": "Technical school",
+    "location": "Tatale",
+    "district": "Senior High Schools in Zabzugu/Tatale District",
+    "region": "Northern"
+  },
+  {
+    "school": "Business College International",
+    "type": "Private School",
+    "location": "Tamale",
+    "district": "Senior High Schools in Zabzugu/Tatale District",
+    "region": "Northern"
+  },
+  {
+    "school": "Baglo Senior High School",
+    "type": "Technical school",
+    "location": "Baglo",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Bueman Senior High School",
+    "type": "Public school",
+    "location": "Jasikan",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Nkonya Senior High School",
+    "type": "Public school",
+    "location": "Nkonya",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Nattan Senior High School",
+    "type": "Public school",
+    "location": "Nkonya",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Okadjakrom Senior High School",
+    "type": "Technical school",
+    "location": "Okadjakrom",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Worawora Secondary",
+    "type": "Public school",
+    "location": "Worawora",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Ahamansu Islamic Senior High School",
+    "type": "Islamic School/ Public School",
+    "location": "Ahamansu",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Dodi-Papase Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Dodi Papase",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Kadjebi-Asato Senior High School",
+    "type": "Public school",
+    "location": "Kadjeto-Asato",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Asukawkaw Senior High School",
+    "type": "Public school",
+    "location": "Asukawkaw",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Kete-Krachi Senior High School",
+    "type": "Technology school",
+    "location": "Kete-Krachi",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Kpassa Senior High School",
+    "type": "Public school",
+    "location": "Kpassa",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Krachi Senior High School",
+    "type": "Public school",
+    "location": "Kete-Krachi",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Oti Senior High School",
+    "type": "Technical school",
+    "location": "Dambai",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Ntruboman Senior High School",
+    "type": "Public school",
+    "location": "Brewaniase",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Nkwanta Senior High School",
+    "type": "Public school",
+    "location": "Nkwanta",
+    "district": null,
+    "region": "Oti"
+  },
+  {
+    "school": "Sawla Senior High School",
+    "type": "Public school",
+    "location": "Sawla",
+    "district": null,
+    "region": "Savannah"
+  },
+  {
+    "school": "Bawku Senior High School",
+    "type": "Public school",
+    "location": "Bawku",
+    "district": "Bawku Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Bawku Senior High/Technical School",
+    "type": "Public school",
+    "location": "Bawku",
+    "district": "Bawku Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Bawku Technical Institute",
+    "type": "Public school/Technical School",
+    "location": "Bawku",
+    "district": "Bawku Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Zebilla Senior High School",
+    "type": "Public school",
+    "location": "Zebilla",
+    "district": "Bawku West District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Bolgatanga Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Bolgatanga",
+    "district": "Senior High Schools in Bolgatanga Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Bolgatanga Senior High School",
+    "type": "Public school",
+    "location": "Bolgatanga",
+    "district": "Senior High Schools in Bolgatanga Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Gowrie Senior High Technical School",
+    "type": "Technical school",
+    "location": "Gowrie",
+    "district": "Senior High Schools in Bolgatanga Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Zuarungu Senior High School",
+    "type": "Public school",
+    "location": "Zuarungu",
+    "district": "Senior High Schools in Bolgatanga Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Bolgatanga Technical Institute",
+    "type": "Commercial school & Technical School",
+    "location": "Bolgatanga",
+    "district": "Senior High Schools in Bolgatanga Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Bolgatanga Technical College",
+    "type": "Technical School",
+    "location": "Yikene, Bolgatanga",
+    "district": "Senior High Schools in Bolgatanga Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Ho School of Business",
+    "type": "Commercial school",
+    "location": "Bolgatanga",
+    "district": "Senior High Schools in Bolgatanga Municipal District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Bongo Senior High School",
+    "type": "Public school",
+    "location": "Bongo",
+    "district": "Senior High Schools in Bongo District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Sandema Senior High Technical School",
+    "type": "Technical school",
+    "location": "Sandema",
+    "district": "Senior High Schools in Builsa District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Sandema Senior High School",
+    "type": "Public school",
+    "location": "Sandema",
+    "district": "Senior High Schools in Builsa District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Fumbisi Senior High School",
+    "type": "Public school",
+    "location": "Fumbisi, Builsa District",
+    "district": "Senior High Schools in Builsa District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Garu/Tempane Senior High School",
+    "type": "Public school",
+    "location": "Tempane",
+    "district": "Senior High Schools in Garu-Tempane District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Navrongo Senior High School",
+    "type": "Public school",
+    "location": "Navrongo",
+    "district": "Senior High Schools in Kassena/Nankana District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Notre Dame Minor Seminary",
+    "type": "Public school",
+    "location": "Navrongo",
+    "district": "Senior High Schools in Kassena/Nankana District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Chiana Senior High School",
+    "type": "Public school",
+    "location": "Chiana",
+    "district": "Senior High Schools in Kassena/Nankana District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Kongo Senior High School",
+    "type": "Public school",
+    "location": "Kongo",
+    "district": "Senior High Schools in Talensi-Nabdam District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Tongo Senior High School",
+    "type": "Public school",
+    "location": "Tongo",
+    "district": "Senior High Schools in Talensi-Nabdam District",
+    "region": "Upper East"
+  },
+  {
+    "school": "Wa Senior High School",
+    "type": "Public school",
+    "location": "Wa",
+    "district": "Senior High Schools in Wa",
+    "region": "Upper West"
+  },
+  {
+    "school": "Tumu Senior High Technical School",
+    "type": "Public school",
+    "location": "Tumu",
+    "district": "Senior High Schools in Wa",
+    "region": "Upper West"
+  },
+  {
+    "school": "Wa Senior High Technical School",
+    "type": "Technical school",
+    "location": "Wa",
+    "district": "Senior High Schools in Wa",
+    "region": "Upper West"
+  },
+  {
+    "school": "St Francis Xavier Senior High School",
+    "type": "Public school",
+    "location": "Wa",
+    "district": "Senior High Schools in Wa",
+    "region": "Upper West"
+  },
+  {
+    "school": "Lassia-Tuolu Senior High School",
+    "type": "Public school",
+    "location": "Lassia, Wa West",
+    "district": "Senior High Schools in Wa",
+    "region": "Upper West"
+  },
+  {
+    "school": "Pinna Senior High School",
+    "type": "Public school",
+    "location": "Wa",
+    "district": "Senior High Schools in Wa",
+    "region": "Upper West"
+  },
+  {
+    "school": "Wa Islamic Senior High School",
+    "type": "Islamic school",
+    "location": "Wa",
+    "district": "Senior High Schools in Wa",
+    "region": "Upper West"
+  },
+  {
+    "school": "Ahmadiyya Senior High School",
+    "type": "Islamic school",
+    "location": "Wa",
+    "district": "Senior High Schools in Wa",
+    "region": "Upper West"
+  },
+  {
+    "school": "St. Francis Girls' Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Jirapa, Ghana",
+    "district": "Senior High Schools in Jirapa District",
+    "region": "Upper West"
+  },
+  {
+    "school": "Ullo Senior High School",
+    "type": "Public school",
+    "location": "Jirapa, Ghana",
+    "district": "Senior High Schools in Jirapa District",
+    "region": "Upper West"
+  },
+  {
+    "school": "Jirapa Senior High School",
+    "type": "Public school",
+    "location": "Jirapa, Ghana",
+    "district": "Senior High Schools in Jirapa District",
+    "region": "Upper West"
+  },
+  {
+    "school": "Kanton Senior High School",
+    "type": "Public school",
+    "location": "Tumu",
+    "district": "Senior High Schools in Jirapa District",
+    "region": "Upper West"
+  },
+  {
+    "school": "Lawra Senior High School",
+    "type": "Public school",
+    "location": "Lawra",
+    "district": "Senior High Schools in Lawra District",
+    "region": "Upper West"
+  },
+  {
+    "school": "Eremon Senior High School",
+    "type": "Technical school",
+    "location": "Lawra",
+    "district": "Senior High Schools in Lawra District",
+    "region": "Upper West"
+  },
+  {
+    "school": "Nandom Senior High School",
+    "type": "Public school",
+    "location": "Lawra-Nandom",
+    "district": "Senior High Schools in Lawra-Nandom",
+    "region": "Upper West"
+  },
+  {
+    "school": "Ko Senior High School",
+    "type": "Public school",
+    "location": "Nandom",
+    "district": "Senior High Schools in Lawra-Nandom",
+    "region": "Upper West"
+  },
+  {
+    "school": "Holy Family Senior High School",
+    "type": "Public school",
+    "location": "Hamile",
+    "district": "Senior High Schools in Lawra-Nandom",
+    "region": "Upper West"
+  },
+  {
+    "school": "Brifor Senior High School",
+    "type": "Public school",
+    "location": "Babile",
+    "district": "Senior High Schools in Nadowli",
+    "region": "Upper West"
+  },
+  {
+    "school": "Queen Of Peace Senior High School",
+    "type": "Public school",
+    "location": "Nadowli",
+    "district": "Senior High Schools in Nadowli",
+    "region": "Upper West"
+  },
+  {
+    "school": "Adaklu Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Adaklu",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Adaklu Senior High School",
+    "type": "Public school",
+    "location": "Adaklu Waya",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Ziope Senior High School",
+    "type": "Public school",
+    "location": "Agotime Ziope",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Ave Senior High School",
+    "type": "Public school",
+    "location": "Ave-Dakpa",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Akatsi Senior High School",
+    "type": "Technical school",
+    "location": "Akatsi",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Wovenu Senior Senior High School",
+    "type": "Public school",
+    "location": "Tadzewu",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Adidome Senior High School",
+    "type": "Public school",
+    "location": "Adidome",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Mafi-Kumase Senior High School",
+    "type": "Public school",
+    "location": "Mafi-Kumase",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Abutia Senior High School",
+    "type": "Public school",
+    "location": "Abutia-Teti",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Agotime Senior High School",
+    "type": "Public school",
+    "location": "Kpetoe",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Akome Senior High School",
+    "type": "Technical school",
+    "location": "Akome",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Avatime Senior High School",
+    "type": "Public school",
+    "location": "Vane, Ho Municipal District",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Awudome Senior High School (AWUSCO)",
+    "type": "Public school",
+    "location": "Tsito",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Dzolo Senior High School",
+    "type": "Public school",
+    "location": "Dzolo",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "E.P.Church Mawuko Girls Senior High School",
+    "type": "Public school",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Ideal College",
+    "type": "Public school",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Kpedze Senior High School",
+    "type": "Public school",
+    "location": "Kpedze",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Mawuli School",
+    "type": "Public school",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Baglo Senior High School",
+    "type": "Technical school",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "OLA Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Saint Prosper's College",
+    "type": "Public school",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Sedzordzi Shaker Anthony's School Complex",
+    "type": "Commercial school",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Star Senior High School",
+    "type": "Private School",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Taviefe Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Taviefe",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Tsito Senior High School",
+    "type": "Technical school",
+    "location": "Tsito",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Wallahs Academy Senior High School",
+    "type": "Private School",
+    "location": "Ho",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Afadjato Senior High School",
+    "type": "Technical school",
+    "location": "Gbledi-Agbogame",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Agate Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Agate",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Akpafu Senior High School",
+    "type": "Technical school",
+    "location": "Akpafu",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Alavanyo Senior High School",
+    "type": "Technical school",
+    "location": "Alavanyo",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "E. P. Senior High School",
+    "type": "Public school",
+    "location": "Hohoe",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Jim Bourton Memorial Agriculture Senior High School",
+    "type": "Commercial school",
+    "location": "Logba Adzekoe",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Leklebi Senior High School",
+    "type": "Public school",
+    "location": "Leklebi",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Likpe Senior High School",
+    "type": "Public school",
+    "location": "Likpe-Mate",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "St. Mary's Seminary Senior High School",
+    "type": "Public school",
+    "location": "Lolobi",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Ve Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Ve-Koloenu",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Abor Senior High School",
+    "type": "Public school",
+    "location": "Abor",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Anyako Senior High School",
+    "type": "Public school",
+    "location": "Anyako",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Anlo Technical Institute (ANTECH)",
+    "type": "Technical School",
+    "location": "Anloga",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Anlo Afiadenyigba Senior High School",
+    "type": "Public school",
+    "location": "Anlo Afiadenyigba",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Anlo Awomefia Senior Senior High School",
+    "type": "Public school",
+    "location": "Anyako",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Atiavi Senior High School",
+    "type": "Technical school",
+    "location": "Atiavi",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Keta Business College",
+    "type": "Commercial school",
+    "location": "Keta",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Keta Senior High Tech.School",
+    "type": "Public school",
+    "location": "Keta",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Zion College",
+    "type": "Public school",
+    "location": "Anloga",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Anlo Senior High School",
+    "type": "Public school",
+    "location": "Anloga",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Dzodze Penyi Senior High School",
+    "type": "Public school",
+    "location": "Dzodze",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "St. Paul's Senior High School",
+    "type": "Public school",
+    "location": "Hatsukope/Aflao",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Some Senior High School",
+    "type": "Public school",
+    "location": "Agbozume",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Klikor Senior High School",
+    "type": "Technical school",
+    "location": "Klikor",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Three Town Senior High School",
+    "type": "Public school",
+    "location": "Denu",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Anfoega Senior High School",
+    "type": "Public school",
+    "location": "Anfoega",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Bishop Herman College",
+    "type": "Public school",
+    "location": "Kpandu",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Kpando Senior High School",
+    "type": "Public school",
+    "location": "Kpandu",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Vakpo Senior High School",
+    "type": "Public school",
+    "location": "Vakpo",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Vakpo Senior High Technical School",
+    "type": "Technical school",
+    "location": "Vakpo",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Have Senior High School",
+    "type": "Technical school",
+    "location": "Have, Kpando District",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Tongor Senior High Technical School",
+    "type": "Secondary Technical school",
+    "location": "Tongor Tsanakpe",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Kpeve Senior High School",
+    "type": "Technical school",
+    "location": "Kpeve",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Peki Senior High School",
+    "type": "Public school",
+    "location": "Peki",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Peki Senior High Technical School",
+    "type": "Technical school",
+    "location": "Peki",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Aveyime Battor Senior High School",
+    "type": "Technical school",
+    "location": "Aveyime-Battor",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Dofor Comm. Agricultural Senior High School",
+    "type": "Commercial school",
+    "location": "Podoe",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "St. Kizito Senior High School",
+    "type": "Technical school",
+    "location": "Mepe",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Mafi Kumase Senior High Technical School",
+    "type": "Technical school",
+    "location": "Mafi-Kumasi",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Mafi-Kumasi Comm. Senior High School",
+    "type": "Commercial school",
+    "location": "Mafi-Kumasi",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Dabala Senior High School",
+    "type": "Technical school",
+    "location": "Dabala",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Sogakope Senior High School (SOGASCO)",
+    "type": "Public School",
+    "location": "Sogakope",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Comboni Technical School (COMBOTECH)",
+    "type": "Public School",
+    "location": "Sogakope",
+    "district": null,
+    "region": "Volta"
+  },
+  {
+    "school": "Tarkwa Senior High School",
+    "type": "Public school",
+    "location": "Tarkwa",
+    "district": "Senior High Schools in Tarkwa-Nsuaem Municipal District",
+    "region": "Western"
+  },
+  {
+    "school": "Fiaseman Senior High School",
+    "type": "Public school",
+    "location": "Tarkwa",
+    "district": "Senior High Schools in Tarkwa-Nsuaem Municipal District",
+    "region": "Western"
+  },
+  {
+    "school": "St. Augustine's Senior High (Bogoso)",
+    "type": "Public school",
+    "location": "Bogoso",
+    "district": "Senior High Schools in Prestea Huni Valley Municipal",
+    "region": "Western"
+  },
+  {
+    "school": "Huni Valley Senior High School",
+    "type": "Public school",
+    "location": "Huni Valley",
+    "district": "Senior High Schools in Prestea Huni Valley Municipal",
+    "region": "Western"
+  },
+  {
+    "school": "Prestea Senior High Technical School (Prestech)",
+    "type": "Public school",
+    "location": "Prestea",
+    "district": "Senior High Schools in Prestea Huni Valley Municipal",
+    "region": "Western"
+  },
+  {
+    "school": "Asankrangwa Senior High School (ASANC0)",
+    "type": "Public school",
+    "location": "Asankrangwa, Wasa Amenfi East District",
+    "district": "Senior High Schools in Wasa Amenfi East District and Wasa Amenfi West District",
+    "region": "Western"
+  },
+  {
+    "school": "Asankrangwa Senior High Technical School (ASECTECH)",
+    "type": "Public school, Technical",
+    "location": "Asankrangwa, Wasa Amenfi East District",
+    "district": "Senior High Schools in Wasa Amenfi East District and Wasa Amenfi West District",
+    "region": "Western"
+  },
+  {
+    "school": "Amenfiman Senior High School",
+    "type": "Public school",
+    "location": "Wassa Akropong, Wasa Amenfi West District",
+    "district": "Senior High Schools in Wasa Amenfi East District and Wasa Amenfi West District",
+    "region": "Western"
+  },
+  {
+    "school": "Genesis Senior High School",
+    "type": "Public school",
+    "location": "Manso Amenfi, Wasa Amenfi West District",
+    "district": "Senior High Schools in Wasa Amenfi East District and Wasa Amenfi West District",
+    "region": "Western"
+  },
+  {
+    "school": "Shama Senior High School",
+    "type": "Public school",
+    "location": "Shama",
+    "district": "Senior High Schools in Jomoro District",
+    "region": "Western"
+  },
+  {
+    "school": "Half Assini Senior High School",
+    "type": "Public school",
+    "location": "Half Assini",
+    "district": "Senior High Schools in Jomoro District",
+    "region": "Western"
+  },
+  {
+    "school": "Ming Daw Senior High School",
+    "type": "Public school",
+    "location": "Shama",
+    "district": "Senior High Schools in Jomoro District",
+    "region": "Western"
+  },
+  {
+    "school": "Annor Agyei Senior High School",
+    "type": "Public school",
+    "location": "Shama",
+    "district": "Senior High Schools in Jomoro District",
+    "region": "Western"
+  },
+  {
+    "school": "Esiama Senior High Technical School",
+    "type": "Public school",
+    "location": "Esiama",
+    "district": "Senior High Schools in Ellembelle District",
+    "region": "Western"
+  },
+  {
+    "school": "Bonzo Kaku Senior High School",
+    "type": "Public school",
+    "location": "Awiebo",
+    "district": "Senior High Schools in Ellembelle District",
+    "region": "Western"
+  },
+  {
+    "school": "Kikam Technical Institute",
+    "type": "Public school",
+    "location": "Kikam",
+    "district": "Senior High Schools in Ellembelle District",
+    "region": "Western"
+  },
+  {
+    "school": "Nkroful Agricultural Senior High School",
+    "type": "Public school",
+    "location": "Nkroful",
+    "district": "Senior High Schools in Ellembelle District",
+    "region": "Western"
+  },
+  {
+    "school": "Uthman Bin Affan Islamic Senior High School",
+    "type": "Public school",
+    "location": "Kamgbunli",
+    "district": "Senior High Schools in Ellembelle District",
+    "region": "Western"
+  },
+  {
+    "school": "Axim Girls Senior High School",
+    "type": "Public school",
+    "location": "Axim",
+    "district": "Senior High Schools in Nzema East District",
+    "region": "Western"
+  },
+  {
+    "school": "Nsein Senior High School",
+    "type": "Public school",
+    "location": "Axim",
+    "district": "Senior High Schools in Nzema East District",
+    "region": "Western"
+  },
+  {
+    "school": "Baidoo Bonsoe Senior High Technical School",
+    "type": "Public School",
+    "location": "Agona Nkwanta",
+    "district": "Senior High Schools in Ahanta West District",
+    "region": "Western"
+  },
+  {
+    "school": "St. Mary's Boys' School",
+    "type": "Boarding school & Boys school and Robert Mugabe's Alma Mater",
+    "location": "Apowa",
+    "district": "Senior High Schools in Ahanta West District",
+    "region": "Western"
+  },
+  {
+    "school": "Mpohor Senior High School",
+    "type": "Public school",
+    "location": "Mpohor, Mpohor/Wassa East District",
+    "district": "Senior High Schools in Mpohor/Wassa East District",
+    "region": "Western"
+  },
+  {
+    "school": "Daboase Senior High Technical School",
+    "type": "Technical school",
+    "location": "Daboase, Mpohor/Wassa East District",
+    "district": "Senior High Schools in Mpohor/Wassa East District",
+    "region": "Western"
+  },
+  {
+    "school": "Ahantaman Senior High School",
+    "type": "Public school",
+    "location": "Ketan",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Adiembra Senior High School",
+    "type": "Technical school",
+    "location": "Adiembra, Sekondi Takoradi Metropolitan",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Archbishop Porter Girls Senior High School",
+    "type": "Public school & Girls school",
+    "location": "Sekondi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Fijai Senior High School",
+    "type": "Public school",
+    "location": "Fijai",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Ghana Senior High Technical School",
+    "type": "Public school",
+    "location": "Takoradi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "St John's Senior High School",
+    "type": "Public school",
+    "location": "Sekondi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Sekondi College",
+    "type": "Public school",
+    "location": "Sekondi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Takoradi Senior High School",
+    "type": "Public school",
+    "location": "Takoradi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Bompeh Senior High Technical School",
+    "type": "Public school",
+    "location": "Takoradi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Methodist Senior High School",
+    "type": "Commercial school",
+    "location": "Sekondi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Diabene Senior High Technical School",
+    "type": "Public school",
+    "location": "Diabene Krom, Sekondi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Takoradi Technical Institute",
+    "type": "Commercial school & Technical school",
+    "location": "Takoradi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "St. Mary's Boys' School",
+    "type": "Boarding school & Boys school and Robert Mugabe's Alma Mater",
+    "location": "Takoradi",
+    "district": "Senior High Schools in Sekondi Takoradi Metropolitan",
+    "region": "Western"
+  },
+  {
+    "school": "Bibiani Senior High Technical",
+    "type": "Technical school",
+    "location": "Bibiani",
+    "district": "Senior High Schools in Bibiani/Anhwiaso/Bekwai District",
+    "region": "Western North"
+  },
+  {
+    "school": "Sefwi Bekwai Senior High School",
+    "type": "Public school",
+    "location": "Sefwi Bekwai",
+    "district": "Senior High Schools in Bibiani/Anhwiaso/Bekwai District",
+    "region": "Western North"
+  },
+  {
+    "school": "Wadud Senior High School",
+    "type": "Public school",
+    "location": "Sefwi Bekwai",
+    "district": "Senior High Schools in Bibiani/Anhwiaso/Bekwai District",
+    "region": "Western North"
+  },
+  {
+    "school": "Sefwi Wiawso Senior High School (SEWASS)",
+    "type": "Public school",
+    "location": "Sefwi Wiawso",
+    "district": "Senior High Schools in Bibiani/Anhwiaso/Bekwai District",
+    "region": "Western North"
+  },
+  {
+    "school": "Adjoafua Community Senior High (ADSEC)",
+    "type": "Public school",
+    "location": "Adjoafua",
+    "district": "Senior High Schools in Bibiani/Anhwiaso/Bekwai District",
+    "region": "Western North"
+  }
+]

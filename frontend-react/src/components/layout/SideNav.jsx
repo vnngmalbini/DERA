@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import NavDrawer from './NavDrawer'
 import { useAuth } from '../../context/AuthContext'
+import { getDashboardMeta } from '../../config/dashboardNav'
 
 const SECTIONS = [
   {
@@ -31,9 +32,24 @@ const SECTIONS = [
 export default function SideNav({ children }) {
   const location = useLocation()
   const navigate = useNavigate()
-  const { isLoggedIn, logout } = useAuth()
+  const { isLoggedIn, user, logout } = useAuth()
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMeta(user?.role) : null
+
+  const sections = dashboard
+    ? [
+        {
+          label: 'Explore',
+          links: [
+            { label: 'My Dashboard', to: dashboard.basePath, icon: 'dashboard' },
+            ...SECTIONS[0].links,
+          ],
+        },
+        ...SECTIONS.slice(1),
+      ]
+    : SECTIONS
 
   function handleLogout() {
     logout()
@@ -80,7 +96,7 @@ export default function SideNav({ children }) {
           </div>
 
           <nav className="flex-1 overflow-y-auto px-sm py-md">
-            {SECTIONS.map((section) => (
+            {sections.map((section) => (
               <div key={section.label} className="mb-lg">
                 {!collapsed && (
                   <p className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant/60 mb-sm px-sm">
@@ -118,7 +134,7 @@ export default function SideNav({ children }) {
                 title={collapsed ? 'Log Out' : undefined}
                 className="w-full flex items-center justify-center gap-2 border-2 border-outline text-on-surface-variant font-label-md text-label-md py-3 rounded-full hover:bg-surface-container transition-all"
               >
-                <Icon name="logout" />
+                <Icon name="logout" className="scale-x-[-1]" />
                 {!collapsed && 'Log Out'}
               </button>
             ) : (

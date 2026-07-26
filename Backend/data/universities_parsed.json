@@ -1,0 +1,938 @@
+[
+  {
+    "name": "University of Ghana",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Legon, Accra, Korle Bu and Atomic, Greater Accra, including over ten workers' colleges all over the ten regions of Ghana"
+  },
+  {
+    "name": "Kwame Nkrumah University of Science and Technology",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Kumasi, Ashanti"
+  },
+  {
+    "name": "University of Cape Coast",
+    "type": "university",
+    "region": "Central",
+    "source_location": "Cape Coast, Central"
+  },
+  {
+    "name": "CK Tedam University for Technology and Applied Sciences",
+    "type": "university",
+    "region": "Upper East",
+    "source_location": "Navrongo, Upper East"
+  },
+  {
+    "name": "University of Education, Winneba",
+    "type": "university",
+    "region": "Central",
+    "source_location": "Winneba, Central"
+  },
+  {
+    "name": "Simon Diedong Dombo University for Business and Integrated Development Studies",
+    "type": "university",
+    "region": "Upper West",
+    "source_location": "Wa, Upper West"
+  },
+  {
+    "name": "Akenten Appiah Menkah University of Skills Training and Entrepreneurial Development, Kumasi",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Kumasi and Mampong, Ashanti"
+  },
+  {
+    "name": "University for Development Studies",
+    "type": "university",
+    "region": "Northern",
+    "source_location": "Tamale, Northern"
+  },
+  {
+    "name": "University of Professional Studies",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "University of Mines and Technology",
+    "type": "university",
+    "region": "Western",
+    "source_location": "Tarkwa, Western"
+  },
+  {
+    "name": "University of Health and Allied Sciences",
+    "type": "university",
+    "region": "Volta",
+    "source_location": "Ho, Volta"
+  },
+  {
+    "name": "University of Energy and Natural Resources",
+    "type": "university",
+    "region": "Bono",
+    "source_location": "Sunyani, Bono"
+  },
+  {
+    "name": "University of Environment and Sustainable Development",
+    "type": "university",
+    "region": "Eastern",
+    "source_location": "Somanya, Eastern Region"
+  },
+  {
+    "name": "Ghana Institute of Management and Public Administration",
+    "type": "university",
+    "region": null,
+    "source_location": "Legon, Accra"
+  },
+  {
+    "name": "Ghana Communication Technology University",
+    "type": "university",
+    "region": null,
+    "source_location": "Tesano, Accra"
+  },
+  {
+    "name": "Accra Technical University",
+    "type": "technical_university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Bolgatanga Technical University",
+    "type": "technical_university",
+    "region": "Upper East",
+    "source_location": "Bolgatanga, Upper East Region"
+  },
+  {
+    "name": "Cape Coast Technical University",
+    "type": "technical_university",
+    "region": "Central",
+    "source_location": "Cape Coast, Central"
+  },
+  {
+    "name": "Kumasi Technical University",
+    "type": "technical_university",
+    "region": "Ashanti",
+    "source_location": "Kumasi, Ashanti"
+  },
+  {
+    "name": "Koforidua Technical University",
+    "type": "technical_university",
+    "region": "Eastern",
+    "source_location": "Koforidua, Eastern"
+  },
+  {
+    "name": "Tamale Technical University",
+    "type": "technical_university",
+    "region": "Northern",
+    "source_location": "Tamale, Northern"
+  },
+  {
+    "name": "Ho Technical University",
+    "type": "technical_university",
+    "region": "Volta",
+    "source_location": "Ho, Volta"
+  },
+  {
+    "name": "Takoradi Technical University",
+    "type": "technical_university",
+    "region": "Western",
+    "source_location": "Takoradi, Western"
+  },
+  {
+    "name": "Sunyani Technical University",
+    "type": "technical_university",
+    "region": "Bono",
+    "source_location": "Sunyani, Bono"
+  },
+  {
+    "name": "Wa Technical University",
+    "type": "technical_university",
+    "region": "Upper West",
+    "source_location": "Wa, Upper West Region"
+  },
+  {
+    "name": "Ghana Armed Forces Command and Staff College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Ghana Institute of Journalism",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra,"
+  },
+  {
+    "name": "Ghana Institute of Languages",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra,"
+  },
+  {
+    "name": "Ghana Institute of Surveying and Mapping",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Institution of Local Government Studies",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Legon, Greater Accra"
+  },
+  {
+    "name": "University of Professional Studies, Accra",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Legon, Greater Accra,"
+  },
+  {
+    "name": "Kofi Annan International Peacekeeping Training Centre",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "National Film and Television Institute",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Regional Maritime University",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Consular and Diplomatic Service University (CDSU)",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Academic City University",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Haatso, Greater Accra"
+  },
+  {
+    "name": "Heritage Christian University",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Amasaman, Greater Accra Region"
+  },
+  {
+    "name": "KAAF University",
+    "type": "university",
+    "region": "Central",
+    "source_location": "Gomoa Fetteh Kakraba, Central"
+  },
+  {
+    "name": "Valley View University",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Oyibi, Greater Accra"
+  },
+  {
+    "name": "Open University of West Africa",
+    "type": "university",
+    "region": null,
+    "source_location": "Accra, Ghana"
+  },
+  {
+    "name": "Trinity Theological Seminary, Legon",
+    "type": "university",
+    "region": null,
+    "source_location": "Legon, Greater-Accra"
+  },
+  {
+    "name": "Akrofi-Christaller Institute of Theology, Mission and Culture",
+    "type": "university",
+    "region": "Eastern",
+    "source_location": "Akropong–Akuapem, Eastern"
+  },
+  {
+    "name": "Central University",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Pentecost University",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Sowutuom, Greater Accra"
+  },
+  {
+    "name": "All Nations University",
+    "type": "university",
+    "region": "Eastern",
+    "source_location": "Koforidua, Eastern"
+  },
+  {
+    "name": "Ashesi University",
+    "type": "university",
+    "region": "Eastern",
+    "source_location": "Berekuso, Eastern Region"
+  },
+  {
+    "name": "Ensign Global University",
+    "type": "university",
+    "region": "Eastern",
+    "source_location": "Kpong, Eastern Region"
+  },
+  {
+    "name": "Accra Institute of Technology",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Cantonments, Greater Accra"
+  },
+  {
+    "name": "African University College of Communications",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Adabraka, Greater Accra, Ghana"
+  },
+  {
+    "name": "Anglican University College of Technology",
+    "type": "university",
+    "region": "Bono East",
+    "source_location": "Nkoranza Campus, Nkoranza, Bono East"
+  },
+  {
+    "name": "University College of Design and Technology",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra,"
+  },
+  {
+    "name": "Catholic University College of Ghana",
+    "type": "university",
+    "region": "Bono",
+    "source_location": "Fiapre, Sunyani, Bono"
+  },
+  {
+    "name": "Christian Service University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Kumasi, Ashanti"
+  },
+  {
+    "name": "Family Health Medical School",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Teshie, Greater Accra"
+  },
+  {
+    "name": "Good News Theological Seminary",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Oyibi, Greater Accra"
+  },
+  {
+    "name": "Islamic University College<ref name=\"UG\">{{cite web",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "East Legon, Greater Accra"
+  },
+  {
+    "name": "Knutsford University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "East Legon, Greater Accra"
+  },
+  {
+    "name": "Lancaster University",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Methodist University Ghana",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Dansoman, Accra, Greater Accra"
+  },
+  {
+    "name": "Presbyterian University College",
+    "type": "university",
+    "region": null,
+    "source_location": "Abetifi-Kwahu, Akropong-Akuapem, Agogo Asante-Akyem and Tema"
+  },
+  {
+    "name": "Wisconsin International University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Agbogba Junction, Greater Accra,"
+  },
+  {
+    "name": "Central University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra,"
+  },
+  {
+    "name": "Catholic Institute of Business and Technology",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "National Film and Television Institute",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Institute Of Accountancy Training",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Narh-Bita School of Nursing",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Ghana Institute of Languages",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra,"
+  },
+  {
+    "name": "St. Victor's Seminary",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "St. Peters Seminary",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "St. Paul Seminary",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Ghana Armed Forces Command and Staff College - Master's degree",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Regional Maritime University",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "BlueCrest College,",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra,"
+  },
+  {
+    "name": "College of Science, Arts and Education",
+    "type": "university",
+    "region": "Bono",
+    "source_location": "Sunyani, Bono Region, Ghana,"
+  },
+  {
+    "name": "Accra Institute of Technology",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Cantonments, Greater Accra"
+  },
+  {
+    "name": "Osei Tutu II Institute for Advanced ICT Studies",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Kumasi, Ashanti"
+  },
+  {
+    "name": "Radford University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Kumasi, Ashanti"
+  },
+  {
+    "name": "Garden City University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Kumasi, Ashanti"
+  },
+  {
+    "name": "Christ Apostolic University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Kumasi, Ashanti"
+  },
+  {
+    "name": "Regent University College of Science and Technology",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra,"
+  },
+  {
+    "name": "Technical University College",
+    "type": "technical_university",
+    "region": "Northern",
+    "source_location": "Tamale, Northern Region,"
+  },
+  {
+    "name": "Spiritan University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Ejisu, Ashanti"
+  },
+  {
+    "name": "Data Link University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Tema, Greater Accra"
+  },
+  {
+    "name": "Mountcrest University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Kanda, Accra, Greater Accra"
+  },
+  {
+    "name": "University College of Agriculture and Environmental Studies",
+    "type": "university",
+    "region": "Eastern",
+    "source_location": "Bunso, Eastern Region"
+  },
+  {
+    "name": "Entrepreneurship Training Institute",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Deltas University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Evangelical Presbyterian University College",
+    "type": "university",
+    "region": "Volta",
+    "source_location": "Ho, Volta"
+  },
+  {
+    "name": "Ghana Baptist University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Abuakwa, Kumasi, Ashanti"
+  },
+  {
+    "name": "Kings University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Aplaku Hills, Accra, Greater Accra"
+  },
+  {
+    "name": "Maranatha University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Sowutuom, Accra, Greater Accra"
+  },
+  {
+    "name": "Meridian (Insaaniyya) University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Weija, Accra, Greater Accra"
+  },
+  {
+    "name": "Palm University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Manya, Shai Hills, Greater Accra"
+  },
+  {
+    "name": "Pan African Christian University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra,"
+  },
+  {
+    "name": "Wisconsin International University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Agbogba Junction, Greater Accra,"
+  },
+  {
+    "name": "Advanced Business University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "BlueCrest University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Accra, Greater Accra, Kumasi, Ashanti"
+  },
+  {
+    "name": "Jayee University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "University College of Management Studies",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Accra, Greater Accra, Kumasi, Ashanti"
+  },
+  {
+    "name": "Webster University Ghana Campus",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Luanda Close, East Legon, Accra, Greater Accra"
+  },
+  {
+    "name": "Sikkim Manipal University, Kumasi",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "CityStyle Building, Stadium Road, Kumasi, Ashanti Accra"
+  },
+  {
+    "name": "Ghana Christian University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "Accra, Greater Accra, Kumasi, Ashanti,"
+  },
+  {
+    "name": "Zenith University College",
+    "type": "university",
+    "region": "Ashanti",
+    "source_location": "La, Accra, Greater Accra, Kumasi, Ashanti,"
+  },
+  {
+    "name": "China Europe International Business School",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Ghana Christian University College",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Dodowa, Accra, Greater Accra"
+  },
+  {
+    "name": "The Bible University College of Ghana",
+    "type": "university",
+    "region": "Eastern",
+    "source_location": "Akuapem, Eastern Region"
+  },
+  {
+    "name": "Catholic Institute of Business and Technology",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "North American Center for Professional Studies",
+    "type": "university",
+    "region": "Central",
+    "source_location": "Kasoa, Central Region"
+  },
+  {
+    "name": "Premier Institute of Law Enforcement Management and Administration",
+    "type": "university",
+    "region": "Greater Accra",
+    "source_location": "Accra, Greater Accra"
+  },
+  {
+    "name": "Abetifi Presbyterian College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Kwahu Abetifi"
+  },
+  {
+    "name": "Accra College of Education",
+    "type": "college_of_education",
+    "region": "Greater Accra",
+    "source_location": "Greater Accra"
+  },
+  {
+    "name": "Ada College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Ada"
+  },
+  {
+    "name": "Agogo Presbyterian College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Agogo"
+  },
+  {
+    "name": "Akatsi College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Akatsi"
+  },
+  {
+    "name": "Akrokerri College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Akrokerri"
+  },
+  {
+    "name": "Al-Faruq College of Education, Wenchi/Droboso (newly absorbed college",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "2017)"
+  },
+  {
+    "name": "Atebubu College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Atebubu"
+  },
+  {
+    "name": "Bagabaga College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Tamale"
+  },
+  {
+    "name": "Bia Lamplighter College of Education, Sefwi-Debiso (newly absorbed college",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "2016)"
+  },
+  {
+    "name": "Berekum College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Berekum"
+  },
+  {
+    "name": "Christ the Teacher College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Kumasi"
+  },
+  {
+    "name": "Dambai College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Dambai"
+  },
+  {
+    "name": "Enchi College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Enchi"
+  },
+  {
+    "name": "Evangelical Presbyterian College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Amedzofe"
+  },
+  {
+    "name": "Evangelical Presbyterian College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Bimbilla"
+  },
+  {
+    "name": "Foso College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Assin Foso"
+  },
+  {
+    "name": "Gambaga College of Education, Gambaga (newly absorbed college",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "2016)"
+  },
+  {
+    "name": "Gbewaa College of Education, Pusiga constituency",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Bawku Municipal District"
+  },
+  {
+    "name": "Holy Child College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Sekondi-Takoradi"
+  },
+  {
+    "name": "Jasikan College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Jasikan"
+  },
+  {
+    "name": "Kibi Presbyterian College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Kibi"
+  },
+  {
+    "name": "Komenda College of Education, Kommenda",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Ghana"
+  },
+  {
+    "name": "Mampong Technical College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Mampong"
+  },
+  {
+    "name": "Methodist College of Education (Ghana)",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Akim Oda"
+  },
+  {
+    "name": "Mount Mary College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Somanya"
+  },
+  {
+    "name": "Nusrat Jahan Ahmadiyya College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Wa"
+  },
+  {
+    "name": "Our Lady of Apostles (OLA) College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Cape Coast"
+  },
+  {
+    "name": "Offinso College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Offinso"
+  },
+  {
+    "name": "Peki College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Peki"
+  },
+  {
+    "name": "Presbyterian Women's College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Aburi"
+  },
+  {
+    "name": "Presbyterian College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Akropong–Akuapem"
+  },
+  {
+    "name": "Seventh Day Adventist (SDA) College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Asokore"
+  },
+  {
+    "name": "St. Ambrose College of Education, Dormaa Akwamu, Dormaa Municipal District (newly absorbed college",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "2016)"
+  },
+  {
+    "name": "St. Francis College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Hohoe"
+  },
+  {
+    "name": "St. John Bosco’s College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Navrongo"
+  },
+  {
+    "name": "St. Joseph’s College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Bechem"
+  },
+  {
+    "name": "St. Louis College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Kumasi"
+  },
+  {
+    "name": "St. Monica's College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Mampong"
+  },
+  {
+    "name": "St. Teresa's College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Hohoe"
+  },
+  {
+    "name": "Tamale College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Tamale"
+  },
+  {
+    "name": "Tumu College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Tumu"
+  },
+  {
+    "name": "Wesley College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Kumasi"
+  },
+  {
+    "name": "Wiawso College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Sefwi-Wiawso District (Municipal)"
+  },
+  {
+    "name": "St. Vincent College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": "Yendi"
+  },
+  {
+    "name": "[https://mccoycoe.edu.gh/ McCoy College of Education]",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": ""
+  },
+  {
+    "name": "Agona SDA College of Education",
+    "type": "college_of_education",
+    "region": null,
+    "source_location": ""
+  }
+]

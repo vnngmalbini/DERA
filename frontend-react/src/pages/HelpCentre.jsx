@@ -2,6 +2,7 @@ import { useState } from 'react'
 import PageLayout from '../components/layout/PageLayout'
 import MobileBottomNav from '../components/layout/MobileBottomNav'
 import Icon from '../components/ui/Icon'
+import { apiPostAnonymous } from '../services/apiClient'
 
 const PRIVACY_BADGES = [
   { icon: 'no_accounts', label: 'No Identity Required' },
@@ -16,24 +17,28 @@ const QUICK_QUESTIONS = [
     title: 'Returning to School',
     subtitle: 'How to re-enroll after a break',
     prompt: 'How do I re-enroll in school after taking a break?',
+    category: 're_enrolment',
   },
   {
     icon: 'health_and_safety',
     title: 'Health & Pregnancy',
     subtitle: 'SRHR info and care links',
     prompt: 'Where can I get information about health and pregnancy care?',
+    category: 'pregnancy',
   },
   {
     icon: 'diversity_3',
     title: 'Family Pressure',
     subtitle: 'Managing conflict and stress',
     prompt: 'How do I manage family pressure and conflict at home?',
+    category: 'family_pressure',
   },
   {
     icon: 'payments',
     title: 'Financial Support',
     subtitle: 'Small business and study grants',
     prompt: 'What financial support or study grants are available for young people?',
+    category: 'financial_hardship',
   },
 ]
 
@@ -86,13 +91,43 @@ export default function HelpCentre() {
   const [messages, setMessages] = useState(INITIAL_MESSAGES)
   const [input, setInput] = useState('')
   const [isFocused, setIsFocused] = useState(false)
+  const [pendingCategory, setPendingCategory] = useState(null)
+  const [sending, setSending] = useState(false)
 
-  function handleSend(e) {
+  function handleQuickQuestion(q) {
+    setInput(q.prompt)
+    setPendingCategory(q.category)
+  }
+
+  async function handleSend(e) {
     e.preventDefault()
     const trimmed = input.trim()
-    if (!trimmed) return
+    if (!trimmed || sending) return
     setMessages((prev) => [...prev, { from: 'user', text: trimmed }])
     setInput('')
+    setSending(true)
+    const category = pendingCategory
+    setPendingCategory(null)
+    try {
+      // Deliberately anonymous: apiPostAnonymous never attaches an
+      // Authorization header, even if the visitor happens to be logged in
+      // elsewhere, so this submission carries no identity end to end.
+      await apiPostAnonymous('/help-requests/', { category, message: trimmed })
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: 'bot',
+          text: "Thank you for sharing — this has been sent anonymously to our team, and they'll follow up through the right support channel.",
+        },
+      ])
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        { from: 'bot', text: "Sorry, that didn't send. Please try again in a moment." },
+      ])
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -215,7 +250,8 @@ export default function HelpCentre() {
                 />
                 <button
                   type="submit"
-                  className="absolute right-3 bottom-3 p-2 bg-secondary text-white rounded-full hover:opacity-90 transition-all"
+                  disabled={sending}
+                  className="absolute right-3 bottom-3 p-2 bg-secondary text-white rounded-full hover:opacity-90 transition-all disabled:opacity-60"
                 >
                   <Icon name="send" filled />
                 </button>
@@ -233,7 +269,7 @@ export default function HelpCentre() {
               {QUICK_QUESTIONS.map((q) => (
                 <button
                   key={q.title}
-                  onClick={() => setInput(q.prompt)}
+                  onClick={() => handleQuickQuestion(q)}
                   className="flex items-center gap-4 p-md bg-surface shadow-[0px_4px_20px_rgba(13,31,8,0.05)] rounded-xl hover:bg-secondary-container/10 transition-all text-left border border-outline-variant/10 group"
                 >
                   <div className="w-10 h-10 rounded-lg bg-secondary-container/20 flex items-center justify-center group-hover:bg-secondary-container group-hover:text-on-secondary-container transition-colors">

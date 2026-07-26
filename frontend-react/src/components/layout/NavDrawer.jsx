@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import { useAuth } from '../../context/AuthContext'
+import { getDashboardMeta } from '../../config/dashboardNav'
 
 const SECTIONS = [
   {
@@ -30,7 +31,22 @@ const SECTIONS = [
 export default function NavDrawer({ open, onClose }) {
   const location = useLocation()
   const navigate = useNavigate()
-  const { isLoggedIn, logout } = useAuth()
+  const { isLoggedIn, user, logout } = useAuth()
+
+  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMeta(user?.role) : null
+
+  const sections = dashboard
+    ? [
+        {
+          label: 'Explore',
+          links: [
+            { label: 'My Dashboard', to: dashboard.basePath, icon: 'dashboard' },
+            ...SECTIONS[0].links,
+          ],
+        },
+        ...SECTIONS.slice(1),
+      ]
+    : SECTIONS
 
   function handleLogout() {
     logout()
@@ -82,7 +98,7 @@ export default function NavDrawer({ open, onClose }) {
         </div>
 
         <nav className="flex-1 overflow-y-auto px-margin-mobile py-md">
-          {SECTIONS.map((section) => (
+          {sections.map((section) => (
             <div key={section.label} className="mb-lg">
               <p className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant/60 mb-sm px-sm">
                 {section.label}

@@ -1,27 +1,36 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
-
-const SCHOOLS = [
-  { value: 'unilag', label: 'University of Lagos' },
-  { value: 'ui', label: 'University of Ibadan' },
-  { value: 'knust', label: 'KNUST' },
-  { value: 'other', label: 'Other Institution' },
-]
+import { useAuth } from '../context/AuthContext'
+import { apiGet, apiPost, ApiError } from '../services/apiClient'
 
 const INITIAL_FORM = {
   academicProfile: '',
-  schoolInterest: '',
   reason: '',
   terms: false,
 }
 
 export default function Sponsorship() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const formId = searchParams.get('form')
+  const { isLoggedIn, user, loading: authLoading } = useAuth()
+
+  const [applicationForm, setApplicationForm] = useState(null)
+  const [loadError, setLoadError] = useState('')
   const [formData, setFormData] = useState(INITIAL_FORM)
   const [submitted, setSubmitted] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    if (!formId) return
+    apiGet(`/application-forms/${formId}/`)
+      .then(setApplicationForm)
+      .catch(() => setLoadError('Could not load this application form.'))
+  }, [formId])
 
   useEffect(() => {
     if (!submitted) return undefined
@@ -40,15 +49,41 @@ export default function Sponsorship() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [])
 
+  if (authLoading) return null
+  if (!isLoggedIn) return <Navigate to="/login" replace />
+  if (user.role !== 'youth') {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-margin-mobile text-center">
+        <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+          Only youth accounts can request form sponsorships. If you'd like to fund a request instead, visit the donor
+          dashboard.
+        </p>
+      </div>
+    )
+  }
+  if (!formId) return <Navigate to="/forms" replace />
+
   function handleChange(e) {
     const { id, value, type, checked } = e.target
     setFormData((prev) => ({ ...prev, [id]: type === 'checkbox' ? checked : value }))
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    console.log('Sponsorship application payload:', formData)
-    setSubmitted(true)
+    if (submitting) return
+    setErrorMessage('')
+    setSubmitting(true)
+    try {
+      // Note: academicProfile/reason are collected for the review process
+      // but there's no field on FormOrder to persist free-text narrative
+      // yet (schema gap) — only the structured order itself is recorded.
+      await apiPost('/form-orders/', { form: formId, order_type: 'sponsorship_request' })
+      setSubmitted(true)
+    } catch (err) {
+      setErrorMessage(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   function handleReturnToDashboard() {
@@ -110,10 +145,37 @@ export default function Sponsorship() {
                   </p>
                 </div>
 
+                {errorMessage && (
+                  <div className="p-md rounded-lg bg-error-container flex items-start gap-2">
+                    <span className="material-symbols-outlined text-on-error-container text-[20px]">error</span>
+                    <p className="font-body-md text-body-md text-on-error-container">{errorMessage}</p>
+                  </div>
+                )}
+
+                {/* Selected form context */}
+                <div className="space-y-xs">
+                  <span className="font-label-lg text-label-lg text-on-surface-variant">Applying for</span>
+                  {loadError ? (
+                    <p className="text-error font-label-md text-label-md">{loadError}</p>
+                  ) : !applicationForm ? (
+                    <p className="text-on-surface-variant font-label-md text-label-md">Loading…</p>
+                  ) : (
+                    <div className="flex items-center gap-3 p-4 rounded-lg bg-surface-container-low border border-outline-variant/30">
+                      <Icon name="account_balance" className="text-secondary" />
+                      <div>
+                        <p className="font-label-lg text-label-lg text-on-surface">{applicationForm.title}</p>
+                        <p className="font-label-sm text-label-sm text-on-surface-variant">
+                          {applicationForm.institution?.name} · GHS {Number(applicationForm.price_ghs).toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 {/* Grid for inputs */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                <div className="grid grid-cols-1 gap-gutter">
                   {/* Academic Profile */}
-                  <div className="space-y-xs md:col-span-2">
+                  <div className="space-y-xs">
                     <label className="font-label-lg text-label-lg text-on-surface-variant" htmlFor="academicProfile">
                       Academic Profile (WASSCE Grades)
                     </label>
@@ -131,38 +193,8 @@ export default function Sponsorship() {
                     </div>
                   </div>
 
-                  {/* School of Interest */}
-                  <div className="space-y-xs md:col-span-2">
-                    <label className="font-label-lg text-label-lg text-on-surface-variant" htmlFor="schoolInterest">
-                      School of Interest
-                    </label>
-                    <div className="relative">
-                      <Icon name="account_balance" className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
-                      <select
-                        id="schoolInterest"
-                        required
-                        value={formData.schoolInterest}
-                        onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-3 rounded-lg border border-outline-variant focus:border-secondary-fixed focus:ring-2 focus:ring-secondary-fixed/20 bg-surface outline-none transition-all font-body-md text-body-md appearance-none"
-                      >
-                        <option disabled value="">
-                          Select an institution
-                        </option>
-                        {SCHOOLS.map((school) => (
-                          <option key={school.value} value={school.value}>
-                            {school.label}
-                          </option>
-                        ))}
-                      </select>
-                      <Icon
-                        name="expand_more"
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none"
-                      />
-                    </div>
-                  </div>
-
                   {/* Reason for Need */}
-                  <div className="space-y-xs md:col-span-2">
+                  <div className="space-y-xs">
                     <label className="font-label-lg text-label-lg text-on-surface-variant" htmlFor="reason">
                       Reason for Need
                     </label>
@@ -201,9 +233,10 @@ export default function Sponsorship() {
                 <div className="flex flex-col md:flex-row gap-4 pt-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-secondary-container text-on-secondary-container font-headline-sm text-label-lg py-4 px-lg rounded-lg shadow-sm hover:bg-secondary hover:text-on-secondary active:scale-[0.98] transition-all flex items-center justify-center gap-2 group"
+                    disabled={submitting || !applicationForm}
+                    className="flex-1 bg-secondary-container text-on-secondary-container font-headline-sm text-label-lg py-4 px-lg rounded-lg shadow-sm hover:bg-secondary hover:text-on-secondary active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-70"
                   >
-                    Submit Application
+                    {submitting ? 'Submitting...' : 'Submit Application'}
                     <Icon name="send" className="group-hover:translate-x-1 transition-transform" />
                   </button>
                   <button

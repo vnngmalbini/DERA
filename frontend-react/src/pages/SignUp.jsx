@@ -3,32 +3,63 @@ import { Link, useNavigate } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
 import SideNav from '../components/layout/SideNav'
 import { useAuth } from '../context/AuthContext'
+import { getDashboardMeta } from '../config/dashboardNav'
+import { ApiError } from '../services/apiClient'
 
 const ROLES = [
-  { key: 'young_person', label: 'Young Person', icon: 'person' },
-  { key: 'sponsor', label: 'Sponsor', icon: 'volunteer_activism' },
+  { key: 'youth', label: 'Young Person', icon: 'person' },
+  { key: 'donor', label: 'Sponsor', icon: 'volunteer_activism' },
   { key: 'counselor', label: 'Counselor', icon: 'support_agent' },
 ]
 
 export default function SignUp() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { register } = useAuth()
   const [role, setRole] = useState(null)
   const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [passwordFocused, setPasswordFocused] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [confirmPasswordFocused, setConfirmPasswordFocused] = useState(false)
+  const [confirmPasswordError, setConfirmPasswordError] = useState('')
   const [status, setStatus] = useState('idle')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    console.log({ role, fullName, phone, password })
+
+    if (password !== confirmPassword) {
+      setConfirmPasswordError('Passwords do not match.')
+      return
+    }
+    setConfirmPasswordError('')
+    setErrorMessage('')
+
+    if (!role) {
+      setErrorMessage('Please select who you are.')
+      return
+    }
+
     setStatus('submitting')
-    setTimeout(() => {
+    try {
+      const user = await register({
+        email,
+        phone: phone || undefined,
+        password,
+        role,
+        full_name: fullName,
+      })
       setStatus('success')
-      login({ role, fullName })
-      setTimeout(() => navigate('/'), 700)
-    }, 1500)
+      const dest = user.profileComplete === false ? '/complete-profile' : (getDashboardMeta(role)?.basePath ?? '/')
+      setTimeout(() => navigate(dest), 700)
+    } catch (err) {
+      setStatus('idle')
+      setErrorMessage(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.')
+    }
   }
 
   return (
@@ -67,6 +98,12 @@ export default function SignUp() {
             <div className="w-full md:w-3/5">
               <div className="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-[0px_4px_20px_rgba(13,31,8,0.05)] border border-outline-variant/30 w-full">
                 <form className="space-y-md" onSubmit={handleSubmit}>
+                  {errorMessage && (
+                    <div className="p-md rounded-lg bg-error-container flex items-start gap-2">
+                      <span className="material-symbols-outlined text-on-error-container text-[20px]">error</span>
+                      <p className="font-body-md text-body-md text-on-error-container">{errorMessage}</p>
+                    </div>
+                  )}
                   <div className="space-y-sm">
                     <label className="font-label-lg text-label-lg text-on-surface-variant">I am a...</label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-sm">
@@ -105,6 +142,20 @@ export default function SignUp() {
                       />
                     </div>
                     <div className="space-y-xs">
+                      <label className="font-label-lg text-label-lg text-on-surface-variant" htmlFor="email">
+                        Email
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="w-full px-4 py-3 rounded-lg border border-outline-variant focus:border-secondary-fixed focus:ring-2 focus:ring-secondary-fixed/20 bg-background font-body-md text-body-md transition-all outline-none"
+                      />
+                    </div>
+                    <div className="space-y-xs">
                       <label className="font-label-lg text-label-lg text-on-surface-variant" htmlFor="phone">
                         Phone Number
                       </label>
@@ -124,9 +175,12 @@ export default function SignUp() {
                       <input
                         id="password"
                         type={showPassword ? 'text' : 'password'}
-                        placeholder="Min. 8 characters"
+                        autoComplete="new-password"
+                        placeholder={passwordFocused ? '' : '••••••••'}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onFocus={() => setPasswordFocused(true)}
+                        onBlur={() => setPasswordFocused(false)}
                         className="w-full px-4 py-3 rounded-lg border border-outline-variant focus:border-secondary-fixed focus:ring-2 focus:ring-secondary-fixed/20 bg-background font-body-md text-body-md transition-all outline-none"
                       />
                       <button
@@ -138,6 +192,41 @@ export default function SignUp() {
                           {showPassword ? 'visibility_off' : 'visibility'}
                         </span>
                       </button>
+                    </div>
+                    <div className="space-y-xs relative">
+                      <label className="font-label-lg text-label-lg text-on-surface-variant" htmlFor="confirm_password">
+                        Confirm Password
+                      </label>
+                      <input
+                        id="confirm_password"
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        autoComplete="new-password"
+                        placeholder={confirmPasswordFocused ? '' : '••••••••'}
+                        value={confirmPassword}
+                        onChange={(e) => {
+                          setConfirmPassword(e.target.value)
+                          if (confirmPasswordError) setConfirmPasswordError('')
+                        }}
+                        onFocus={() => setConfirmPasswordFocused(true)}
+                        onBlur={() => setConfirmPasswordFocused(false)}
+                        className={`w-full px-4 py-3 rounded-lg border focus:ring-2 bg-background font-body-md text-body-md transition-all outline-none ${
+                          confirmPasswordError
+                            ? 'border-error focus:border-error focus:ring-error/20'
+                            : 'border-outline-variant focus:border-secondary-fixed focus:ring-secondary-fixed/20'
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword((v) => !v)}
+                        className="absolute right-4 top-[38px] text-on-surface-variant/60 hover:text-secondary"
+                      >
+                        <span className="material-symbols-outlined text-[20px]">
+                          {showConfirmPassword ? 'visibility_off' : 'visibility'}
+                        </span>
+                      </button>
+                      {confirmPasswordError && (
+                        <p className="font-label-sm text-label-sm text-error">{confirmPasswordError}</p>
+                      )}
                     </div>
                   </div>
 

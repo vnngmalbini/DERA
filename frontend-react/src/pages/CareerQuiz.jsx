@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
+import { useAuth } from '../context/AuthContext'
+import { apiPost } from '../services/apiClient'
 
 const VISUAL_IMAGE =
   'https://lh3.googleusercontent.com/aida-public/AB6AXuAJTRSccTij9NnSqqQdezOej-cAcvWwZOWPZzbReEnDXzBHkwQaQecIQXeXtx99ev65LSXZCIqP8zJZXgUxvntf0ba94e2BLVQvFif3Bahk5QAg5eff4qiyGWxlsNUCBhPgrHj9KE9D-eXaugPYHUWZmHLs2gFHJHyBibhfbiZPVPGPlCGj47rUmhWP3oJct2dqv5pqcosaeWvmfWtEQvNBisnLOC2UFu4k9FvLMwyFntHnQvQXcYHj'
@@ -122,30 +124,28 @@ const RESULTS = {
   },
 }
 
-const SIDE_LINKS = [
-  { icon: 'dashboard', label: 'My Dashboard', to: '/' },
-  { icon: 'auto_stories', label: 'Success Stories', to: '/stories' },
-  { icon: 'psychology', label: 'Career Quiz', to: '/career-quiz', filled: true },
-  { icon: 'forum', label: 'Anonymous Forum', to: '/help' },
-  { icon: 'settings', label: 'Settings', to: '/' },
-]
-
-const BOTTOM_LINKS = [
-  { icon: 'home', label: 'Home', to: '/' },
-  { icon: 'school', label: 'Scholarships', to: '/scholarships' },
-  { icon: 'psychology', label: 'Career Quiz', to: '/career-quiz' },
-  { icon: 'support_agent', label: 'Help', to: '/help' },
-]
-
 export default function CareerQuiz() {
-  const location = useLocation()
+  const { user } = useAuth()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState({})
+  const submittedRef = useRef(false)
 
   const total = QUESTIONS.length
   const isComplete = step >= total
   const current = !isComplete ? QUESTIONS[step] : null
   const progress = Math.round((Math.min(step + (isComplete ? 0 : 1), total) / total) * 100)
+
+  // Fire-and-forget audit record only — the question bank, scoring, and
+  // displayed result are entirely client-side (the backend deliberately
+  // stores no answer payload or matching algorithm yet), so this never
+  // blocks or affects what the user sees.
+  useEffect(() => {
+    if (isComplete && user?.role === 'youth' && !submittedRef.current) {
+      submittedRef.current = true
+      apiPost('/quiz-responses/', {}).catch(() => {})
+    }
+    if (!isComplete) submittedRef.current = false
+  }, [isComplete, user])
 
   const topTrait = useMemo(() => {
     const tally = {}
@@ -175,219 +175,139 @@ export default function CareerQuiz() {
   }
 
   return (
-    <PageLayout bare>
-      <div className="bg-surface text-on-surface font-body-md min-h-screen flex flex-col pb-24 md:pb-0">
-        {/* Top App Bar */}
-        <header className="fixed top-0 left-0 w-full z-50 bg-surface border-b border-outline-variant/10">
-          <div className="flex justify-between items-center px-margin-mobile h-16 max-w-7xl mx-auto">
-            <div className="flex items-center gap-4">
-              <Link to="/" className="material-symbols-outlined p-2 hover:bg-secondary-container/20 transition-colors rounded-full text-primary">
-                menu
-              </Link>
-              <Link to="/" className="flex items-center gap-1">
-                <Icon name="spa" className="text-primary text-2xl" filled />
-                <h1 className="font-headline-md text-headline-md font-bold text-primary tracking-tight">DERA</h1>
-              </Link>
+    <PageLayout>
+      <div className="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+        <section className="py-md text-center">
+          <h2 className="font-headline-md text-headline-md text-on-background mb-2">Career Discovery Quiz</h2>
+          <p className="text-body-md text-on-surface-variant max-w-md mx-auto">
+            Every Young Person Belongs Here. Find the path that matches your unique strengths and local
+            community needs.
+          </p>
+        </section>
+
+        {!isComplete ? (
+          <>
+            {/* Progress Tracking */}
+            <div className="mb-lg space-y-3">
+              <div className="flex justify-between items-end">
+                <span className="font-label-md text-label-md text-primary">
+                  Step {step + 1} of {total}
+                </span>
+                <span className="font-label-sm text-label-sm text-on-surface-variant">
+                  {progress}% Complete
+                </span>
+              </div>
+              <div className="w-full h-3 bg-outline-variant/30 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-tertiary rounded-full transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <button className="material-symbols-outlined p-2 hover:bg-secondary-container/20 transition-colors rounded-full text-primary">
-                search
+
+            {/* Question Section */}
+            <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-md shadow-sm mb-md">
+              <span className="inline-block bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full mb-4">
+                {current.category}
+              </span>
+              <h3 className="font-headline-md text-headline-md text-on-surface mb-6">{current.question}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {current.options.map((option, i) => {
+                  const selected = answers[step] === i
+                  return (
+                    <button
+                      key={option.title}
+                      onClick={() => selectOption(i)}
+                      className={`group flex items-start gap-4 p-md rounded-xl border-2 transition-all text-left ${
+                        selected
+                          ? 'border-primary bg-primary/5'
+                          : 'border-outline-variant/30 hover:border-primary hover:bg-primary/5'
+                      }`}
+                    >
+                      <div className="w-12 h-12 flex-shrink-0 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center">
+                        <Icon name={option.icon} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-label-md text-label-md text-on-surface mb-1">{option.title}</p>
+                        <p className="text-body-md text-on-surface-variant text-sm">{option.desc}</p>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Contextual Visual (Asymmetric Layout) */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              <div className="md:col-span-7">
+                <div className="relative overflow-hidden rounded-xl h-64 shadow-md">
+                  <img
+                    className="w-full h-full object-cover"
+                    alt="A professional photo of a young Ghanaian woman leading a community discussion outdoors under a large Baobab tree."
+                    src={VISUAL_IMAGE}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="font-label-md text-label-md">Local Inspiration</p>
+                    <p className="font-headline-md text-headline-md-mobile">Ama finds joy in mentoring</p>
+                  </div>
+                </div>
+              </div>
+              <div className="md:col-span-5 bg-tertiary text-on-tertiary-container p-6 rounded-xl">
+                <Icon name="lightbulb" className="mb-2" filled />
+                <p className="font-label-md text-label-md mb-2">Did you know?</p>
+                <p className="text-sm">{current.fact}</p>
+              </div>
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-between items-center mt-xl gap-4">
+              <button
+                onClick={goPrev}
+                disabled={step === 0}
+                className="flex-1 h-12 rounded-full border-2 border-primary text-primary font-label-md flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+              >
+                <Icon name="arrow_back" />
+                Previous
+              </button>
+              <button
+                onClick={goNext}
+                disabled={answers[step] === undefined}
+                className="flex-1 h-12 rounded-full bg-primary text-on-primary font-label-md flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
+              >
+                {step === total - 1 ? 'See Results' : 'Next Question'}
+                <Icon name="arrow_forward" />
               </button>
             </div>
-          </div>
-        </header>
-
-        {/* Main Content Canvas */}
-        <main className="flex-1 mt-16 px-margin-mobile pb-32 md:px-margin-desktop md:pl-72 max-w-4xl md:max-w-none mx-auto w-full">
-          <div className="max-w-4xl mx-auto">
-            <section className="py-md text-center">
-              <h2 className="font-headline-md text-headline-md text-on-background mb-2">Career Discovery Quiz</h2>
-              <p className="text-body-md text-on-surface-variant max-w-md mx-auto">
-                Every Young Person Belongs Here. Find the path that matches your unique strengths and local
-                community needs.
-              </p>
-            </section>
-
-            {!isComplete ? (
-              <>
-                {/* Progress Tracking */}
-                <div className="mb-lg space-y-3">
-                  <div className="flex justify-between items-end">
-                    <span className="font-label-md text-label-md text-primary">
-                      Step {step + 1} of {total}
-                    </span>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant">
-                      {progress}% Complete
-                    </span>
-                  </div>
-                  <div className="w-full h-3 bg-outline-variant/30 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-tertiary rounded-full transition-all duration-300"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Question Section */}
-                <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-md shadow-sm mb-md">
-                  <span className="inline-block bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full mb-4">
-                    {current.category}
-                  </span>
-                  <h3 className="font-headline-md text-headline-md text-on-surface mb-6">{current.question}</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {current.options.map((option, i) => {
-                      const selected = answers[step] === i
-                      return (
-                        <button
-                          key={option.title}
-                          onClick={() => selectOption(i)}
-                          className={`group flex items-start gap-4 p-md rounded-xl border-2 transition-all text-left ${
-                            selected
-                              ? 'border-primary bg-primary/5'
-                              : 'border-outline-variant/30 hover:border-primary hover:bg-primary/5'
-                          }`}
-                        >
-                          <div className="w-12 h-12 flex-shrink-0 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center">
-                            <Icon name={option.icon} />
-                          </div>
-                          <div className="flex-1">
-                            <p className="font-label-md text-label-md text-on-surface mb-1">{option.title}</p>
-                            <p className="text-body-md text-on-surface-variant text-sm">{option.desc}</p>
-                          </div>
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-
-                {/* Contextual Visual (Asymmetric Layout) */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                  <div className="md:col-span-7">
-                    <div className="relative overflow-hidden rounded-xl h-64 shadow-md">
-                      <img
-                        className="w-full h-full object-cover"
-                        alt="A professional photo of a young Ghanaian woman leading a community discussion outdoors under a large Baobab tree."
-                        src={VISUAL_IMAGE}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
-                      <div className="absolute bottom-4 left-4 text-white">
-                        <p className="font-label-md text-label-md">Local Inspiration</p>
-                        <p className="font-headline-md text-headline-md-mobile">Ama finds joy in mentoring</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="md:col-span-5 bg-tertiary text-on-tertiary-container p-6 rounded-xl">
-                    <Icon name="lightbulb" className="mb-2" filled />
-                    <p className="font-label-md text-label-md mb-2">Did you know?</p>
-                    <p className="text-sm">{current.fact}</p>
-                  </div>
-                </div>
-
-                {/* Navigation Buttons */}
-                <div className="flex justify-between items-center mt-xl gap-4">
-                  <button
-                    onClick={goPrev}
-                    disabled={step === 0}
-                    className="flex-1 h-12 rounded-full border-2 border-primary text-primary font-label-md flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-                  >
-                    <Icon name="arrow_back" />
-                    Previous
-                  </button>
-                  <button
-                    onClick={goNext}
-                    disabled={answers[step] === undefined}
-                    className="flex-1 h-12 rounded-full bg-primary text-on-primary font-label-md flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
-                  >
-                    {step === total - 1 ? 'See Results' : 'Next Question'}
-                    <Icon name="arrow_forward" />
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-md shadow-sm mb-md text-center py-xl">
-                <div className="w-16 h-16 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-4">
-                  <Icon name={RESULTS[topTrait].icon} className="text-4xl" filled />
-                </div>
-                <span className="inline-block bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full mb-4">
-                  Your Result
-                </span>
-                <h3 className="font-headline-md text-headline-md text-on-surface mb-3">{RESULTS[topTrait].title}</h3>
-                <p className="text-body-md text-on-surface-variant max-w-md mx-auto mb-8">{RESULTS[topTrait].desc}</p>
-                <div className="flex flex-col sm:flex-row justify-center gap-4">
-                  <button
-                    onClick={retake}
-                    className="h-12 px-8 rounded-full border-2 border-primary text-primary font-label-md flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors"
-                  >
-                    <Icon name="refresh" />
-                    Retake Quiz
-                  </button>
-                  <Link
-                    to="/scholarships"
-                    className="h-12 px-8 rounded-full bg-primary text-on-primary font-label-md flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
-                  >
-                    Explore Scholarships
-                    <Icon name="arrow_forward" />
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-        </main>
-
-        {/* Bottom Navigation (Mobile) */}
-        <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 pb-safe bg-surface-container-lowest border-t border-outline-variant/30 shadow-lg">
-          {BOTTOM_LINKS.map((link) => {
-            const active = location.pathname === link.to
-            return (
-              <Link
-                key={link.label}
-                to={link.to}
-                className={
-                  active
-                    ? 'flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1.5 scale-90'
-                    : 'flex flex-col items-center justify-center text-on-surface-variant hover:text-primary'
-                }
+          </>
+        ) : (
+          <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-md shadow-sm mb-md text-center py-xl">
+            <div className="w-16 h-16 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-4">
+              <Icon name={RESULTS[topTrait].icon} className="text-4xl" filled />
+            </div>
+            <span className="inline-block bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full mb-4">
+              Your Result
+            </span>
+            <h3 className="font-headline-md text-headline-md text-on-surface mb-3">{RESULTS[topTrait].title}</h3>
+            <p className="text-body-md text-on-surface-variant max-w-md mx-auto mb-8">{RESULTS[topTrait].desc}</p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <button
+                onClick={retake}
+                className="h-12 px-8 rounded-full border-2 border-primary text-primary font-label-md flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors"
               >
-                <Icon name={link.icon} filled={active} />
-                <span className="font-label-sm text-label-sm">{link.label}</span>
+                <Icon name="refresh" />
+                Retake Quiz
+              </button>
+              <Link
+                to="/scholarships"
+                className="h-12 px-8 rounded-full bg-primary text-on-primary font-label-md flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+              >
+                Explore Scholarships
+                <Icon name="arrow_forward" />
               </Link>
-            )
-          })}
-        </nav>
-
-        {/* SideNav Desktop */}
-        <aside className="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface border-r border-outline-variant/10 flex-col py-6">
-          <div className="px-6 mb-8">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold">
-                JD
-              </div>
-              <div>
-                <p className="font-label-md text-label-md">Welcome, Kojo</p>
-                <p className="text-xs text-on-surface-variant">Growing Together</p>
-              </div>
             </div>
           </div>
-          <nav className="space-y-1">
-            {SIDE_LINKS.map((link) => {
-              const active = location.pathname === link.to && link.label === 'Career Quiz'
-              return (
-                <Link
-                  key={link.label}
-                  to={link.to}
-                  className={
-                    active
-                      ? 'flex items-center gap-4 px-6 py-3 bg-secondary-container text-on-secondary-container font-semibold mx-2 rounded-full translate-x-1'
-                      : 'flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all mx-2 rounded-full'
-                  }
-                >
-                  <Icon name={link.icon} filled={active} />
-                  <span className="font-label-md">{link.label}</span>
-                </Link>
-              )
-            })}
-          </nav>
-        </aside>
+        )}
       </div>
     </PageLayout>
   )

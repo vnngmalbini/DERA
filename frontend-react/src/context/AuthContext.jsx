@@ -1,31 +1,97 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import { apiGet, apiPost, clearTokens, getRefreshToken, setTokens } from '../services/apiClient'
 
 const AuthContext = createContext(null)
-const STORAGE_KEY = 'dera_auth_user'
+
+function deriveProfileComplete(user) {
+  if (!user) return undefined
+  switch (user.role) {
+    case 'youth':
+      return !!(user.youth_profile?.education_level && user.youth_profile?.region)
+    case 'counselor':
+      return !!user.counselor_profile?.institution
+    case 'donor':
+      return !!user.donor_profile?.donor_type
+    default:
+      return true
+  }
+}
+
+// Flattens the nested role-profile object into the flat camelCase shape
+// several existing dashboard pages/forms already read (user.fullName,
+// user.educationLevel, etc.) — keeps those pages working against real data
+// without requiring them to be rewired in this pass.
+function flattenProfile(user) {
+  const p = user.youth_profile || user.counselor_profile || user.donor_profile || {}
+  return {
+    fullName: p.full_name,
+    dateOfBirth: p.date_of_birth,
+    region: p.region,
+    district: p.district,
+    educationLevel: p.education_level,
+    institution: p.institution,
+    gender: p.gender,
+    roleTitle: p.role_title,
+    organization: p.organization,
+    donorType: p.donor_type,
+  }
+}
+
+function withDerived(user) {
+  if (!user) return null
+  return { ...user, ...flattenProfile(user), profileComplete: deriveProfileComplete(user) }
+}
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY)
-      return stored ? JSON.parse(stored) : null
-    } catch {
-      return null
-    }
-  })
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (user) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
-    } else {
-      localStorage.removeItem(STORAGE_KEY)
+    async function restoreSession() {
+      if (!getRefreshToken()) {
+        setLoading(false)
+        return
+      }
+      try {
+        const me = await apiGet('/auth/me/')
+        setUser(withDerived(me))
+      } catch {
+        clearTokens()
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [user])
+    restoreSession()
+  }, [])
 
-  const login = (userData) => setUser(userData || { name: 'Guest' })
-  const logout = () => setUser(null)
+  async function login(email, password) {
+    const tokens = await apiPost('/auth/token/', { email, password })
+    setTokens(tokens)
+    const me = await apiGet('/auth/me/')
+    setUser(withDerived(me))
+    return me
+  }
+
+  async function register(payload) {
+    await apiPost('/auth/register/', payload)
+    return login(payload.email, payload.password)
+  }
+
+  function logout() {
+    clearTokens()
+    setUser(null)
+  }
+
+  async function refreshUser() {
+    const me = await apiGet('/auth/me/')
+    setUser(withDerived(me))
+    return me
+  }
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn: !!user, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isLoggedIn: !!user, loading, login, register, logout, refreshUser }}
+    >
       {children}
     </AuthContext.Provider>
   )

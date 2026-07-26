@@ -1,13 +1,8 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import Icon from '../components/ui/Icon'
-
-const ORDER = {
-  institution: 'KNUST',
-  formType: 'Undergraduate Admission',
-  year: '2024/2025',
-  amount: 250.0,
-}
+import { useAuth } from '../context/AuthContext'
+import { apiGet, apiPost, ApiError } from '../services/apiClient'
 
 const NAV_LINKS = [
   { label: 'Home', to: '/' },
@@ -36,31 +31,62 @@ function formatMomoNumber(raw) {
 
 export default function PurchaseForm() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const formId = searchParams.get('form')
+  const { isLoggedIn, user, loading: authLoading } = useAuth()
+
+  const [applicationForm, setApplicationForm] = useState(null)
+  const [loadError, setLoadError] = useState('')
   const [momoNumber, setMomoNumber] = useState('')
-  const [status, setStatus] = useState('form')
+  const [status, setStatus] = useState('form') // form | processing | success | error
+  const [errorMessage, setErrorMessage] = useState('')
+  const [paidOrder, setPaidOrder] = useState(null)
+
+  useEffect(() => {
+    if (!formId) return
+    apiGet(`/application-forms/${formId}/`)
+      .then(setApplicationForm)
+      .catch(() => setLoadError('Could not load this application form.'))
+  }, [formId])
+
+  if (authLoading) return null
+  if (!isLoggedIn) return <Navigate to="/login" replace />
+  if (user.role !== 'youth') {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-margin-mobile text-center">
+        <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+          Only youth accounts can purchase application forms directly. If you'd like to support a student instead,
+          visit the sponsorship dashboard.
+        </p>
+      </div>
+    )
+  }
+  if (!formId) return <Navigate to="/forms" replace />
 
   const handleMomoChange = (e) => {
     setMomoNumber(formatMomoNumber(e.target.value))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    if (status === 'processing') return
     setStatus('processing')
-
-    const payload = {
-      ...ORDER,
-      momoNumber,
-    }
-    console.log('Payment request payload:', payload)
-
-    setTimeout(() => {
+    setErrorMessage('')
+    try {
+      const order = await apiPost('/form-orders/', { form: formId, order_type: 'direct_purchase' })
+      const paid = await apiPost(`/form-orders/${order.id}/simulate-payment/`, { momo_number: momoNumber })
+      setPaidOrder(paid)
       setStatus('success')
-    }, 1500)
+    } catch (err) {
+      setStatus('error')
+      setErrorMessage(err instanceof ApiError ? err.message : 'Payment failed. Please try again.')
+    }
   }
 
   const handleDone = () => {
     setStatus('form')
     setMomoNumber('')
+    navigate('/forms')
   }
 
   return (
@@ -101,28 +127,36 @@ export default function PurchaseForm() {
                   <Icon name="receipt_long" className="text-on-secondary-container" />
                 </div>
               </div>
-              <div className="space-y-sm">
-                <div className="flex justify-between items-center py-sm border-b border-surface-variant/50">
-                  <span className="font-label-lg text-label-lg text-on-surface-variant">Institution</span>
-                  <span className="font-label-lg text-label-lg text-on-surface font-bold">{ORDER.institution}</span>
-                </div>
-                <div className="flex justify-between items-center py-sm border-b border-surface-variant/50">
-                  <span className="font-label-lg text-label-lg text-on-surface-variant">Form Type</span>
-                  <span className="font-label-lg text-label-lg text-on-surface font-bold">{ORDER.formType}</span>
-                </div>
-                <div className="flex justify-between items-center py-sm border-b border-surface-variant/50">
-                  <span className="font-label-lg text-label-lg text-on-surface-variant">Year</span>
-                  <span className="font-label-lg text-label-lg text-on-surface font-bold">{ORDER.year}</span>
-                </div>
-              </div>
-              <div className="mt-lg pt-md">
-                <div className="flex justify-between items-baseline">
-                  <span className="font-body-md text-body-md text-on-surface">Total Amount</span>
-                  <span className="font-headline-md text-headline-md text-secondary font-bold">
-                    GHS {ORDER.amount.toFixed(2)}
-                  </span>
-                </div>
-              </div>
+              {loadError ? (
+                <p className="text-error font-label-md text-label-md py-4">{loadError}</p>
+              ) : !applicationForm ? (
+                <p className="text-on-surface-variant font-label-md text-label-md py-4">Loading…</p>
+              ) : (
+                <>
+                  <div className="space-y-sm">
+                    <div className="flex justify-between items-center py-sm border-b border-surface-variant/50">
+                      <span className="font-label-lg text-label-lg text-on-surface-variant">Institution</span>
+                      <span className="font-label-lg text-label-lg text-on-surface font-bold">
+                        {applicationForm.institution?.name ?? '—'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center py-sm border-b border-surface-variant/50">
+                      <span className="font-label-lg text-label-lg text-on-surface-variant">Form</span>
+                      <span className="font-label-lg text-label-lg text-on-surface font-bold">
+                        {applicationForm.title}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-lg pt-md">
+                    <div className="flex justify-between items-baseline">
+                      <span className="font-body-md text-body-md text-on-surface">Total Amount</span>
+                      <span className="font-headline-md text-headline-md text-secondary font-bold">
+                        GHS {Number(applicationForm.price_ghs).toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="bg-primary-container rounded-xl p-md text-on-primary shadow-lg overflow-hidden relative">
@@ -151,10 +185,17 @@ export default function PurchaseForm() {
                 <div>
                   <h2 className="font-headline-sm text-headline-sm text-on-surface">MTN Mobile Money</h2>
                   <p className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
-                    Primary Payment Gateway
+                    Primary Payment Gateway (simulated)
                   </p>
                 </div>
               </div>
+
+              {status === 'error' && (
+                <div className="mb-md p-md rounded-lg bg-error-container flex items-start gap-2">
+                  <span className="material-symbols-outlined text-on-error-container text-[20px]">error</span>
+                  <p className="font-body-md text-body-md text-on-error-container">{errorMessage}</p>
+                </div>
+              )}
 
               <form className="space-y-md" onSubmit={handleSubmit}>
                 <div className="space-y-xs">
@@ -171,7 +212,7 @@ export default function PurchaseForm() {
                       type="tel"
                       value={momoNumber}
                       onChange={handleMomoChange}
-                      disabled={status === 'processing'}
+                      disabled={status === 'processing' || !applicationForm}
                     />
                     <div className="absolute right-md top-1/2 -translate-y-1/2 flex items-center gap-xs">
                       <Icon name="smartphone" className="text-outline" />
@@ -186,7 +227,7 @@ export default function PurchaseForm() {
                   <button
                     className="w-full bg-secondary-container text-on-secondary-container font-semibold py-md rounded-lg flex items-center justify-center gap-sm active:scale-95 transition-transform duration-150 shadow-md hover:bg-secondary-fixed transition-colors disabled:opacity-70 disabled:active:scale-100"
                     type="submit"
-                    disabled={status === 'processing'}
+                    disabled={status === 'processing' || !applicationForm}
                   >
                     {status === 'processing' ? (
                       <>
@@ -230,22 +271,22 @@ export default function PurchaseForm() {
         </div>
       </main>
 
-      {status === 'success' && (
+      {status === 'success' && paidOrder && (
         <div className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex items-center justify-center transition-opacity duration-300">
           <div className="bg-surface-container-lowest p-lg rounded-xl shadow-2xl max-w-sm w-full mx-margin-mobile text-center border border-secondary/20">
             <div className="w-20 h-20 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-md animate-bounce">
               <Icon name="check_circle" className="text-on-secondary-container text-[40px]" filled />
             </div>
-            <h3 className="font-headline-sm text-headline-sm text-on-surface mb-xs">Request Sent!</h3>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface mb-xs">Payment Successful!</h3>
             <p className="font-body-md text-body-md text-on-surface-variant mb-lg">
-              Please check your phone for the MTN MoMo prompt and enter your PIN to complete the GHS{' '}
-              {ORDER.amount.toFixed(0)} payment.
+              Your payment of GHS {Number(paidOrder.payment?.amount ?? 0).toFixed(2)} was recorded and your order is
+              now <span className="font-bold">{paidOrder.status}</span>.
             </p>
             <button
               className="w-full bg-secondary text-on-primary font-semibold py-sm rounded-lg shadow-md active:scale-95 transition-all"
               onClick={handleDone}
             >
-              I've Done It
+              Done
             </button>
           </div>
         </div>
