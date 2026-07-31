@@ -23,10 +23,12 @@ const PROFILE_ID_KEY = {
 }
 
 // Forms collect camelCase values; the backend expects snake_case fields.
-function toSnakeCasePayload(role, values) {
+// full_name was already captured at signup (it lives on the profile created
+// during registration), so we carry it through rather than asking again.
+function toSnakeCasePayload(role, values, fullName) {
   if (role === 'youth') {
     return {
-      full_name: values.fullName,
+      full_name: fullName,
       date_of_birth: values.dateOfBirth || null,
       region: values.region,
       district: values.district,
@@ -37,13 +39,13 @@ function toSnakeCasePayload(role, values) {
   }
   if (role === 'counselor') {
     return {
-      full_name: values.fullName,
+      full_name: fullName,
       institution: values.institution,
       role_title: values.roleTitle,
     }
   }
   return {
-    full_name: values.fullName,
+    full_name: fullName,
     organization: values.organization,
     donor_type: values.donorType,
   }
@@ -75,8 +77,8 @@ export default function CompleteProfile() {
     setStatus('submitting')
     setErrorMessage('')
     try {
-      const profileId = user[PROFILE_ID_KEY[user.role]]?.id
-      await submitProfile(user.role, profileId, toSnakeCasePayload(user.role, values))
+      const profile = user[PROFILE_ID_KEY[user.role]]
+      await submitProfile(user.role, profile?.id, toSnakeCasePayload(user.role, values, profile?.full_name))
       await refreshUser()
       navigate(getDashboardMeta(user.role)?.basePath ?? '/', { replace: true })
     } catch {

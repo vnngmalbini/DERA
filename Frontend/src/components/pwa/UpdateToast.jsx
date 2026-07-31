@@ -18,10 +18,11 @@ export default function UpdateToast() {
   })
 
   useEffect(() => {
-    if (offlineReady[0]) {
-      setMessage('DERA is ready to work offline.')
-      setVisible(true)
-    } else if (needRefresh[0]) {
+    // if (offlineReady[0]) {
+    //   setMessage('DERA is ready to work offline.')
+    //   setVisible(true)
+    // } else
+    if (needRefresh[0]) {
       setMessage('Updating to the latest version...')
       setVisible(true)
     }

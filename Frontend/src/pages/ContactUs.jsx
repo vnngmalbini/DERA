@@ -22,7 +22,6 @@ export default function ContactUs() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Contact form submitted:', form)
     setStatus('sending')
     setTimeout(() => {
       setStatus('sent')

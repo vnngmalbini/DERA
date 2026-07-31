@@ -58,7 +58,7 @@ const LEVEL_TO_INSTITUTION_TYPES = {
 
 const GENDERS = ['Female', 'Male', 'Prefer not to say']
 
-const BASE_REQUIRED_FIELDS = ['fullName', 'dateOfBirth', 'region', 'district', 'educationLevel', 'gender']
+const BASE_REQUIRED_FIELDS = ['dateOfBirth', 'region', 'district', 'educationLevel', 'gender']
 
 function institutionApplies(educationLevel) {
   return Object.prototype.hasOwnProperty.call(LEVEL_TO_INSTITUTION_TYPES, educationLevel)
@@ -66,7 +66,6 @@ function institutionApplies(educationLevel) {
 
 export default function YouthProfileForm({ onSubmit, submitting, institutions = [] }) {
   const [values, setValues] = useState({
-    fullName: '',
     dateOfBirth: '',
     region: '',
     district: '',
@@ -164,16 +163,6 @@ export default function YouthProfileForm({ onSubmit, submitting, institutions = 
 
   return (
     <form className="space-y-md" onSubmit={handleSubmit} noValidate>
-      <FormField
-        id="fullName"
-        label="Full Name"
-        required
-        value={values.fullName}
-        onChange={handleChange('fullName')}
-        error={errors.fullName}
-        placeholder="Enter your full name"
-      />
-
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-md">
         <FormField
           id="dateOfBirth"
