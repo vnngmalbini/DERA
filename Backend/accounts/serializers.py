@@ -48,9 +48,20 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'phone', 'role', 'created_at', 'updated_at',
+            'id', 'email', 'phone', 'role', 'is_active', 'created_at', 'updated_at',
             'youth_profile', 'counselor_profile', 'donor_profile',
         ]
+        read_only_fields = ['id', 'role', 'is_active', 'created_at', 'updated_at']
+
+
+class AdminUserSerializer(UserSerializer):
+    """Same shape as UserSerializer but lets an admin toggle is_active.
+
+    Used only by the admin-only UserViewSet — never by MeView, so a user
+    can never flip their own is_active flag through self-service /auth/me/.
+    """
+
+    class Meta(UserSerializer.Meta):
         read_only_fields = ['id', 'role', 'created_at', 'updated_at']
 
 

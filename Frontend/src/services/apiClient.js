@@ -91,6 +91,30 @@ export const apiPatch = (path, body) => request('PATCH', path, body)
 export const apiDelete = (path) => request('DELETE', path)
 
 /**
+ * Multipart form submission (e.g. file uploads). Omits the JSON
+ * Content-Type header so the browser can set the multipart boundary itself.
+ */
+export async function apiPostForm(path, formData, { retry = true } = {}) {
+  const headers = {}
+  const access = getAccessToken()
+  if (access) headers.Authorization = `Bearer ${access}`
+
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method: 'POST',
+    headers,
+    body: formData,
+  })
+
+  if (res.status === 401 && retry && getRefreshToken()) {
+    const refreshed = await refreshAccessToken()
+    if (refreshed) return apiPostForm(path, formData, { retry: false })
+    clearTokens()
+  }
+
+  return parseResponse(res)
+}
+
+/**
  * Deliberately unauthenticated — never attaches an Authorization header,
  * even if the caller happens to have a valid session elsewhere. Used only
  * for the anonymous Help Centre submission, to preserve anonymity end to

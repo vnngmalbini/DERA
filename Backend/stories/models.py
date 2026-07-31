@@ -11,7 +11,9 @@ class Story(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
+    speaker_name = models.CharField(max_length=255, blank=True, null=True)
     narrative = models.TextField()
+    photo = models.ImageField(upload_to='stories/', blank=True, null=True)
     region = models.CharField(max_length=100, blank=True, null=True)
     career_path = models.ForeignKey(
         'careers.CareerPath', on_delete=models.SET_NULL, blank=True, null=True, related_name='stories'

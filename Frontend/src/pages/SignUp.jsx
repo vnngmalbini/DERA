@@ -10,6 +10,7 @@ const ROLES = [
   { key: 'youth', label: 'Young Person', icon: 'person' },
   { key: 'donor', label: 'Sponsor', icon: 'volunteer_activism' },
   { key: 'counselor', label: 'Counselor', icon: 'support_agent' },
+  { key: 'admin', label: 'Admin', icon: 'admin_panel_settings' },
 ]
 
 export default function SignUp() {
@@ -106,7 +107,7 @@ export default function SignUp() {
                   )}
                   <div className="space-y-sm">
                     <label className="font-label-lg text-label-lg text-on-surface-variant">I am a...</label>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-sm">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-sm">
                       {ROLES.map((r) => (
                         <button
                           key={r.key}

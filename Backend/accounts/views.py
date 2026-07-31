@@ -2,14 +2,16 @@ from rest_framework import generics, permissions, viewsets
 from rest_framework.response import Response
 
 from common.permissions import (
+    IsAdmin,
     IsAdminOrReadOnly,
     IsAuthenticatedCreateOrAdminWrite,
     IsCounselorOrAdmin,
     IsSelfProfileOrCounselorOrAdmin,
 )
 
-from .models import CounselorProfile, District, DonorProfile, Institution, YouthProfile
+from .models import CounselorProfile, District, DonorProfile, Institution, User, YouthProfile
 from .serializers import (
+    AdminUserSerializer,
     CounselorProfileSerializer,
     DistrictSerializer,
     DonorProfileSerializer,
@@ -37,6 +39,21 @@ class MeView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """Admin-only account roster. No create (registration already covers
+    that) and no delete (deactivate via is_active instead of destroying
+    account history/relations).
+    """
+
+    queryset = User.objects.select_related(
+        'youth_profile', 'counselor_profile', 'donor_profile'
+    ).all().order_by('-created_at')
+    serializer_class = AdminUserSerializer
+    permission_classes = [IsAdmin]
+    filterset_fields = ['role', 'is_active']
+    http_method_names = ['get', 'patch', 'head', 'options']
 
 
 class InstitutionViewSet(viewsets.ModelViewSet):

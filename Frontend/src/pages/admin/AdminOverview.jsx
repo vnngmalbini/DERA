@@ -40,8 +40,7 @@ export default function AdminOverview() {
               <div>
                 <h3 className="font-headline-md text-headline-md mb-2">Platform Health</h3>
                 <p className="font-body-md text-body-md text-on-primary/90">
-                  All systems operational. 14 items are awaiting admin review across users, institutions, and
-                  content.
+                  All systems operational. Manage users, institutions, and content from the sidebar.
                 </p>
               </div>
             </div>

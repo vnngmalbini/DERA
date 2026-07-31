@@ -5,10 +5,12 @@ from .views import (
     DistrictViewSet,
     DonorProfileViewSet,
     InstitutionViewSet,
+    UserViewSet,
     YouthProfileViewSet,
 )
 
 router = DefaultRouter()
+router.register('users', UserViewSet, basename='user')
 router.register('institutions', InstitutionViewSet, basename='institution')
 router.register('districts', DistrictViewSet, basename='district')
 router.register('youth-profiles', YouthProfileViewSet, basename='youth-profile')
