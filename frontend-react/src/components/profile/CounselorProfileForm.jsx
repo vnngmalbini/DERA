@@ -3,10 +3,10 @@ import FormField from '../ui/FormField'
 import SubmitButton from '../ui/SubmitButton'
 import { validateRequiredFields } from '../../utils/formValidation'
 
-const REQUIRED_FIELDS = ['fullName', 'institution', 'roleTitle']
+const REQUIRED_FIELDS = ['institution', 'roleTitle']
 
 export default function CounselorProfileForm({ onSubmit, submitting, institutions = [] }) {
-  const [values, setValues] = useState({ fullName: '', institution: '', roleTitle: '' })
+  const [values, setValues] = useState({ institution: '', roleTitle: '' })
   const [errors, setErrors] = useState({})
 
   const handleChange = (field) => (e) => setValues((prev) => ({ ...prev, [field]: e.target.value }))
@@ -20,15 +20,6 @@ export default function CounselorProfileForm({ onSubmit, submitting, institution
 
   return (
     <form className="space-y-md" onSubmit={handleSubmit} noValidate>
-      <FormField
-        id="fullName"
-        label="Full Name"
-        required
-        value={values.fullName}
-        onChange={handleChange('fullName')}
-        error={errors.fullName}
-        placeholder="Enter your full name"
-      />
       <FormField
         id="institution"
         label="Institution"

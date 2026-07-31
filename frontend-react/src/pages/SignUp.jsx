@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
-import SideNav from '../components/layout/SideNav'
 import { useAuth } from '../context/AuthContext'
 import { getDashboardMeta } from '../config/dashboardNav'
 import { ApiError } from '../services/apiClient'
@@ -64,14 +63,13 @@ export default function SignUp() {
 
   return (
     <PageLayout bare>
-      <SideNav>
       <div className="min-h-screen flex flex-col text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
         <main className="flex-grow flex items-center justify-center relative overflow-hidden px-margin-mobile py-lg">
           <div className="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 bg-secondary-container/20 rounded-full blur-[100px] pointer-events-none" />
           <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 bg-primary-container/5 rounded-full blur-[100px] pointer-events-none" />
 
           <div className="w-full max-w-7xl flex flex-col md:flex-row gap-lg items-center">
-            <div className="w-full md:w-2/5 flex flex-col space-y-md">
+            <div className="w-full md:w-2/5 flex flex-col space-y-sm">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary-container/30 text-on-secondary-container rounded-full w-fit mb-2">
                 <span className="material-symbols-outlined text-[18px]">verified_user</span>
                 <span className="font-label-lg text-label-lg">Secure Registration</span>
@@ -97,7 +95,7 @@ export default function SignUp() {
 
             <div className="w-full md:w-3/5">
               <div className="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-[0px_4px_20px_rgba(13,31,8,0.05)] border border-outline-variant/30 w-full">
-                <form className="space-y-md" onSubmit={handleSubmit}>
+                <form className="space-y-sm" onSubmit={handleSubmit}>
                   {errorMessage && (
                     <div className="p-md rounded-lg bg-error-container flex items-start gap-2">
                       <span className="material-symbols-outlined text-on-error-container text-[20px]">error</span>
@@ -261,12 +259,6 @@ export default function SignUp() {
                     </button>
                   </div>
 
-                  <div className="flex items-center gap-2 py-2">
-                    <div className="flex-grow border-t border-outline-variant/30" />
-                    <span className="font-label-sm text-label-sm text-on-surface-variant/60">OR</span>
-                    <div className="flex-grow border-t border-outline-variant/30" />
-                  </div>
-
                   <p className="text-center font-label-lg text-label-lg text-on-surface-variant">
                     Already have an account?{' '}
                     <Link className="text-secondary font-bold hover:underline" to="/login">
@@ -283,7 +275,6 @@ export default function SignUp() {
           <p className="font-label-sm text-label-sm text-on-surface-variant/40 italic">Part of the DERA Collective © 2024</p>
         </footer>
       </div>
-      </SideNav>
     </PageLayout>
   )
 }

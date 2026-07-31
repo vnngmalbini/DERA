@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import PageLayout from '../components/layout/PageLayout'
-import MobileBottomNav from '../components/layout/MobileBottomNav'
 import Icon from '../components/ui/Icon'
 import { apiPostAnonymous } from '../services/apiClient'
 
@@ -131,27 +130,8 @@ export default function HelpCentre() {
   }
 
   return (
-    <PageLayout bare>
-      <header className="sticky top-0 z-50 bg-surface h-16 w-full">
-        <div className="flex justify-between items-center px-margin-mobile h-full w-full max-w-7xl mx-auto">
-          <div className="flex items-center gap-4">
-            <button className="p-2 rounded-full hover:bg-secondary-container/20 transition-colors active:opacity-80 active:scale-95">
-              <Icon name="menu" className="text-primary" />
-            </button>
-            <div className="flex items-center gap-xs">
-              <Icon name="spa" filled className="text-secondary text-headline-sm" />
-              <h1 className="font-headline-md text-headline-sm font-bold text-secondary">DERA</h1>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="p-2 rounded-full hover:bg-secondary-container/20 transition-colors active:opacity-80 active:scale-95">
-              <Icon name="search" className="text-primary" />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-base pb-24 md:pb-12">
+    <PageLayout>
+      <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-base pb-24 md:pb-12">
         {/* Hero Section: Safe & Anonymous */}
         <section className="mt-8 mb-xl">
           <div className="relative overflow-hidden bg-primary-container rounded-xl p-md md:p-lg flex flex-col md:flex-row items-center gap-md">
@@ -319,9 +299,7 @@ export default function HelpCentre() {
             ))}
           </div>
         </section>
-      </main>
-
-      <MobileBottomNav />
+      </div>
     </PageLayout>
   )
 }

@@ -9,10 +9,10 @@ const DONOR_TYPES = [
   { value: 'alumni', label: 'Alumni' },
   { value: 'corporate', label: 'Corporate' },
 ]
-const REQUIRED_FIELDS = ['fullName', 'organization', 'donorType']
+const REQUIRED_FIELDS = ['organization', 'donorType']
 
 export default function DonorProfileForm({ onSubmit, submitting }) {
-  const [values, setValues] = useState({ fullName: '', organization: '', donorType: '' })
+  const [values, setValues] = useState({ organization: '', donorType: '' })
   const [errors, setErrors] = useState({})
 
   const handleChange = (field) => (e) => setValues((prev) => ({ ...prev, [field]: e.target.value }))
@@ -26,15 +26,6 @@ export default function DonorProfileForm({ onSubmit, submitting }) {
 
   return (
     <form className="space-y-md" onSubmit={handleSubmit} noValidate>
-      <FormField
-        id="fullName"
-        label="Full Name"
-        required
-        value={values.fullName}
-        onChange={handleChange('fullName')}
-        error={errors.fullName}
-        placeholder="Enter your full name"
-      />
       <FormField
         id="organization"
         label="Organization"

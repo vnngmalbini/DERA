@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
-import SideNav from '../components/layout/SideNav'
 import { useAuth } from '../context/AuthContext'
 import { getDashboardMeta } from '../config/dashboardNav'
 import { ApiError } from '../services/apiClient'
@@ -70,9 +69,8 @@ export default function Login() {
 
   return (
     <PageLayout bare>
-      <SideNav>
       <div className="bg-background text-on-background min-h-screen flex flex-col">
-        <main className="flex-grow flex items-center justify-center px-margin-mobile py-lg md:py-xl">
+        <main className="flex-grow flex items-center justify-center px-margin-mobile py-lg">
           <div className="w-full max-w-7xl flex flex-col md:flex-row gap-lg items-center">
             <div className="hidden md:flex md:w-2/5 flex-col gap-md">
               <div
@@ -95,10 +93,10 @@ export default function Login() {
 
             <div className="w-full md:w-3/5">
               <div
-                className="w-full bg-surface-container-lowest p-lg md:p-xl rounded-xl border border-outline-variant/30"
+                className="w-full bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/30"
                 style={{ boxShadow: '0px 4px 20px rgba(13, 31, 8, 0.05)' }}
               >
-                <div className="mb-lg">
+                <div className="mb-md">
                   <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-xs">
                     {headings[mode].title}
                   </h1>
@@ -107,7 +105,7 @@ export default function Login() {
 
                 {mode === 'login' && (
                   <>
-                    <div className="mb-lg space-y-sm">
+                    <div className="mb-md space-y-sm">
                       <label className="font-label-lg text-label-lg text-on-surface-variant">I am a...</label>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-sm">
                         {ROLES.map((r) => (
@@ -198,7 +196,7 @@ export default function Login() {
                       </div>
                     </form>
 
-                    <div className="mt-lg text-center">
+                    <div className="mt-md text-center">
                       <p className="font-body-md text-body-md text-on-surface-variant">
                         Don&apos;t have an account?{' '}
                         <Link
@@ -210,49 +208,6 @@ export default function Login() {
                       </p>
                     </div>
 
-                    <div className="mt-lg pt-lg border-t border-outline-variant/30">
-                      <p className="text-center font-label-sm text-label-sm text-on-surface-variant mb-md">
-                        Or continue with
-                      </p>
-                      <div className="grid grid-cols-2 gap-sm">
-                        <button
-                          type="button"
-                          className="flex items-center justify-center gap-xs py-sm px-md border border-outline-variant rounded-lg font-label-lg text-label-lg hover:bg-surface-container-low transition-colors"
-                        >
-                          <svg className="w-[18px] h-[18px]" viewBox="0 0 48 48" aria-hidden="true">
-                            <path
-                              fill="#FFC107"
-                              d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
-                            />
-                            <path
-                              fill="#FF3D00"
-                              d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
-                            />
-                            <path
-                              fill="#4CAF50"
-                              d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"
-                            />
-                            <path
-                              fill="#1976D2"
-                              d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"
-                            />
-                          </svg>
-                          Google
-                        </button>
-                        <button
-                          type="button"
-                          className="flex items-center justify-center gap-xs py-sm px-md border border-outline-variant rounded-lg font-label-lg text-label-lg hover:bg-surface-container-low transition-colors"
-                        >
-                          <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                              fill="#0A66C2"
-                              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.446-2.136 2.94v5.666H9.351V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.114 20.452H3.56V9h3.554v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                            />
-                          </svg>
-                          LinkedIn
-                        </button>
-                      </div>
-                    </div>
                   </>
                 )}
 
@@ -347,7 +302,6 @@ export default function Login() {
           </div>
         </footer>
       </div>
-      </SideNav>
     </PageLayout>
   )
 }

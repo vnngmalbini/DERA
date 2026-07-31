@@ -89,12 +89,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+# Set DATABASE_URL in .env to your Supabase Postgres connection string
+# (Supabase dashboard -> Project Settings -> Database -> Connection string).
+# Falls back to local SQLite when DATABASE_URL is unset or blank.
+
+DATABASE_URL = env('DATABASE_URL', default='')
 
 DATABASES = {
-    'default': {
+    'default': env.db_url_config(DATABASE_URL) if DATABASE_URL else {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
 }
 
 
