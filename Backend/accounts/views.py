@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions, viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from common.permissions import (
@@ -9,13 +10,15 @@ from common.permissions import (
     IsSelfProfileOrCounselorOrAdmin,
 )
 
-from .models import CounselorProfile, District, DonorProfile, Institution, User, YouthProfile
+from .models import CounselorProfile, District, DonorProfile, Institution, Notification, User, YouthProfile
 from .serializers import (
     AdminUserSerializer,
+    ChangePasswordSerializer,
     CounselorProfileSerializer,
     DistrictSerializer,
     DonorProfileSerializer,
     InstitutionSerializer,
+    NotificationSerializer,
     RegisterSerializer,
     UserSerializer,
     YouthProfileSerializer,
@@ -39,6 +42,17 @@ class MeView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class ChangePasswordView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'detail': 'Password updated successfully.'})
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -86,13 +100,13 @@ class _ProfileViewSet(viewsets.ModelViewSet):
 
 
 class YouthProfileViewSet(_ProfileViewSet):
-    queryset = YouthProfile.objects.all().order_by('full_name')
+    queryset = YouthProfile.objects.select_related('institution', 'assigned_counselor').order_by('full_name')
     serializer_class = YouthProfileSerializer
-    filterset_fields = ['education_level', 'region', 'institution']
+    filterset_fields = ['education_level', 'region', 'institution', 'assigned_counselor']
 
 
 class CounselorProfileViewSet(_ProfileViewSet):
-    queryset = CounselorProfile.objects.all().order_by('full_name')
+    queryset = CounselorProfile.objects.select_related('institution').order_by('full_name')
     serializer_class = CounselorProfileSerializer
     filterset_fields = ['institution']
 
@@ -101,3 +115,26 @@ class DonorProfileViewSet(_ProfileViewSet):
     queryset = DonorProfile.objects.all().order_by('full_name')
     serializer_class = DonorProfileSerializer
     filterset_fields = ['donor_type']
+
+
+class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
+    """A user's own in-app alerts (e.g. a scholarship deadline closing soon)."""
+
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = None
+
+    def get_queryset(self):
+        return Notification.objects.filter(user=self.request.user)
+
+    @action(detail=True, methods=['post'])
+    def mark_read(self, request, pk=None):
+        notification = self.get_object()
+        notification.is_read = True
+        notification.save(update_fields=['is_read'])
+        return Response(self.get_serializer(notification).data)
+
+    @action(detail=False, methods=['post'], url_path='mark-all-read')
+    def mark_all_read(self, request):
+        self.get_queryset().filter(is_read=False).update(is_read=True)
+        return Response({'detail': 'All notifications marked as read.'})

@@ -1,9 +1,48 @@
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, status, viewsets
+from rest_framework.exceptions import APIException, ValidationError
+from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
+from rest_framework.views import APIView
 
 from common.permissions import IsAdminOrReadOnly, IsCounselorOrAdmin
 
+from .ai_auntie import AuntieServiceError, get_auntie_reply
 from .models import EscalationContact, HelpRequest
 from .serializers import EscalationContactSerializer, HelpRequestSerializer
+
+
+class AuntieUnavailable(APIException):
+    status_code = 503
+    default_detail = 'Auntie DERA is temporarily unavailable. Please try again in a moment.'
+    default_code = 'auntie_unavailable'
+
+
+class AuntieChatView(APIView):
+    """Anonymous, stateless chat with Auntie DERA (SRS NFR-2.3: no identity attached or stored).
+
+    The conversation lives entirely in the frontend's memory; each request sends the prior
+    turns as `history` for context and nothing is persisted server-side.
+    """
+
+    permission_classes = [permissions.AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'auntie_chat'
+
+    def post(self, request, *args, **kwargs):
+        message = str(request.data.get('message', '')).strip()
+        if not message:
+            raise ValidationError({'message': 'This field is required.'})
+
+        history = request.data.get('history') or []
+        if not isinstance(history, list):
+            raise ValidationError({'history': 'Must be a list.'})
+
+        try:
+            reply = get_auntie_reply(history, message)
+        except AuntieServiceError as exc:
+            raise AuntieUnavailable() from exc
+
+        return Response({'reply': reply}, status=status.HTTP_200_OK)
 
 
 class EscalationContactViewSet(viewsets.ModelViewSet):

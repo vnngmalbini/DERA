@@ -18,6 +18,11 @@ urlpatterns = [
     path('api/', include('marketplace.urls')),
     path('api/', include('stories.urls')),
     path('api/', include('helpcentre.urls')),
+    path('api/', include('mentorship.urls')),
+    path('api/', include('learning.urls')),
+    path('api/', include('donations.urls')),
+    path('api/', include('search.urls')),
+    path('api/', include('library.urls')),
 ]
 
 if settings.DEBUG:

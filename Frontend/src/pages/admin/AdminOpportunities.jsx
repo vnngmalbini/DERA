@@ -4,10 +4,9 @@ import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet, apiPost, apiDelete, ApiError } from '../../services/apiClient'
 
-function AddScholarshipModal({ careerPaths, onClose, onCreated }) {
+function AddOpportunityModal({ onClose, onCreated }) {
   const [form, setForm] = useState({
-    title: '', provider: '', education_level: '', deadline: '', source_url: '', career_path_id: '',
-    eligibility_criteria: '',
+    icon: '', title: '', subtitle: '', description: '', tag: '', region: '', deadline: '', url: '',
   })
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -19,18 +18,19 @@ function AddScholarshipModal({ careerPaths, onClose, onCreated }) {
     setSubmitting(true)
     setError('')
     try {
-      const created = await apiPost('/scholarships/', {
+      const created = await apiPost('/opportunities/', {
+        icon: form.icon || null,
         title: form.title,
-        provider: form.provider || null,
-        education_level: form.education_level || null,
+        subtitle: form.subtitle || null,
+        description: form.description || null,
+        tag: form.tag || null,
+        region: form.region || null,
         deadline: form.deadline || null,
-        source_url: form.source_url || null,
-        career_path_id: form.career_path_id || null,
-        eligibility_criteria: form.eligibility_criteria || null,
+        url: form.url || null,
       })
       onCreated(created)
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Could not save this scholarship. Please try again.')
+      setError(err instanceof ApiError ? err.message : 'Could not save this opportunity. Please try again.')
     } finally {
       setSubmitting(false)
     }
@@ -40,7 +40,7 @@ function AddScholarshipModal({ careerPaths, onClose, onCreated }) {
     <div className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex items-center justify-center px-margin-mobile">
       <div className="bg-surface-container-lowest rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-lg border border-outline-variant/30">
         <div className="flex items-center justify-between mb-md">
-          <h3 className="font-headline-sm text-headline-sm text-on-surface">Add Scholarship / Opportunity</h3>
+          <h3 className="font-headline-sm text-headline-sm text-on-surface">Add Opportunity</h3>
           <button onClick={onClose} className="text-on-surface-variant hover:text-error transition-colors">
             <Icon name="close" />
           </button>
@@ -64,40 +64,53 @@ function AddScholarshipModal({ careerPaths, onClose, onCreated }) {
               value={form.title}
               onChange={handleChange}
               className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-              placeholder="e.g. MTN Bright Scholarship"
+              placeholder="e.g. MTN Digital Skills Internship"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-sm">
             <div className="space-y-xs">
-              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="provider">
-                Provider
+              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="subtitle">
+                Subtitle
               </label>
               <input
-                id="provider"
-                name="provider"
-                value={form.provider}
+                id="subtitle"
+                name="subtitle"
+                value={form.subtitle}
                 onChange={handleChange}
                 className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-                placeholder="e.g. MTN Ghana Foundation"
+                placeholder="e.g. Internship · Accra"
               />
             </div>
             <div className="space-y-xs">
-              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="education_level">
-                Education Level
+              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="tag">
+                Tag
               </label>
               <input
-                id="education_level"
-                name="education_level"
-                value={form.education_level}
+                id="tag"
+                name="tag"
+                value={form.tag}
                 onChange={handleChange}
                 className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-                placeholder="e.g. SHS or Tertiary"
+                placeholder="e.g. New or Closing Soon"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-sm">
+            <div className="space-y-xs">
+              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="region">
+                Region
+              </label>
+              <input
+                id="region"
+                name="region"
+                value={form.region}
+                onChange={handleChange}
+                className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
+                placeholder="e.g. Nationwide or Northern Region"
+              />
+            </div>
             <div className="space-y-xs">
               <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="deadline">
                 Deadline
@@ -111,52 +124,50 @@ function AddScholarshipModal({ careerPaths, onClose, onCreated }) {
                 className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
               />
             </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-sm">
             <div className="space-y-xs">
-              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="career_path_id">
-                Career Path
+              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="icon">
+                Icon
               </label>
-              <select
-                id="career_path_id"
-                name="career_path_id"
-                value={form.career_path_id}
+              <input
+                id="icon"
+                name="icon"
+                value={form.icon}
                 onChange={handleChange}
                 className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-              >
-                <option value="">—</option>
-                {careerPaths.map((cp) => (
-                  <option key={cp.id} value={cp.id}>{cp.title}</option>
-                ))}
-              </select>
+                placeholder="e.g. work (Material Symbols name)"
+              />
+            </div>
+            <div className="space-y-xs">
+              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="url">
+                Application URL
+              </label>
+              <input
+                id="url"
+                name="url"
+                type="url"
+                value={form.url}
+                onChange={handleChange}
+                className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
+                placeholder="https://..."
+              />
             </div>
           </div>
 
           <div className="space-y-xs">
-            <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="source_url">
-              Source URL
-            </label>
-            <input
-              id="source_url"
-              name="source_url"
-              type="url"
-              value={form.source_url}
-              onChange={handleChange}
-              className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-              placeholder="https://..."
-            />
-          </div>
-
-          <div className="space-y-xs">
-            <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="eligibility_criteria">
-              Eligibility Criteria
+            <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="description">
+              Description
             </label>
             <textarea
-              id="eligibility_criteria"
-              name="eligibility_criteria"
+              id="description"
+              name="description"
               rows={4}
-              value={form.eligibility_criteria}
+              value={form.description}
               onChange={handleChange}
               className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all resize-none"
-              placeholder="Who can apply..."
+              placeholder="What this opportunity involves..."
             />
           </div>
 
@@ -185,8 +196,7 @@ function AddScholarshipModal({ careerPaths, onClose, onCreated }) {
 }
 
 export default function AdminOpportunities() {
-  const [scholarships, setScholarships] = useState([])
-  const [careerPaths, setCareerPaths] = useState([])
+  const [opportunities, setOpportunities] = useState([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState('')
   const [search, setSearch] = useState('')
@@ -194,25 +204,22 @@ export default function AdminOpportunities() {
   const [deletingId, setDeletingId] = useState(null)
 
   useEffect(() => {
-    apiGet('/scholarships/')
-      .then((data) => setScholarships(data.results ?? data))
-      .catch(() => setLoadError('Could not load scholarships right now.'))
+    apiGet('/opportunities/')
+      .then((data) => setOpportunities(data.results ?? data))
+      .catch(() => setLoadError('Could not load opportunities right now.'))
       .finally(() => setLoading(false))
-    apiGet('/career-paths/')
-      .then((data) => setCareerPaths(data.results ?? data))
-      .catch(() => setCareerPaths([]))
   }, [])
 
   const handleCreated = (created) => {
-    setScholarships((prev) => [created, ...prev])
+    setOpportunities((prev) => [created, ...prev])
     setShowAddModal(false)
   }
 
   const handleDelete = async (id) => {
     setDeletingId(id)
     try {
-      await apiDelete(`/scholarships/${id}/`)
-      setScholarships((prev) => prev.filter((s) => s.id !== id))
+      await apiDelete(`/opportunities/${id}/`)
+      setOpportunities((prev) => prev.filter((o) => o.id !== id))
     } catch {
       // leave the row in place if deletion fails
     } finally {
@@ -220,28 +227,28 @@ export default function AdminOpportunities() {
     }
   }
 
-  const filtered = scholarships.filter((s) => {
+  const filtered = opportunities.filter((o) => {
     const query = search.trim().toLowerCase()
     if (!query) return true
     return (
-      s.title.toLowerCase().includes(query) ||
-      (s.provider ?? '').toLowerCase().includes(query) ||
-      (s.education_level ?? '').toLowerCase().includes(query)
+      o.title.toLowerCase().includes(query) ||
+      (o.region ?? '').toLowerCase().includes(query) ||
+      (o.tag ?? '').toLowerCase().includes(query)
     )
   })
 
   return (
     <DashboardLayout role="admin">
       <DashboardPageHeader
-        title="Scholarships & Opportunities"
-        description="Real scholarship and program listings shown on the Scholarship Hub."
+        title="Opportunities"
+        description="Internships, fellowships, and competitions shown on the youth Opportunities page."
         action={
           <button
             onClick={() => setShowAddModal(true)}
             className="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full flex items-center gap-2 hover:shadow-lg active:scale-95 transition-all w-fit"
           >
             <Icon name="add" />
-            Add Scholarship
+            Add Opportunity
           </button>
         }
       />
@@ -253,7 +260,7 @@ export default function AdminOpportunities() {
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by title, provider, or level..."
+              placeholder="Search by title, region, or tag..."
               className="w-full pl-10 pr-4 py-2 bg-surface border border-outline-variant rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
             />
           </div>
@@ -264,8 +271,8 @@ export default function AdminOpportunities() {
             <thead className="bg-surface-container-low border-b border-outline-variant/40 text-on-surface-variant font-label-md text-label-md">
               <tr>
                 <th className="px-6 py-4">Title</th>
-                <th className="px-6 py-4">Provider</th>
-                <th className="px-6 py-4">Level</th>
+                <th className="px-6 py-4">Region</th>
+                <th className="px-6 py-4">Tag</th>
                 <th className="px-6 py-4">Deadline</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
@@ -286,25 +293,25 @@ export default function AdminOpportunities() {
               ) : filtered.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-10 text-center text-on-surface-variant">
-                    No scholarships yet. Click "Add Scholarship" to publish one.
+                    No opportunities yet. Click "Add Opportunity" to publish one.
                   </td>
                 </tr>
               ) : (
-                filtered.map((s) => (
-                  <tr key={s.id} className="hover:bg-surface-container transition-colors">
-                    <td className="px-6 py-4 font-label-md text-label-md text-on-surface">{s.title}</td>
-                    <td className="px-6 py-4 text-on-surface-variant">{s.provider || '—'}</td>
-                    <td className="px-6 py-4 text-on-surface-variant">{s.education_level || '—'}</td>
+                filtered.map((o) => (
+                  <tr key={o.id} className="hover:bg-surface-container transition-colors">
+                    <td className="px-6 py-4 font-label-md text-label-md text-on-surface">{o.title}</td>
+                    <td className="px-6 py-4 text-on-surface-variant">{o.region || '—'}</td>
+                    <td className="px-6 py-4 text-on-surface-variant">{o.tag || '—'}</td>
                     <td className="px-6 py-4 text-on-surface-variant">
-                      {s.deadline ? new Date(s.deadline).toLocaleDateString() : '—'}
+                      {o.deadline ? new Date(o.deadline).toLocaleDateString() : '—'}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button
-                        onClick={() => handleDelete(s.id)}
-                        disabled={deletingId === s.id}
+                        onClick={() => handleDelete(o.id)}
+                        disabled={deletingId === o.id}
                         className="inline-flex items-center gap-1 text-error font-label-md text-label-md hover:opacity-70 transition-opacity disabled:opacity-50"
                       >
-                        {deletingId === s.id ? 'Deleting…' : 'Delete'}
+                        {deletingId === o.id ? 'Deleting…' : 'Delete'}
                         <Icon name="delete" className="text-[18px]" />
                       </button>
                     </td>
@@ -316,9 +323,7 @@ export default function AdminOpportunities() {
         </div>
       </div>
 
-      {showAddModal && (
-        <AddScholarshipModal careerPaths={careerPaths} onClose={() => setShowAddModal(false)} onCreated={handleCreated} />
-      )}
+      {showAddModal && <AddOpportunityModal onClose={() => setShowAddModal(false)} onCreated={handleCreated} />}
     </DashboardLayout>
   )
 }

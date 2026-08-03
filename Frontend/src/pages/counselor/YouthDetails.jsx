@@ -1,143 +1,159 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
+import { apiGet, apiPost } from '../../services/apiClient'
 
-const STUDENT = {
-  name: 'Kofi Mensah',
-  grade: 'Grade 10-B',
-  riskLevel: 'Moderate',
-  joined: 'Sep 2023',
-  location: 'Kwame Danso Region',
-  avatar:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuAnrJPdylsP_pkkdGH7MoOCZ8z9sw7hnCh2Cx5aHJh0kRBXbTviK2bjrWGH5qHLR5PEqQuIQcV8a8tMJdsJE4PkmAMcqK4PoYjg44hkh9qQjHoO5naXqO5o0OCNNnPYtlPB26D-6bFV8wV5JCV_pqUlN36Z37XFtD1NMQD-iSb-ff2rC0iFzoiY_e4jqECUUTbJ9hOO-ED2vSqsgH__o6pwrEjmLuJzw9sKuaK8zaysfbvC1LEcx96D',
+const EDUCATION_LEVEL_LABELS = {
+  primary: 'Primary',
+  jhs: 'JHS',
+  shs: 'SHS',
+  shs_graduate: 'SHS Graduate',
+  tertiary: 'Tertiary',
+  dropout_re_entry: 'Dropout Re-entry',
+  teen_mother_program: 'Teen Mother Program',
 }
 
-const TREND_BARS = [
-  { height: 40, tone: 'bg-primary-container/30' },
-  { height: 55, tone: 'bg-primary-container/40' },
-  { height: 35, tone: 'bg-primary-container/50' },
-  { height: 65, tone: 'bg-primary-container' },
-  { height: 50, tone: 'bg-tertiary-container' },
-  { height: 20, tone: 'bg-error-container' },
-]
-
-const ALERTS = [
-  {
-    title: 'Attendance Drop',
-    time: '2 days ago',
-    desc: 'Missed 3 consecutive morning sessions without prior notice.',
-    severity: 'high',
-  },
-  {
-    title: 'Math Quiz Score',
-    time: 'Feb 12',
-    desc: 'Sudden 15% drop in Math assessment compared to class average.',
-    severity: 'normal',
-  },
-  {
-    title: 'Resource Gap',
-    time: 'Jan 28',
-    desc: 'Informed teacher about missing Science workbook.',
-    severity: 'normal',
-  },
-]
-
-const TYPES = [
-  { value: 'home_visit', label: 'Home Visit', icon: 'home' },
-  { value: 'peer_mentor', label: 'Mentoring', icon: 'psychology' },
-  { value: 'tutoring', label: 'Tutoring', icon: 'school' },
-]
-
-const TYPE_STYLES = {
-  home_visit: { title: 'Home Visit', icon: 'home', badge: 'bg-secondary text-white' },
-  peer_mentor: { title: 'Peer Mentoring', icon: 'psychology', badge: 'bg-primary-container text-on-primary-container' },
-  tutoring: { title: 'Tutoring Session', icon: 'school', badge: 'bg-tertiary-container text-on-tertiary-container' },
+const RISK_INDICATOR_LABELS = {
+  academic_decline: 'Academic Decline',
+  absenteeism: 'Absenteeism',
+  financial_distress: 'Financial Distress',
+  behavioural_change: 'Behavioural Change',
 }
 
-const INITIAL_LOG = [
-  {
-    id: 1,
-    type: 'home_visit',
-    date: 'Feb 15, 2024',
-    notes:
-      'Met with parents. Kofi was helping with harvest, causing attendance issues. Agreed on a split-shift for his chores during exam prep.',
-  },
-  {
-    id: 2,
-    type: 'peer_mentor',
-    date: 'Feb 05, 2024',
-    notes: 'Assigned Senior Mentor (Abena) to help with Mathematics foundation topics. Positive first session reported.',
-  },
-]
+function initialsFor(name) {
+  if (!name) return '?'
+  return name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase()
+}
 
-function formatToday() {
-  return new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
+function formatDate(dateString) {
+  if (!dateString) return '—'
+  return new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
 }
 
 export default function YouthDetails() {
-  useParams()
-  const [log, setLog] = useState(INITIAL_LOG)
+  const { youthId } = useParams()
+  const [youth, setYouth] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [form, setForm] = useState({ type: 'home_visit', notes: '' })
+  const [notes, setNotes] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+
+  function load() {
+    setLoading(true)
+    apiGet(`/counselor-roster/${youthId}/`)
+      .then(setYouth)
+      .catch(() => setLoadError("Could not load this youth's record."))
+      .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [youthId])
 
   const closeModal = () => {
     setIsModalOpen(false)
-    setForm({ type: 'home_visit', notes: '' })
+    setNotes('')
+    setSubmitError('')
   }
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault()
-    if (!form.notes.trim()) return
-    setLog((prev) => [
-      { id: Date.now(), type: form.type, date: formatToday(), notes: form.notes.trim() },
-      ...prev,
-    ])
-    closeModal()
+    if (!notes.trim()) return
+    setSubmitting(true)
+    setSubmitError('')
+    try {
+      const assessment = await apiPost('/risk-assessments/', {
+        youth: youthId,
+        risk_score: youth.latest_risk_score ?? 50,
+      })
+      await apiPost('/interventions/', {
+        assessment: assessment.id,
+        recommendation: notes.trim(),
+        status: 'pending',
+      })
+      closeModal()
+      load()
+    } catch {
+      setSubmitError("Couldn't save that entry. Please try again.")
+    } finally {
+      setSubmitting(false)
+    }
   }
+
+  if (loading) {
+    return (
+      <DashboardLayout role="counselor">
+        <p className="text-on-surface-variant">Loading…</p>
+      </DashboardLayout>
+    )
+  }
+
+  if (loadError || !youth) {
+    return (
+      <DashboardLayout role="counselor">
+        <p className="text-error">{loadError || 'Youth not found.'}</p>
+      </DashboardLayout>
+    )
+  }
+
+  const allIndicators = youth.risk_assessments
+    .flatMap((a) => a.indicators.map((ind) => ({ ...ind, assessed_at: a.assessed_at })))
+    .sort((a, b) => new Date(b.assessed_at) - new Date(a.assessed_at))
+
+  const allInterventions = youth.risk_assessments
+    .flatMap((a) => a.interventions.map((iv) => ({ ...iv, assessed_at: a.assessed_at })))
+    .sort((a, b) => new Date(b.assessed_at) - new Date(a.assessed_at))
 
   return (
     <DashboardLayout role="counselor">
       <section className="mb-lg">
         <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between bg-surface-container-lowest border border-outline-variant/40 p-md rounded-xl shadow-sm">
           <div className="flex items-center gap-6">
-            <div className="relative shrink-0">
-              <div className="w-24 h-24 rounded-2xl bg-secondary overflow-hidden">
-                <img className="w-full h-full object-cover" alt={STUDENT.name} src={STUDENT.avatar} />
-              </div>
-              <div className="absolute -bottom-2 -right-2 bg-primary p-1.5 rounded-lg text-white">
-                <Icon name="verified" className="text-[20px]" />
-              </div>
+            <div className="w-24 h-24 rounded-2xl bg-primary-container flex items-center justify-center text-on-primary-container font-headline-lg text-headline-lg shrink-0">
+              {initialsFor(youth.full_name)}
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                <h2 className="font-headline-lg text-headline-lg text-primary">{STUDENT.name}</h2>
-                <span className="bg-secondary-fixed text-on-secondary-fixed px-3 py-0.5 rounded-full font-label-sm text-label-sm">
-                  {STUDENT.grade}
-                </span>
+                <h2 className="font-headline-lg text-headline-lg text-primary">{youth.full_name}</h2>
+                {youth.education_level && (
+                  <span className="bg-secondary-fixed text-on-secondary-fixed px-3 py-0.5 rounded-full font-label-sm text-label-sm">
+                    {EDUCATION_LEVEL_LABELS[youth.education_level] || youth.education_level}
+                  </span>
+                )}
               </div>
               <p className="font-body-md text-body-md text-on-surface-variant">
-                Academic Risk Level: <span className="text-error font-bold">{STUDENT.riskLevel}</span>
+                Risk Level:{' '}
+                <span className={youth.risk_level ? 'text-error font-bold' : 'font-bold'}>
+                  {youth.risk_level || 'Not yet assessed'}
+                </span>
               </p>
               <div className="flex gap-4 mt-3 flex-wrap">
-                <div className="flex items-center gap-1 text-on-surface-variant">
-                  <Icon name="calendar_today" className="text-[18px]" />
-                  <span className="text-label-sm font-label-sm">Joined {STUDENT.joined}</span>
-                </div>
-                <div className="flex items-center gap-1 text-on-surface-variant">
-                  <Icon name="location_on" className="text-[18px]" />
-                  <span className="text-label-sm font-label-sm">{STUDENT.location}</span>
-                </div>
+                {youth.institution_name && (
+                  <div className="flex items-center gap-1 text-on-surface-variant">
+                    <Icon name="school" className="text-[18px]" />
+                    <span className="text-label-sm font-label-sm">{youth.institution_name}</span>
+                  </div>
+                )}
+                {(youth.region || youth.district) && (
+                  <div className="flex items-center gap-1 text-on-surface-variant">
+                    <Icon name="location_on" className="text-[18px]" />
+                    <span className="text-label-sm font-label-sm">
+                      {[youth.district, youth.region].filter(Boolean).join(', ')}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-          <div className="w-full md:w-64 h-24 flex flex-col justify-end shrink-0">
-            <p className="font-label-sm text-label-sm mb-2 text-on-surface-variant">Performance Trend (Last 6 Mos)</p>
-            <div className="flex items-end justify-between h-full w-full gap-1">
-              {TREND_BARS.map((bar, i) => (
-                <div key={i} className={`w-full ${bar.tone} rounded-t-sm`} style={{ height: `${bar.height}%` }} />
-              ))}
-            </div>
+          <div className="w-full md:w-64 shrink-0 text-right">
+            <p className="font-label-sm text-label-sm mb-1 text-on-surface-variant">Attendance (30d)</p>
+            <p className="font-headline-lg text-headline-lg text-on-surface">
+              {youth.attendance_rate_30d !== null ? `${youth.attendance_rate_30d}%` : '—'}
+            </p>
           </div>
         </div>
       </section>
@@ -147,32 +163,33 @@ export default function YouthDetails() {
           <div className="flex items-center justify-between mb-md">
             <h3 className="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
               <Icon name="warning" className="text-error" />
-              Historical Alerts
+              Risk Indicators
             </h3>
-            <span className="text-label-sm font-label-sm bg-error-container text-on-error-container px-2 py-1 rounded">
-              {ALERTS.length} Active
-            </span>
+            {allIndicators.length > 0 && (
+              <span className="text-label-sm font-label-sm bg-error-container text-on-error-container px-2 py-1 rounded">
+                {allIndicators.length}
+              </span>
+            )}
           </div>
-          <div className="space-y-4">
-            {ALERTS.map((alert) => (
-              <div
-                key={alert.title}
-                className={
-                  alert.severity === 'high'
-                    ? 'p-4 bg-error-container/20 rounded-lg border-l-4 border-error transition-colors hover:bg-error-container/30'
-                    : 'p-4 bg-surface-container rounded-lg border-l-4 border-primary transition-colors hover:bg-surface-container-high'
-                }
-              >
-                <div className="flex justify-between items-start mb-1 gap-2">
-                  <span className={`font-label-md text-label-md ${alert.severity === 'high' ? 'text-error' : 'text-primary'}`}>
-                    {alert.title}
-                  </span>
-                  <span className="font-label-sm text-label-sm text-on-surface-variant shrink-0">{alert.time}</span>
+          {allIndicators.length === 0 ? (
+            <p className="text-on-surface-variant font-body-md text-body-md">No risk indicators recorded yet.</p>
+          ) : (
+            <div className="space-y-4">
+              {allIndicators.map((ind) => (
+                <div key={ind.id} className="p-4 bg-error-container/20 rounded-lg border-l-4 border-error">
+                  <div className="flex justify-between items-start mb-1 gap-2">
+                    <span className="font-label-md text-label-md text-error">
+                      {RISK_INDICATOR_LABELS[ind.category] || ind.category}
+                    </span>
+                    <span className="font-label-sm text-label-sm text-on-surface-variant shrink-0">
+                      {formatDate(ind.assessed_at)}
+                    </span>
+                  </div>
+                  {ind.description && <p className="text-body-md font-body-md text-on-surface">{ind.description}</p>}
                 </div>
-                <p className="text-body-md font-body-md text-on-surface">{alert.desc}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="md:col-span-7 flex flex-col gap-6">
@@ -190,30 +207,33 @@ export default function YouthDetails() {
                 New Intervention
               </button>
             </div>
-            <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2">
-              {log.map((entry, i) => {
-                const style = TYPE_STYLES[entry.type]
-                return (
+            {allInterventions.length === 0 ? (
+              <p className="text-on-surface-variant font-body-md text-body-md">No interventions logged yet.</p>
+            ) : (
+              <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2">
+                {allInterventions.map((entry, i) => (
                   <div key={entry.id} className="flex gap-4">
                     <div className="flex flex-col items-center">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${style.badge}`}>
-                        <Icon name={style.icon} className="text-[18px]" />
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-primary-container text-on-primary-container">
+                        <Icon name="history_edu" className="text-[18px]" />
                       </div>
-                      {i < log.length - 1 && <div className="w-0.5 flex-1 bg-outline-variant mt-2" />}
+                      {i < allInterventions.length - 1 && <div className="w-0.5 flex-1 bg-outline-variant mt-2" />}
                     </div>
                     <div className="pb-6">
-                      <h4 className="font-label-md text-label-md text-primary">{style.title}</h4>
+                      <h4 className="font-label-md text-label-md text-primary capitalize">
+                        {entry.status.replace('_', ' ')}
+                      </h4>
                       <p className="font-label-sm text-label-sm text-on-surface-variant mb-2">
-                        Logged by you &bull; {entry.date}
+                        {formatDate(entry.assessed_at)}
                       </p>
                       <div className="bg-surface-container-low p-3 rounded-lg border border-outline-variant/40">
-                        <p className="text-body-md font-body-md text-on-surface">{entry.notes}</p>
+                        <p className="text-body-md font-body-md text-on-surface">{entry.recommendation}</p>
                       </div>
                     </div>
                   </div>
-                )
-              })}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -231,48 +251,25 @@ export default function YouthDetails() {
               </button>
             </div>
             <form className="p-md space-y-6" onSubmit={handleSubmit}>
+              {submitError && <p className="text-error font-body-md text-body-md">{submitError}</p>}
               <div>
-                <label className="block font-label-md text-label-md text-on-surface-variant mb-2">Intervention Type</label>
-                <div className="grid grid-cols-3 gap-3">
-                  {TYPES.map((t) => (
-                    <label key={t.value} className="cursor-pointer">
-                      <input
-                        className="hidden peer"
-                        name="type"
-                        type="radio"
-                        value={t.value}
-                        checked={form.type === t.value}
-                        onChange={() => setForm((f) => ({ ...f, type: t.value }))}
-                      />
-                      <div
-                        className={
-                          form.type === t.value
-                            ? 'flex flex-col items-center justify-center p-3 border border-primary bg-primary-container text-on-primary-container rounded-xl transition-all'
-                            : 'flex flex-col items-center justify-center p-3 border border-outline-variant rounded-xl text-on-surface-variant hover:bg-surface-container transition-all'
-                        }
-                      >
-                        <Icon name={t.icon} className="mb-1" />
-                        <span className="text-label-sm">{t.label}</span>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <label className="block font-label-md text-label-md text-on-surface-variant mb-2">Intervention Notes</label>
+                <label className="block font-label-md text-label-md text-on-surface-variant mb-2">
+                  Intervention Notes
+                </label>
                 <textarea
                   className="w-full h-32 rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary bg-surface-container-lowest p-3 font-body-md text-body-md outline-none transition-shadow"
                   placeholder="Describe the outcome or next steps..."
-                  value={form.notes}
-                  onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
                 />
               </div>
               <div className="flex gap-4 pt-2">
                 <button
                   type="submit"
-                  className="flex-1 py-3 bg-primary text-on-primary font-bold rounded-full hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-95"
+                  disabled={submitting}
+                  className="flex-1 py-3 bg-primary text-on-primary font-bold rounded-full hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-95 disabled:opacity-60"
                 >
-                  Save Log Entry
+                  {submitting ? 'Saving…' : 'Save Log Entry'}
                 </button>
                 <button
                   type="button"

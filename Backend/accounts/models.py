@@ -49,6 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=32, blank=True, null=True)
     role = models.CharField(max_length=20, choices=Role.choices)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -112,6 +113,7 @@ class YouthProfile(models.Model):
     """Profile for a young person using the platform (formerly "student")."""
 
     class EducationLevel(models.TextChoices):
+        PRIMARY = 'primary', 'Primary'
         JHS = 'jhs', 'JHS'
         SHS = 'shs', 'SHS'
         SHS_GRADUATE = 'shs_graduate', 'SHS Graduate'
@@ -130,6 +132,9 @@ class YouthProfile(models.Model):
         Institution, on_delete=models.SET_NULL, blank=True, null=True, related_name='youth_profiles'
     )
     gender = models.CharField(max_length=20, blank=True, null=True)
+    assigned_counselor = models.ForeignKey(
+        'CounselorProfile', on_delete=models.SET_NULL, blank=True, null=True, related_name='assigned_youth'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -156,6 +161,36 @@ class CounselorProfile(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+class Notification(models.Model):
+    """In-app alert for a user (e.g. a scholarship deadline closing soon).
+
+    `related_object_id` + `category` together let a management command
+    re-run safely: `unique_together` makes creating the same alert twice a
+    no-op instead of spamming duplicates.
+    """
+
+    class Category(models.TextChoices):
+        SCHOLARSHIP_DEADLINE = 'scholarship_deadline', 'Scholarship deadline'
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    category = models.CharField(max_length=30, choices=Category.choices)
+    title = models.CharField(max_length=255)
+    message = models.TextField(blank=True, null=True)
+    link = models.CharField(max_length=255, blank=True, null=True)
+    related_object_id = models.UUIDField(blank=True, null=True)
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'notifications'
+        ordering = ['-created_at']
+        unique_together = ('user', 'category', 'related_object_id')
+
+    def __str__(self):
+        return f'{self.title} -> {self.user}'
 
 
 class DonorProfile(models.Model):

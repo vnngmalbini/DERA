@@ -4,7 +4,7 @@ import PageLayout from '../components/layout/PageLayout'
 import SideNav from '../components/layout/SideNav'
 import { useAuth } from '../context/AuthContext'
 import { getDashboardMeta } from '../config/dashboardNav'
-import { submitProfile } from '../services/profileService'
+import { submitProfile, toSnakeCasePayload } from '../services/profileService'
 import { apiGet } from '../services/apiClient'
 import YouthProfileForm from '../components/profile/YouthProfileForm'
 import CounselorProfileForm from '../components/profile/CounselorProfileForm'
@@ -20,35 +20,6 @@ const PROFILE_ID_KEY = {
   youth: 'youth_profile',
   counselor: 'counselor_profile',
   donor: 'donor_profile',
-}
-
-// Forms collect camelCase values; the backend expects snake_case fields.
-// full_name was already captured at signup (it lives on the profile created
-// during registration), so we carry it through rather than asking again.
-function toSnakeCasePayload(role, values, fullName) {
-  if (role === 'youth') {
-    return {
-      full_name: fullName,
-      date_of_birth: values.dateOfBirth || null,
-      region: values.region,
-      district: values.district,
-      education_level: values.educationLevel,
-      institution: values.institution || null,
-      gender: values.gender,
-    }
-  }
-  if (role === 'counselor') {
-    return {
-      full_name: fullName,
-      institution: values.institution,
-      role_title: values.roleTitle,
-    }
-  }
-  return {
-    full_name: fullName,
-    organization: values.organization,
-    donor_type: values.donorType,
-  }
 }
 
 export default function CompleteProfile() {

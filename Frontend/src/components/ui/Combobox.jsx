@@ -24,12 +24,16 @@ export default function Combobox({
   const containerRef = useRef(null)
 
   // Keep the displayed text in sync if the selected value changes from
-  // outside (e.g. parent resets it when education level changes).
+  // outside (e.g. parent resets it when education level changes), or if the
+  // options finish loading after mount (e.g. pre-filling an edit form before
+  // the institutions/districts fetch has resolved). Depends on options.length
+  // rather than the options array itself, since parent re-renders otherwise
+  // recreate that array every time and would re-sync on every keystroke.
   useEffect(() => {
     const match = options.find((opt) => opt.value === value)
     setInputText(match?.label ?? '')
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value])
+  }, [value, options.length])
 
   useEffect(() => {
     function handleClickOutside(e) {

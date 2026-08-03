@@ -8,12 +8,12 @@ const NAV_LINKS = [
   { label: 'Scholarships', to: '/scholarships' },
   { label: 'Career', to: '/career-quiz' },
   { label: 'Stories', to: '/stories' },
+  { label: 'Donate', to: '/donate' },
   { label: 'Help', to: '/help' },
 ]
 
 export default function Header() {
   const location = useLocation()
-  const [lang, setLang] = useState('EN | Twi')
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
@@ -51,16 +51,13 @@ export default function Header() {
             ))}
           </nav>
           <div className="flex items-center gap-2 md:gap-3">
-            <button
-              className="hidden md:flex items-center bg-secondary-container rounded-full px-3 py-1 gap-2 cursor-pointer hover:opacity-80 transition-all"
-              onClick={() => setLang((l) => (l === 'EN | Twi' ? 'Twi | EN' : 'EN | Twi'))}
+            <Link
+              to="/search"
+              aria-label="Search"
+              className="material-symbols-outlined text-primary p-2 hover:bg-secondary-container/20 rounded-full transition-colors"
             >
-              <Icon name="language" className="text-sm" />
-              <span className="font-label-md text-label-md text-on-secondary-container">{lang}</span>
-            </button>
-            <button className="material-symbols-outlined text-primary p-2 hover:bg-secondary-container/20 rounded-full transition-colors">
               search
-            </button>
+            </Link>
             <Link
               to="/login"
               className="hidden md:inline-block font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2"

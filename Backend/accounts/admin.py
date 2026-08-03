@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import CounselorProfile, District, DonorProfile, Institution, User, YouthProfile
+from .models import CounselorProfile, District, DonorProfile, Institution, Notification, User, YouthProfile
 
 
 @admin.register(User)
@@ -42,9 +42,12 @@ class DistrictAdmin(admin.ModelAdmin):
 
 @admin.register(YouthProfile)
 class YouthProfileAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'education_level', 'region', 'district', 'institution', 'created_at')
-    list_filter = ('education_level', 'region', 'gender')
+    list_display = (
+        'full_name', 'education_level', 'region', 'district', 'institution', 'assigned_counselor', 'created_at',
+    )
+    list_filter = ('education_level', 'region', 'gender', 'assigned_counselor')
     search_fields = ('full_name', 'user__email')
+    autocomplete_fields = ('institution', 'assigned_counselor')
 
 
 @admin.register(CounselorProfile)
@@ -58,3 +61,10 @@ class DonorProfileAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'organization', 'donor_type', 'created_at')
     list_filter = ('donor_type',)
     search_fields = ('full_name', 'user__email', 'organization')
+
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('title', 'user', 'category', 'is_read', 'created_at')
+    list_filter = ('category', 'is_read')
+    search_fields = ('title', 'user__email')

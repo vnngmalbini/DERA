@@ -115,6 +115,31 @@ export async function apiPostForm(path, formData, { retry = true } = {}) {
 }
 
 /**
+ * Multipart form submission for a partial update (e.g. uploading a profile
+ * picture without resending the rest of the resource). Same boundary/auth
+ * handling as apiPostForm.
+ */
+export async function apiPatchForm(path, formData, { retry = true } = {}) {
+  const headers = {}
+  const access = getAccessToken()
+  if (access) headers.Authorization = `Bearer ${access}`
+
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method: 'PATCH',
+    headers,
+    body: formData,
+  })
+
+  if (res.status === 401 && retry && getRefreshToken()) {
+    const refreshed = await refreshAccessToken()
+    if (refreshed) return apiPatchForm(path, formData, { retry: false })
+    clearTokens()
+  }
+
+  return parseResponse(res)
+}
+
+/**
  * Deliberately unauthenticated — never attaches an Authorization header,
  * even if the caller happens to have a valid session elsewhere. Used only
  * for the anonymous Help Centre submission, to preserve anonymity end to

@@ -24,6 +24,7 @@ export default function Sponsorship() {
   const [modalVisible, setModalVisible] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [story, setStory] = useState(null)
 
   useEffect(() => {
     if (!formId) return
@@ -31,6 +32,15 @@ export default function Sponsorship() {
       .then(setApplicationForm)
       .catch(() => setLoadError('Could not load this application form.'))
   }, [formId])
+
+  useEffect(() => {
+    apiGet('/stories/')
+      .then((data) => {
+        const stories = data.results ?? data
+        if (stories.length > 0) setStory(stories[Math.floor(Math.random() * stories.length)])
+      })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (!submitted) return undefined
@@ -61,7 +71,6 @@ export default function Sponsorship() {
       </div>
     )
   }
-  if (!formId) return <Navigate to="/forms" replace />
 
   function handleChange(e) {
     const { id, value, type, checked } = e.target
@@ -98,10 +107,6 @@ export default function Sponsorship() {
       {/* Top Navigation Bar */}
       <header className="w-full top-0 sticky z-50 bg-surface shadow-[0px_4px_20px_rgba(13,31,8,0.05)]">
         <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-base max-w-[1280px] mx-auto w-full">
-          <Link to="/" className="flex items-center gap-xs cursor-pointer active:opacity-80">
-            <Icon name="spa" className="text-secondary text-headline-md" filled />
-            <h1 className="font-headline-md text-headline-md font-bold text-secondary">DERA</h1>
-          </Link>
           <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors duration-200 font-label-lg text-label-lg"
@@ -109,6 +114,10 @@ export default function Sponsorship() {
             <Icon name="arrow_back" />
             <span className="hidden md:inline">Back</span>
           </button>
+          <Link to="/" className="flex items-center gap-xs cursor-pointer active:opacity-80">
+            <Icon name="spa" className="text-secondary text-headline-md" filled />
+            <h1 className="font-headline-md text-headline-md font-bold text-secondary">DERA</h1>
+          </Link>
         </div>
       </header>
 
@@ -132,6 +141,26 @@ export default function Sponsorship() {
         {/* Application Form Content */}
         <section className="px-margin-mobile md:px-margin-desktop -mt-12 relative z-20">
           <div className="max-w-[800px] mx-auto">
+            {!formId ? (
+              <div className="bg-surface-container-lowest rounded-xl p-md md:p-lg border border-outline-variant/30 shadow-[0px_4px_20px_rgba(13,31,8,0.05)] text-center space-y-md">
+                <div className="w-16 h-16 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center">
+                  <Icon name="volunteer_activism" filled className="text-3xl" />
+                </div>
+                <h2 className="font-headline-sm text-headline-sm text-on-surface">How Sponsorship Works</h2>
+                <p className="font-body-md text-body-md text-on-surface-variant max-w-lg mx-auto">
+                  Browse the Forms Marketplace, pick the application form you need help paying for, then choose
+                  &quot;Apply for Sponsorship&quot; on that form. Tell us about your academic background and why you
+                  need support, and a vetted sponsor can cover the fee directly.
+                </p>
+                <Link
+                  to="/forms"
+                  className="inline-flex items-center justify-center gap-2 bg-secondary-container text-on-secondary-container font-label-lg text-label-lg py-3 px-8 rounded-full shadow-sm hover:bg-secondary hover:text-on-secondary transition-all"
+                >
+                  Browse Forms to Apply
+                  <Icon name="arrow_forward" />
+                </Link>
+              </div>
+            ) : (
             <div className="bg-surface-container-lowest rounded-xl p-md md:p-lg border border-outline-variant/30 shadow-[0px_4px_20px_rgba(13,31,8,0.05)]">
               <form className="space-y-gutter" onSubmit={handleSubmit}>
                 {/* Header Information */}
@@ -249,24 +278,27 @@ export default function Sponsorship() {
                 </div>
               </form>
             </div>
+            )}
 
             {/* Testimonial/Side Note Card */}
-            <div className="mt-lg grid grid-cols-1 md:grid-cols-2 gap-gutter">
-              <div className="bg-secondary/10 p-md rounded-xl flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                  <img
-                    className="w-full h-full object-cover"
-                    alt="Portrait of a smiling young African university student in a graduation gown"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvxHTN-DKgUe1vZS3a9crm6lOFiZyesZPs_4_j7njsUh0GXOFJJQofJJuId9Kqmeb4WBwNk-o6QSOrpwvV2P9iEe70rLcFnt0QK2gI7U89yB09-WY6R0mcZedYuVlYSay-CGh5z2O-P5yr1KXCXATy_XnKDGstqJLNO6UCXVk1l3ZXUgZFFF4zzpI9Tmf_HSYTaiI16m6oBCLLcMOJ6Hv1ogvdwhieWy1kQQiw11v2UajZC83bNcek"
-                  />
+            <div className={`mt-lg grid grid-cols-1 gap-gutter ${story ? 'md:grid-cols-2' : ''}`}>
+              {story && (
+                <div className="bg-secondary/10 p-md rounded-xl flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 bg-secondary-container flex items-center justify-center">
+                    {story.photo ? (
+                      <img className="w-full h-full object-cover" alt={story.title} src={story.photo} />
+                    ) : (
+                      <Icon name="person" className="text-secondary text-2xl" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-body-md text-on-surface italic line-clamp-3">&quot;{story.narrative}&quot;</p>
+                    {story.speaker_name && (
+                      <p className="font-label-sm text-secondary font-bold">— {story.speaker_name}</p>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <p className="font-body-md text-on-surface italic">
-                    &quot;DERA covered my entrance fee when I had nothing. Today, I&apos;m a Year 2 Law student.&quot;
-                  </p>
-                  <p className="font-label-sm text-secondary font-bold">— Sarah O., Recipient</p>
-                </div>
-              </div>
+              )}
               <div className="bg-surface-container-high p-md rounded-xl flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-secondary">
                   <Icon name="verified_user" filled />

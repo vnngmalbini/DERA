@@ -83,6 +83,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Donate CTA */}
+      <section className="py-xl px-margin-mobile md:px-margin-desktop">
+        <div className="max-w-7xl mx-auto bg-primary-container rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="text-center md:text-left max-w-xl">
+            <h3 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-primary-container mb-3">
+              Help a Young Ghanaian Take Their Next Step
+            </h3>
+            <p className="font-body-md text-body-md text-on-primary-container/80">
+              Your donation covers application fees, scholarships, and mentorship for youth who need it most. Every
+              cedi makes a real difference.
+            </p>
+          </div>
+          <Button to="/donate" icon="favorite" className="whitespace-nowrap">
+            Donate Now
+          </Button>
+        </div>
+      </section>
+
       {/* Stories Bento */}
       <section className="py-xl px-margin-mobile md:px-margin-desktop bg-surface-container-low">
         <div className="max-w-7xl mx-auto">

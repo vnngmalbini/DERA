@@ -1,68 +1,13 @@
 /**
  * Dashboard summary API integration point.
  *
- * The admin summary is computed from real data (users, institutions, help
- * requests, sponsorships) since an admin views the platform, not their own
- * activity. Youth/counselor/donor summaries are still mocked below — no
- * backend endpoint exists yet for a personal dashboard-summary aggregate
- * for those roles.
+ * Every role's summary is composed here from real endpoints and aggregated
+ * on the client (same approach the admin summary always used) — none of it
+ * is fabricated. Empty arrays/zero counts are the honest result when a
+ * youth/counselor/donor genuinely has no activity yet.
  */
 
 import { apiGet } from './apiClient'
-
-const MOCK_SUMMARIES = {
-  youth: {
-    stats: [
-      { label: 'Saved Scholarships', value: '6', icon: 'school', tone: 'primary' },
-      { label: 'Applications In Progress', value: '2', icon: 'assignment', tone: 'secondary' },
-      { label: 'Mentor Sessions', value: '3', icon: 'diversity_3', tone: 'tertiary' },
-    ],
-    quickActions: [
-      { label: 'Browse Scholarships', to: '/scholarships', icon: 'school' },
-      { label: 'Take Career Quiz', to: '/career-quiz', icon: 'psychology' },
-      { label: 'Message a Mentor', to: '/dashboard/youth/messages', icon: 'chat_bubble' },
-    ],
-    activity: [
-      { title: 'MTN Foundation Scholarship', detail: 'Application under review', time: '2d ago', icon: 'assignment_turned_in' },
-      { title: 'Career Quiz completed', detail: 'Recommended path: Agri-Tech', time: '5d ago', icon: 'psychology' },
-      { title: 'New mentorship match', detail: 'Paired with Ama K. (Software Engineer)', time: '1w ago', icon: 'diversity_3' },
-    ],
-  },
-  counselor: {
-    stats: [
-      { label: 'Assigned Youth', value: '42', icon: 'groups', tone: 'primary' },
-      { label: 'At-Risk Cases', value: '12', icon: 'warning', tone: 'error' },
-      { label: 'Sessions This Week', value: '9', icon: 'event_available', tone: 'tertiary' },
-    ],
-    quickActions: [
-      { label: 'View Assigned Youth', to: '/dashboard/counselor/youth', icon: 'groups' },
-      { label: 'Log a Session', to: '/dashboard/counselor/sessions', icon: 'event_available' },
-      { label: 'View Reports', to: '/dashboard/counselor/reports', icon: 'analytics' },
-    ],
-    activity: [
-      { title: 'Kojo Antwi', detail: 'Missed 3 consecutive days', time: '2h ago', icon: 'warning' },
-      { title: 'Abena Mansa', detail: 'Sudden drop in Math scores', time: '5h ago', icon: 'trending_down' },
-      { title: 'Ekow Mensah', detail: 'Successful intervention check-in', time: '1d ago', icon: 'check_circle' },
-    ],
-  },
-  donor: {
-    stats: [
-      { label: 'Total Donated', value: '₵24,500', icon: 'volunteer_activism', tone: 'primary' },
-      { label: 'Students Sponsored', value: '18', icon: 'groups', tone: 'secondary' },
-      { label: 'Active Projects', value: '3', icon: 'handshake', tone: 'tertiary' },
-    ],
-    quickActions: [
-      { label: 'Make a Donation', to: '/dashboard/donor/donations', icon: 'volunteer_activism' },
-      { label: 'View Impact Reports', to: '/dashboard/donor/impact', icon: 'insights' },
-      { label: 'Sponsored Projects', to: '/dashboard/donor/projects', icon: 'handshake' },
-    ],
-    activity: [
-      { title: 'Donation received', detail: '₵2,000 to Girls in STEM Fund', time: '3d ago', icon: 'volunteer_activism' },
-      { title: 'Impact report published', detail: 'Q2 2026 outcomes now available', time: '1w ago', icon: 'insights' },
-      { title: 'New sponsored project', detail: 'Rural Coding Bootcamp — Volta Region', time: '2w ago', icon: 'handshake' },
-    ],
-  },
-}
 
 function timeAgo(dateString) {
   const diffMs = Date.now() - new Date(dateString).getTime()
@@ -80,6 +25,147 @@ function timeAgo(dateString) {
 function displayName(user) {
   const profile = user.youth_profile || user.counselor_profile || user.donor_profile
   return profile?.full_name || user.email
+}
+
+function mergeActivity(...groups) {
+  return groups
+    .flat()
+    .sort((a, b) => new Date(b.at) - new Date(a.at))
+    .slice(0, 5)
+    .map(({ at: _at, ...item }) => item)
+}
+
+async function fetchYouthSummary() {
+  const [quizRes, formOrdersRes, scholarshipsRes] = await Promise.all([
+    apiGet('/quiz-responses/'),
+    apiGet('/form-orders/'),
+    apiGet('/scholarships/'),
+  ])
+  const quizResponses = quizRes.results ?? quizRes
+  const formOrders = formOrdersRes.results ?? formOrdersRes
+  const scholarships = scholarshipsRes.results ?? scholarshipsRes
+
+  const stats = [
+    { label: 'Career Quizzes Taken', value: String(quizRes.count ?? quizResponses.length), icon: 'psychology', tone: 'primary' },
+    { label: 'Applications Submitted', value: String(formOrdersRes.count ?? formOrders.length), icon: 'assignment', tone: 'secondary' },
+    { label: 'Scholarships Available', value: String(scholarshipsRes.count ?? scholarships.length), icon: 'school', tone: 'tertiary' },
+  ]
+
+  const quickActions = [
+    { label: 'Take Career Quiz', to: '/career-quiz', icon: 'psychology' },
+    { label: 'Chat with AI Counsellor', to: '/ai-chat', icon: 'smart_toy' },
+    { label: 'Browse Scholarships', to: '/scholarships', icon: 'school' },
+  ]
+
+  const quizActivity = quizResponses.map((q) => ({
+    title: 'Career discovery quiz completed',
+    detail: `${q.matches?.length ?? 0} career match${q.matches?.length === 1 ? '' : 'es'} generated`,
+    time: timeAgo(q.submitted_at),
+    icon: 'psychology',
+    at: q.submitted_at,
+  }))
+
+  const orderActivity = formOrders.map((o) => ({
+    title: 'Application form order',
+    detail: `Status: ${o.status}`,
+    time: timeAgo(o.created_at),
+    icon: 'assignment_turned_in',
+    at: o.created_at,
+  }))
+
+  return { stats, quickActions, activity: mergeActivity(quizActivity, orderActivity) }
+}
+
+async function fetchCounselorSummary() {
+  const [roster, sessionsRes] = await Promise.all([
+    apiGet('/counselor-roster/'),
+    apiGet('/counseling-sessions/'),
+  ])
+  const sessions = sessionsRes.results ?? sessionsRes
+
+  const atRiskCount = roster.filter((r) => ['High', 'Critical'].includes(r.risk_level)).length
+  const upcomingSessions = sessions.filter((s) => s.status === 'upcoming').length
+
+  const stats = [
+    { label: 'Assigned Youth', value: String(roster.length), icon: 'groups', tone: 'primary' },
+    { label: 'At-Risk Cases', value: String(atRiskCount), icon: 'warning', tone: 'error' },
+    { label: 'Upcoming Sessions', value: String(upcomingSessions), icon: 'event_available', tone: 'tertiary' },
+  ]
+
+  const quickActions = [
+    { label: 'View Assigned Youth', to: '/dashboard/counselor/youth', icon: 'groups' },
+    { label: 'Schedule a Session', to: '/dashboard/counselor/sessions', icon: 'event_available' },
+    { label: 'View Reports', to: '/dashboard/counselor/reports', icon: 'analytics' },
+  ]
+
+  const sessionActivity = sessions.map((s) => ({
+    title: s.youth_name || 'Session',
+    detail: `${s.session_type_display} — ${s.status_display}`,
+    time: timeAgo(s.created_at),
+    icon: 'event_available',
+    at: s.created_at,
+  }))
+
+  const riskActivity = roster
+    .filter((r) => r.assessed_at)
+    .map((r) => ({
+      title: r.full_name,
+      detail: `Latest risk level: ${r.risk_level}`,
+      time: timeAgo(r.assessed_at),
+      icon: 'warning',
+      at: r.assessed_at,
+    }))
+
+  return { stats, quickActions, activity: mergeActivity(sessionActivity, riskActivity), roster }
+}
+
+async function fetchDonorSummary() {
+  const [donationsRes, sponsorshipsRes] = await Promise.all([
+    apiGet('/donations/'),
+    apiGet('/sponsorships/'),
+  ])
+  const donations = donationsRes.results ?? donationsRes
+  const sponsorships = sponsorshipsRes.results ?? sponsorshipsRes
+
+  const totalDonated = donations
+    .filter((d) => d.status === 'success')
+    .reduce((sum, d) => sum + Number(d.amount), 0)
+  const supportedProjects = new Map()
+  donations.forEach((d) => {
+    if (d.project) supportedProjects.set(d.project.id, d.project)
+  })
+
+  const stats = [
+    { label: 'Total Donated', value: `₵${totalDonated.toLocaleString()}`, icon: 'volunteer_activism', tone: 'primary' },
+    { label: 'Students Sponsored', value: String(sponsorshipsRes.count ?? sponsorships.length), icon: 'groups', tone: 'secondary' },
+    { label: 'Projects Supported', value: String(supportedProjects.size), icon: 'handshake', tone: 'tertiary' },
+  ]
+
+  const quickActions = [
+    { label: 'Make a Donation', to: '/donate', icon: 'volunteer_activism' },
+    { label: 'View Impact Reports', to: '/dashboard/donor/impact', icon: 'insights' },
+    { label: 'Sponsored Projects', to: '/dashboard/donor/projects', icon: 'handshake' },
+  ]
+
+  const donationActivity = donations.map((d) => ({
+    title: d.project?.title || 'Donation',
+    detail: `₵${Number(d.amount).toLocaleString()} — ${d.status}`,
+    time: timeAgo(d.created_at),
+    icon: 'volunteer_activism',
+    at: d.created_at,
+  }))
+
+  const sponsorshipActivity = sponsorships.map((s) => ({
+    title: 'Sponsored a student application',
+    detail: `₵${Number(s.amount).toLocaleString()} funded`,
+    time: timeAgo(s.funded_at),
+    icon: 'handshake',
+    at: s.funded_at,
+  }))
+
+  const featuredProject = [...supportedProjects.values()][0] ?? null
+
+  return { stats, quickActions, activity: mergeActivity(donationActivity, sponsorshipActivity), featuredProject }
 }
 
 async function fetchAdminSummary() {
@@ -139,22 +225,22 @@ async function fetchAdminSummary() {
       at: s.funded_at,
     }))
 
-  const activity = [...recentUsers, ...recentInstitutions, ...recentSponsorships]
-    .sort((a, b) => new Date(b.at) - new Date(a.at))
-    .slice(0, 5)
-    .map(({ at: _at, ...item }) => item)
+  return { stats, quickActions, activity: mergeActivity(recentUsers, recentInstitutions, recentSponsorships) }
+}
 
-  return { stats, quickActions, activity }
+const FETCHERS = {
+  youth: fetchYouthSummary,
+  counselor: fetchCounselorSummary,
+  donor: fetchDonorSummary,
+  admin: fetchAdminSummary,
 }
 
 export async function fetchDashboardSummary(role) {
-  if (role === 'admin') {
-    try {
-      return await fetchAdminSummary()
-    } catch {
-      return { stats: [], quickActions: [], activity: [] }
-    }
+  const fetcher = FETCHERS[role]
+  if (!fetcher) return { stats: [], quickActions: [], activity: [] }
+  try {
+    return await fetcher()
+  } catch {
+    return { stats: [], quickActions: [], activity: [] }
   }
-  await new Promise((resolve) => setTimeout(resolve, 500))
-  return MOCK_SUMMARIES[role] ?? { stats: [], quickActions: [], activity: [] }
 }

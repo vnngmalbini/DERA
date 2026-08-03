@@ -1,6 +1,6 @@
 import Icon from '../ui/Icon'
 
-export default function ContentCard({ icon, title, subtitle, description, tag, actionLabel = 'View Details' }) {
+export default function ContentCard({ icon, title, subtitle, description, tag, actionLabel = 'View Details', url, onAction }) {
   return (
     <div className="bg-surface-container-lowest p-md rounded-xl border border-outline-variant/30 shadow-sm flex flex-col gap-3 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-2">
@@ -18,15 +18,36 @@ export default function ContentCard({ icon, title, subtitle, description, tag, a
         {subtitle && <p className="font-label-sm text-label-sm text-on-surface-variant mb-1">{subtitle}</p>}
         <p className="font-body-md text-body-md text-on-surface-variant">{description}</p>
       </div>
-      <button
-        type="button"
-        disabled
-        title="Connects to live data once the backend is wired up"
-        className="mt-auto self-start font-label-md text-label-md text-primary opacity-60 cursor-not-allowed flex items-center gap-1"
-      >
-        {actionLabel}
-        <Icon name="arrow_forward" className="text-[16px]" />
-      </button>
+      {url ? (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-auto self-start font-label-md text-label-md text-primary hover:underline flex items-center gap-1"
+        >
+          {actionLabel}
+          <Icon name="arrow_forward" className="text-[16px]" />
+        </a>
+      ) : onAction ? (
+        <button
+          type="button"
+          onClick={onAction}
+          className="mt-auto self-start font-label-md text-label-md text-primary hover:underline flex items-center gap-1"
+        >
+          {actionLabel}
+          <Icon name="arrow_forward" className="text-[16px]" />
+        </button>
+      ) : (
+        <button
+          type="button"
+          disabled
+          title="Connects to live data once the backend is wired up"
+          className="mt-auto self-start font-label-md text-label-md text-primary opacity-60 cursor-not-allowed flex items-center gap-1"
+        >
+          {actionLabel}
+          <Icon name="arrow_forward" className="text-[16px]" />
+        </button>
+      )}
     </div>
   )
 }

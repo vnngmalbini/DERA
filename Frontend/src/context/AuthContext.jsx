@@ -29,7 +29,10 @@ function flattenProfile(user) {
     region: p.region,
     district: p.district,
     educationLevel: p.education_level,
-    institution: p.institution,
+    // `institution` is the display name; `institutionId` is the raw FK,
+    // kept around so edit forms can pre-select the right option.
+    institution: p.institution_name || '',
+    institutionId: p.institution || '',
     gender: p.gender,
     roleTitle: p.role_title,
     organization: p.organization,

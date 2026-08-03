@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../ui/Icon'
+import NotificationBell from './NotificationBell'
 import { useAuth } from '../../context/AuthContext'
 import { getDashboardMeta } from '../../config/dashboardNav'
 
@@ -77,19 +78,24 @@ export default function DashboardLayout({ role, children }) {
           <Icon name="spa" className="text-primary text-2xl" filled />
           <span className="font-headline-md text-headline-md font-bold text-primary">DERA</span>
         </Link>
-        <div className="px-sm mb-lg">
+        <div className="px-sm mb-lg flex items-center justify-between gap-2">
           <span className="inline-flex items-center gap-1.5 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm">
             <Icon name="dashboard" className="text-[16px]" />
             {label} Dashboard
           </span>
+          <NotificationBell />
         </div>
 
-        <nav className="flex flex-col gap-1 flex-1">{navLinks()}</nav>
+        <nav className="flex flex-col gap-1 flex-1 min-h-0 overflow-y-auto">{navLinks()}</nav>
 
         <div className="flex items-center gap-3 px-sm py-3 border-t border-outline-variant/30 pt-md">
-          <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-label-md shrink-0">
-            {initialsFor(displayName)}
-          </div>
+          {user.profile_picture ? (
+            <img src={user.profile_picture} alt="" className="w-10 h-10 rounded-full object-cover shrink-0" />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-label-md shrink-0">
+              {initialsFor(displayName)}
+            </div>
+          )}
           <div className="min-w-0 flex-1">
             <p className="font-label-md text-label-md text-on-surface truncate">{displayName}</p>
             <p className="font-label-sm text-label-sm text-on-surface-variant">{label}</p>
@@ -113,6 +119,7 @@ export default function DashboardLayout({ role, children }) {
           </Link>
           <div className="flex items-center gap-2">
             <span className="font-label-sm text-label-sm text-on-surface-variant hidden sm:inline">{label}</span>
+            <NotificationBell />
             <button
               className="p-2 rounded-full hover:bg-surface-container transition-colors"
               onClick={() => setMobileNavOpen((v) => !v)}

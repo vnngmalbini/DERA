@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
-import { apiPostAnonymous } from '../services/apiClient'
+import { sendAuntieMessage } from '../services/auntieService'
 
 const PRIVACY_BADGES = [
   { icon: 'no_accounts', label: 'No Identity Required' },
@@ -16,28 +16,24 @@ const QUICK_QUESTIONS = [
     title: 'Returning to School',
     subtitle: 'How to re-enroll after a break',
     prompt: 'How do I re-enroll in school after taking a break?',
-    category: 're_enrolment',
   },
   {
     icon: 'health_and_safety',
     title: 'Health & Pregnancy',
     subtitle: 'SRHR info and care links',
     prompt: 'Where can I get information about health and pregnancy care?',
-    category: 'pregnancy',
   },
   {
     icon: 'diversity_3',
     title: 'Family Pressure',
     subtitle: 'Managing conflict and stress',
     prompt: 'How do I manage family pressure and conflict at home?',
-    category: 'family_pressure',
   },
   {
     icon: 'payments',
     title: 'Financial Support',
     subtitle: 'Small business and study grants',
     prompt: 'What financial support or study grants are available for young people?',
-    category: 'financial_hardship',
   },
 ]
 
@@ -90,12 +86,28 @@ export default function HelpCentre() {
   const [messages, setMessages] = useState(INITIAL_MESSAGES)
   const [input, setInput] = useState('')
   const [isFocused, setIsFocused] = useState(false)
-  const [pendingCategory, setPendingCategory] = useState(null)
   const [sending, setSending] = useState(false)
+  // Real conversation turns only (not the seeded example above), sent as
+  // context on each request. Anonymous and stateless: nothing is persisted
+  // server-side, so this is the only place the history lives.
+  const historyRef = useRef([])
+  const chatBodyRef = useRef(null)
+
+  useEffect(() => {
+    const chatBody = chatBodyRef.current
+    if (!chatBody) return
+    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' })
+  }, [messages, sending])
 
   function handleQuickQuestion(q) {
     setInput(q.prompt)
-    setPendingCategory(q.category)
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSend(e)
+    }
   }
 
   async function handleSend(e) {
@@ -105,24 +117,18 @@ export default function HelpCentre() {
     setMessages((prev) => [...prev, { from: 'user', text: trimmed }])
     setInput('')
     setSending(true)
-    const category = pendingCategory
-    setPendingCategory(null)
+    const priorHistory = historyRef.current
     try {
-      // Deliberately anonymous: apiPostAnonymous never attaches an
+      // Deliberately anonymous: sendAuntieMessage never attaches an
       // Authorization header, even if the visitor happens to be logged in
-      // elsewhere, so this submission carries no identity end to end.
-      await apiPostAnonymous('/help-requests/', { category, message: trimmed })
-      setMessages((prev) => [
-        ...prev,
-        {
-          from: 'bot',
-          text: "Thank you for sharing — this has been sent anonymously to our team, and they'll follow up through the right support channel.",
-        },
-      ])
+      // elsewhere, so this chat carries no identity end to end.
+      const { reply } = await sendAuntieMessage(trimmed, priorHistory)
+      historyRef.current = [...priorHistory, { from: 'user', text: trimmed }, { from: 'bot', text: reply }]
+      setMessages((prev) => [...prev, { from: 'bot', text: reply }])
     } catch {
       setMessages((prev) => [
         ...prev,
-        { from: 'bot', text: "Sorry, that didn't send. Please try again in a moment." },
+        { from: 'bot', text: "Eh, sorry my dear, something went wrong on my end. Try sending that again?" },
       ])
     } finally {
       setSending(false)
@@ -195,7 +201,7 @@ export default function HelpCentre() {
               </div>
             </div>
             {/* Chat Body */}
-            <div className="flex-1 overflow-y-auto p-md space-y-md bg-surface/30">
+            <div ref={chatBodyRef} className="flex-1 overflow-y-auto p-md space-y-md bg-surface/30">
               {messages.map((msg, i) =>
                 msg.from === 'bot' ? (
                   <div key={i} className="flex gap-3 max-w-[85%]">
@@ -225,6 +231,7 @@ export default function HelpCentre() {
                   rows={2}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                 />

@@ -1,134 +1,45 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
+import { apiGet } from '../../services/apiClient'
 
-const STUDENTS = [
-  {
-    id: 1,
-    name: 'Abena Sarfo',
-    studentId: 'DERA-2024-042',
-    grade: 'jhs2',
-    risk: 'low',
-    assessmentScore: '88%',
-    assessmentSubject: 'Mathematics',
-    attendance: 96,
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCU_oYR4kerZGaXf8kMa8dnsvNL1QK4Jb-r-fDhZOCCUMv8xoxdkviiNshcvoNXd-4IPCM2IKlIpesDkjfZREVPUE2d4XuY0Wi2pXebhfdFkRdGD44dbrAAlvOgEyl7A0EwisFpZDHRY5F6-E42TVBU03MfJkDPQaabGANtPxgNKc-uIqTAQ_EM28SM63Bqa2rnVRIGdNAS8NSC6sK_bfACtv3NCyTJFMvXhIsAVcC2jqQNIwhzQz6x',
-    alt: 'A close-up portrait of a young Ghanaian male student with a bright, curious expression, wearing a school uniform.',
-  },
-  {
-    id: 2,
-    name: 'Kofi Osei',
-    studentId: 'DERA-2024-019',
-    grade: 'jhs1',
-    risk: 'high',
-    assessmentScore: '42%',
-    assessmentSubject: 'English Lit.',
-    attendance: 65,
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2QzDAlHGChHWFTgq0dRztv4qQFHcOSm_xepmvGBU_q86jc3EkXJekcIm7gLxKd12d_aSj5Y0-ewtsCId5gxkZMr2ib8iM7qXzhvkQqhWlcrmLfgb2Ql_bYfXBup9EMB5j5efzg8DR8omIck22WLvJoKao7pW-Wp91EG7U9fo0n46a0m5t7YX33r6f2Sd0GcPR4j79S9PLIiTgGM800v51qwvBlJPB_-m9I8YZuGpBzJuCAtJnMQAL',
-    alt: 'A portrait of a focused Ghanaian female student studying in a modern classroom setting.',
-  },
-  {
-    id: 3,
-    name: 'Ekow Mensah',
-    studentId: 'DERA-2024-055',
-    grade: 'jhs3',
-    risk: 'moderate',
-    assessmentScore: '68%',
-    assessmentSubject: 'Social Studies',
-    attendance: 82,
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBcAAjrC8AkCfsG-Fffx726TiIL2-LgUtWdLzeTUP9vqa3Fj6Li6y_ctIE8HFf54dGeRfBU0bsCEDTg7ZFfbX8ZSTpwLDuIqHU0NwnPr8_HtcWIC22vVAIo_cF4jE962Z1SqpNVeCGSdDcyhYnDfR9TqECvCNeiClVZHiRzJ72dioRoqV4sQhN5ypVrLXLlm7rRDadWvG2lrk4_fYMXVnZog4xODqQ1bmduOt-DvOWXCSiy2VM0LbdS',
-    alt: 'A portrait of a thoughtful young male student in a Ghanaian secondary school.',
-  },
-  {
-    id: 4,
-    name: 'Ama Serwaa',
-    studentId: 'DERA-2024-011',
-    grade: 'jhs2',
-    risk: 'high',
-    assessmentScore: '58%',
-    assessmentSubject: 'Integrated Science',
-    attendance: 68,
-  },
-  {
-    id: 5,
-    name: 'Kwesi Arthur',
-    studentId: 'DERA-2024-027',
-    grade: 'jhs1',
-    risk: 'moderate',
-    assessmentScore: '71%',
-    assessmentSubject: 'Social Studies',
-    attendance: 82,
-  },
-  {
-    id: 6,
-    name: 'Yaa Pono',
-    studentId: 'DERA-2024-033',
-    grade: 'jhs3',
-    risk: 'low',
-    assessmentScore: '91%',
-    assessmentSubject: 'Mathematics',
-    attendance: 98,
-  },
-  {
-    id: 7,
-    name: 'Kofi Kinaata',
-    studentId: 'DERA-2024-008',
-    grade: 'jhs2',
-    risk: 'low',
-    assessmentScore: '89%',
-    assessmentSubject: 'English Lit.',
-    attendance: 95,
-  },
-]
+const EDUCATION_LEVEL_LABELS = {
+  primary: 'Primary',
+  jhs: 'JHS',
+  shs: 'SHS',
+  shs_graduate: 'SHS Graduate',
+  tertiary: 'Tertiary',
+  dropout_re_entry: 'Dropout Re-entry',
+  teen_mother_program: 'Teen Mother Program',
+}
 
 const RISK_STYLES = {
-  low: { badge: 'bg-secondary-container text-on-secondary-container', dot: 'bg-primary', label: 'Low Risk' },
-  high: { badge: 'bg-error-container text-on-error-container', dot: 'bg-error', label: 'High Risk' },
-  moderate: {
-    badge: 'bg-surface-container-highest text-on-surface-variant',
-    dot: 'bg-outline',
-    label: 'Moderate Risk',
-  },
-}
-
-const SCORE_CLASS = {
-  low: 'text-primary',
-  moderate: 'text-on-surface',
-  high: 'text-error',
-}
-
-const BAR_CLASS = {
-  low: 'bg-primary',
-  moderate: 'bg-primary-container',
-  high: 'bg-error',
+  Low: { badge: 'bg-secondary-container text-on-secondary-container', dot: 'bg-primary', label: 'Low Risk' },
+  Moderate: { badge: 'bg-surface-container-highest text-on-surface-variant', dot: 'bg-outline', label: 'Moderate Risk' },
+  High: { badge: 'bg-error-container text-on-error-container', dot: 'bg-error', label: 'High Risk' },
+  Critical: { badge: 'bg-error-container text-on-error-container', dot: 'bg-error', label: 'Critical Risk' },
 }
 
 function RiskBadge({ risk }) {
-  const style = RISK_STYLES[risk]
+  if (!risk) {
+    return (
+      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-on-surface-variant">
+        Not yet assessed
+      </span>
+    )
+  }
+  const style = RISK_STYLES[risk] || RISK_STYLES.Moderate
   return (
-    <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-label-sm text-label-sm ${style.badge}`}
-    >
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-label-sm text-label-sm ${style.badge}`}>
       <span className={`w-2 h-2 rounded-full ${style.dot}`} />
       {style.label}
     </span>
   )
 }
 
-function Avatar({ name, img, alt }) {
-  if (img) {
-    return (
-      <div className="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center overflow-hidden flex-shrink-0">
-        <img className="w-full h-full object-cover" src={img} alt={alt} />
-      </div>
-    )
-  }
-  const initials = name
-    .split(' ')
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 2)
+function Avatar({ name }) {
+  const initials = name.split(' ').map((part) => part[0]).join('').slice(0, 2)
   return (
     <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center flex-shrink-0 text-on-primary-container font-label-md text-label-md">
       {initials}
@@ -137,20 +48,29 @@ function Avatar({ name, img, alt }) {
 }
 
 export default function AssignedYouth() {
+  const [roster, setRoster] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [search, setSearch] = useState('')
   const [riskFilter, setRiskFilter] = useState('')
-  const [gradeFilter, setGradeFilter] = useState('')
+  const [levelFilter, setLevelFilter] = useState('')
+
+  useEffect(() => {
+    apiGet('/counselor-roster/')
+      .then(setRoster)
+      .catch(() => setLoadError('Could not load your assigned youth right now.'))
+      .finally(() => setLoading(false))
+  }, [])
 
   const filteredStudents = useMemo(() => {
     const query = search.trim().toLowerCase()
-    return STUDENTS.filter((s) => {
-      const matchesSearch =
-        !query || s.name.toLowerCase().includes(query) || s.studentId.toLowerCase().includes(query)
-      const matchesRisk = !riskFilter || s.risk === riskFilter
-      const matchesGrade = !gradeFilter || s.grade === gradeFilter
-      return matchesSearch && matchesRisk && matchesGrade
+    return roster.filter((s) => {
+      const matchesSearch = !query || s.full_name.toLowerCase().includes(query)
+      const matchesRisk = !riskFilter || s.risk_level === riskFilter
+      const matchesLevel = !levelFilter || s.education_level === levelFilter
+      return matchesSearch && matchesRisk && matchesLevel
     })
-  }, [search, riskFilter, gradeFilter])
+  }, [roster, search, riskFilter, levelFilter])
 
   return (
     <DashboardLayout role="counselor">
@@ -163,18 +83,15 @@ export default function AssignedYouth() {
           </nav>
           <h2 className="font-headline-lg text-headline-lg text-on-surface mb-2">Assigned Youth</h2>
           <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl">
-            Monitor academic performance, attendance, and risk factors for the 2024 academic year. Growth begins with
-            observation.
+            Monitor academic performance, attendance, and risk factors for the youth assigned to you.
           </p>
         </div>
-        <button className="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-6 py-3 rounded-full flex items-center gap-2 transition-all active:scale-95 shadow-sm w-fit">
-          <Icon name="person_add" />
-          Enroll New Student
-        </button>
       </div>
 
+      {loadError && <p className="text-error mb-lg">{loadError}</p>}
+
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-lg">
-        <div className="md:col-span-5 relative group">
+        <div className="md:col-span-6 relative group">
           <Icon
             name="search"
             className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant transition-colors group-focus-within:text-primary"
@@ -183,7 +100,7 @@ export default function AssignedYouth() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-white border border-outline-variant rounded-xl pl-12 pr-4 py-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-body-md"
-            placeholder="Search students by name or ID..."
+            placeholder="Search students by name..."
             type="text"
           />
         </div>
@@ -191,33 +108,28 @@ export default function AssignedYouth() {
           <select
             value={riskFilter}
             onChange={(e) => setRiskFilter(e.target.value)}
-            className="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-body-md appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%23727a69%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22m6%208%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:20px_20px] bg-[right_1rem_center] bg-no-repeat"
+            className="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-body-md"
           >
             <option value="">Risk Level: All</option>
-            <option value="high">High Risk</option>
-            <option value="moderate">Moderate Risk</option>
-            <option value="low">Stable / Low Risk</option>
+            <option value="Critical">Critical</option>
+            <option value="High">High</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Low">Low</option>
           </select>
         </div>
         <div className="md:col-span-3">
           <select
-            value={gradeFilter}
-            onChange={(e) => setGradeFilter(e.target.value)}
-            className="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-body-md appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%23727a69%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22m6%208%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:20px_20px] bg-[right_1rem_center] bg-no-repeat"
+            value={levelFilter}
+            onChange={(e) => setLevelFilter(e.target.value)}
+            className="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-body-md"
           >
-            <option value="">Grade Level: All</option>
-            <option value="jhs1">JHS 1</option>
-            <option value="jhs2">JHS 2</option>
-            <option value="jhs3">JHS 3</option>
+            <option value="">Education Level: All</option>
+            {Object.entries(EDUCATION_LEVEL_LABELS).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </select>
-        </div>
-        <div className="md:col-span-1 flex items-center justify-center">
-          <button
-            title="More filters"
-            className="w-full h-full bg-surface-container-high rounded-xl flex items-center justify-center hover:bg-surface-variant transition-colors group"
-          >
-            <Icon name="tune" className="text-on-surface-variant group-hover:text-primary" />
-          </button>
         </div>
       </div>
 
@@ -229,10 +141,7 @@ export default function AssignedYouth() {
                 <th className="px-6 py-5 font-label-md text-label-md text-on-surface-variant">Student Name</th>
                 <th className="px-6 py-5 font-label-md text-label-md text-on-surface-variant">Risk Level</th>
                 <th className="px-6 py-5 font-label-md text-label-md text-on-surface-variant text-center">
-                  Last Assessment
-                </th>
-                <th className="px-6 py-5 font-label-md text-label-md text-on-surface-variant text-center">
-                  Attendance
+                  Attendance (30d)
                 </th>
                 <th className="px-6 py-5 font-label-md text-label-md text-on-surface-variant text-right">Actions</th>
               </tr>
@@ -242,32 +151,28 @@ export default function AssignedYouth() {
                 <tr key={s.id} className="hover:bg-surface-bright transition-colors group">
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-4">
-                      <Avatar name={s.name} img={s.img} alt={s.alt} />
+                      <Avatar name={s.full_name} />
                       <div>
-                        <p className="font-label-md text-label-md text-on-surface">{s.name}</p>
-                        <p className="text-xs text-on-surface-variant">ID: {s.studentId}</p>
+                        <p className="font-label-md text-label-md text-on-surface">{s.full_name}</p>
+                        <p className="text-xs text-on-surface-variant">
+                          {EDUCATION_LEVEL_LABELS[s.education_level] || 'Education level not set'}
+                        </p>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-5">
-                    <RiskBadge risk={s.risk} />
+                    <RiskBadge risk={s.risk_level} />
                   </td>
                   <td className="px-6 py-5">
                     <div className="flex flex-col items-center">
-                      <span className={`font-label-md text-label-md font-bold ${SCORE_CLASS[s.risk]}`}>
-                        {s.assessmentScore}
+                      <span className="font-label-md text-label-md text-on-surface">
+                        {s.attendance_rate_30d !== null ? `${s.attendance_rate_30d}%` : '—'}
                       </span>
-                      <span className="text-[10px] uppercase tracking-wider text-on-surface-variant">
-                        {s.assessmentSubject}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-5">
-                    <div className="flex flex-col items-center">
-                      <span className="font-label-md text-label-md text-on-surface">{s.attendance}%</span>
-                      <div className="w-20 h-1 bg-surface-container-high rounded-full mt-1 overflow-hidden">
-                        <div className={`h-full ${BAR_CLASS[s.risk]}`} style={{ width: `${s.attendance}%` }} />
-                      </div>
+                      {s.attendance_rate_30d !== null && (
+                        <div className="w-20 h-1 bg-surface-container-high rounded-full mt-1 overflow-hidden">
+                          <div className="h-full bg-primary" style={{ width: `${s.attendance_rate_30d}%` }} />
+                        </div>
+                      )}
                     </div>
                   </td>
                   <td className="px-6 py-5 text-right">
@@ -280,29 +185,23 @@ export default function AssignedYouth() {
                   </td>
                 </tr>
               ))}
-              {filteredStudents.length === 0 && (
+              {!loading && filteredStudents.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-6 py-10 text-center text-on-surface-variant">
-                    No students match your filters.
+                  <td colSpan={4} className="px-6 py-10 text-center text-on-surface-variant">
+                    {roster.length === 0 ? 'No youth assigned to you yet.' : 'No students match your filters.'}
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-        <div className="px-6 py-4 flex items-center justify-between border-t border-outline-variant bg-surface-container-low">
-          <span className="font-label-sm text-label-sm text-on-surface-variant">
-            Showing 1 to {filteredStudents.length} of 42 students
-          </span>
-          <div className="flex gap-2">
-            <button disabled className="p-2 rounded-lg border border-outline-variant opacity-50 cursor-not-allowed">
-              <Icon name="chevron_left" />
-            </button>
-            <button disabled className="p-2 rounded-lg border border-outline-variant opacity-50 cursor-not-allowed">
-              <Icon name="chevron_right" />
-            </button>
+        {filteredStudents.length > 0 && (
+          <div className="px-6 py-4 flex items-center justify-between border-t border-outline-variant bg-surface-container-low">
+            <span className="font-label-sm text-label-sm text-on-surface-variant">
+              Showing {filteredStudents.length} of {roster.length} students
+            </span>
           </div>
-        </div>
+        )}
       </div>
     </DashboardLayout>
   )

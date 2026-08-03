@@ -14,6 +14,7 @@ const SECTIONS = [
       { label: 'Real Stories', to: '/stories', icon: 'auto_stories' },
       { label: 'Forms Marketplace', to: '/forms', icon: 'assignment' },
       { label: 'Sponsorship', to: '/sponsorship', icon: 'volunteer_activism' },
+      { label: 'Donate', to: '/donate', icon: 'favorite' },
       { label: 'AI Assistant', to: '/ai-chat', icon: 'chat_bubble' },
       { label: 'Help Centre', to: '/help', icon: 'support_agent' },
     ],

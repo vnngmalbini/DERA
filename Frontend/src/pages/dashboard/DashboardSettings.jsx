@@ -2,6 +2,123 @@ import { useState } from 'react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
+import { changePassword } from '../../services/profileService'
+
+const INPUT_CLASSES =
+  'w-full px-md py-sm rounded-lg border border-outline-variant bg-surface focus:outline-none focus:ring-2 focus:ring-secondary-container focus:border-secondary transition-all font-body-md text-body-md'
+
+function ChangePasswordForm() {
+  const [expanded, setExpanded] = useState(false)
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [status, setStatus] = useState('idle') // idle | submitting | success | error
+  const [message, setMessage] = useState('')
+
+  function reset() {
+    setCurrentPassword('')
+    setNewPassword('')
+    setConfirmPassword('')
+    setStatus('idle')
+    setMessage('')
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (newPassword.length < 8) {
+      setStatus('error')
+      setMessage('New password must be at least 8 characters.')
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      setStatus('error')
+      setMessage('New password and confirmation do not match.')
+      return
+    }
+    setStatus('submitting')
+    setMessage('')
+    try {
+      await changePassword(currentPassword, newPassword)
+      setStatus('success')
+      setMessage('Password updated successfully.')
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
+    } catch (err) {
+      setStatus('error')
+      setMessage(err.message || 'Could not update your password. Please try again.')
+    }
+  }
+
+  if (!expanded) {
+    return (
+      <button
+        type="button"
+        onClick={() => setExpanded(true)}
+        className="inline-flex items-center gap-2 border-2 border-outline text-on-surface font-label-md text-label-md px-6 py-3 rounded-full hover:bg-surface-container transition-colors"
+      >
+        <Icon name="lock_reset" />
+        Change Password
+      </button>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-sm max-w-sm" noValidate>
+      <input
+        type="password"
+        required
+        placeholder="Current password"
+        autoComplete="current-password"
+        value={currentPassword}
+        onChange={(e) => setCurrentPassword(e.target.value)}
+        className={INPUT_CLASSES}
+      />
+      <input
+        type="password"
+        required
+        placeholder="New password"
+        autoComplete="new-password"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+        className={INPUT_CLASSES}
+      />
+      <input
+        type="password"
+        required
+        placeholder="Confirm new password"
+        autoComplete="new-password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        className={INPUT_CLASSES}
+      />
+      {message && (
+        <p className={`font-label-sm text-label-sm ${status === 'error' ? 'text-error' : 'text-primary'}`}>
+          {message}
+        </p>
+      )}
+      <div className="flex gap-2 pt-1">
+        <button
+          type="submit"
+          disabled={status === 'submitting'}
+          className="bg-primary text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-full disabled:opacity-60"
+        >
+          {status === 'submitting' ? 'Updating…' : 'Update Password'}
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            reset()
+            setExpanded(false)
+          }}
+          className="border-2 border-outline text-on-surface-variant font-label-md text-label-md px-6 py-2.5 rounded-full"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  )
+}
 
 function Toggle({ checked, onChange, label, description }) {
   return (
@@ -72,14 +189,7 @@ export default function DashboardSettings() {
 
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-sm p-md md:p-lg">
           <h3 className="font-headline-md text-headline-md text-on-surface mb-sm">Account</h3>
-          <button
-            disabled
-            title="Connects to live data once the backend is wired up"
-            className="inline-flex items-center gap-2 border-2 border-outline text-on-surface-variant font-label-md text-label-md px-6 py-3 rounded-full opacity-60 cursor-not-allowed"
-          >
-            <Icon name="lock_reset" />
-            Change Password
-          </button>
+          <ChangePasswordForm />
         </div>
       </div>
     </DashboardLayout>

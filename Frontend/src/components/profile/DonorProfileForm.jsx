@@ -11,8 +11,8 @@ const DONOR_TYPES = [
 ]
 const REQUIRED_FIELDS = ['organization', 'donorType']
 
-export default function DonorProfileForm({ onSubmit, submitting }) {
-  const [values, setValues] = useState({ organization: '', donorType: '' })
+export default function DonorProfileForm({ onSubmit, submitting, defaultValues, submitLabel }) {
+  const [values, setValues] = useState({ organization: '', donorType: '', ...defaultValues })
   const [errors, setErrors] = useState({})
 
   const handleChange = (field) => (e) => setValues((prev) => ({ ...prev, [field]: e.target.value }))
@@ -46,7 +46,7 @@ export default function DonorProfileForm({ onSubmit, submitting }) {
         options={DONOR_TYPES}
       />
 
-      <SubmitButton submitting={submitting} />
+      <SubmitButton submitting={submitting}>{submitLabel}</SubmitButton>
     </form>
   )
 }

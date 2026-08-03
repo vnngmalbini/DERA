@@ -2,11 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { apiGet } from '../services/apiClient'
-
-function formatDeadline(deadline) {
-  if (!deadline) return 'No deadline listed'
-  return new Date(deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-}
+import { formatDeadline, isClosed } from '../utils/scholarships'
 
 export default function ScholarshipHub() {
   const [scholarships, setScholarships] = useState([])
@@ -31,15 +27,24 @@ export default function ScholarshipHub() {
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
-    return scholarships.filter((s) => {
-      const matchesSearch =
-        !q ||
-        s.title?.toLowerCase().includes(q) ||
-        s.provider?.toLowerCase().includes(q) ||
-        s.eligibility_criteria?.toLowerCase().includes(q)
-      const matchesLevel = level === 'All Levels' || s.education_level === level
-      return matchesSearch && matchesLevel
-    })
+    return scholarships
+      .filter((s) => {
+        const matchesSearch =
+          !q ||
+          s.title?.toLowerCase().includes(q) ||
+          s.provider?.toLowerCase().includes(q) ||
+          s.eligibility_criteria?.toLowerCase().includes(q)
+        const matchesLevel = level === 'All Levels' || s.education_level === level
+        return matchesSearch && matchesLevel
+      })
+      .sort((a, b) => {
+        const aClosed = isClosed(a.deadline)
+        const bClosed = isClosed(b.deadline)
+        if (aClosed !== bClosed) return aClosed ? 1 : -1
+        if (!a.deadline) return 1
+        if (!b.deadline) return -1
+        return new Date(a.deadline) - new Date(b.deadline)
+      })
   }, [scholarships, search, level])
 
   const handleSubscribe = (e) => {
@@ -122,62 +127,79 @@ export default function ScholarshipHub() {
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((s) => (
-                <article
-                  key={s.id}
-                  className="bg-white rounded-2xl border border-outline-variant/30 flex flex-col transition-all duration-300 hover:shadow-lg p-6"
-                >
-                  <div className="mb-4">
-                    {s.education_level && (
-                      <span className="inline-block bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-label-sm mb-2">
-                        {s.education_level}
+              {filtered.map((s) => {
+                const closed = isClosed(s.deadline)
+                return (
+                  <article
+                    key={s.id}
+                    className={`bg-white rounded-2xl border border-outline-variant/30 flex flex-col transition-all duration-300 hover:shadow-lg p-6 ${closed ? 'opacity-70' : ''}`}
+                  >
+                    <div className="mb-4">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        {s.education_level && (
+                          <span className="inline-block bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-label-sm">
+                            {s.education_level}
+                          </span>
+                        )}
+                        <span
+                          className={`inline-flex items-center gap-1 px-3 py-1 rounded-full font-label-sm text-label-sm ${
+                            closed ? 'bg-error-container text-on-error-container' : 'bg-primary-container text-on-primary-container'
+                          }`}
+                        >
+                          <Icon name={closed ? 'lock' : 'check_circle'} className="text-[14px]" />
+                          {closed ? 'Closed' : 'Open'}
+                        </span>
+                      </div>
+                      <h4 className="font-headline-md text-headline-md text-on-background">{s.title}</h4>
+                      {s.provider && (
+                        <p className="text-label-md text-on-surface-variant mt-1">{s.provider}</p>
+                      )}
+                    </div>
+                    <div className="space-y-3 mb-6 flex-1">
+                      <div className="flex items-start gap-3">
+                        <Icon name="event" className="text-primary text-[20px] mt-0.5" />
+                        <p className={`text-label-md leading-tight ${closed ? 'text-error font-semibold' : 'text-on-surface-variant'}`}>
+                          Deadline: {formatDeadline(s.deadline)}
+                        </p>
+                      </div>
+                      {s.eligibility_criteria && (
+                        <div className="flex items-start gap-3">
+                          <Icon name="verified" className="text-primary text-[20px] mt-0.5" />
+                          <p className="text-label-md text-on-surface-variant leading-tight line-clamp-3">
+                            {s.eligibility_criteria}
+                          </p>
+                        </div>
+                      )}
+                      {s.career_path?.title && (
+                        <div className="flex items-start gap-3">
+                          <Icon name="work" className="text-primary text-[20px] mt-0.5" />
+                          <p className="text-label-md text-on-surface-variant leading-tight">
+                            Related career path: {s.career_path.title}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    {closed ? (
+                      <span className="w-full text-center py-3 bg-surface-container text-on-surface-variant rounded-xl font-label-md text-label-md block cursor-not-allowed">
+                        Applications Closed
+                      </span>
+                    ) : s.source_url ? (
+                      <a
+                        href={s.source_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full text-center py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all"
+                      >
+                        Apply Now
+                      </a>
+                    ) : (
+                      <span className="w-full text-center py-3 bg-surface-container text-on-surface-variant rounded-xl font-label-md text-label-md block">
+                        No application link yet
                       </span>
                     )}
-                    <h4 className="font-headline-md text-headline-md text-on-background">{s.title}</h4>
-                    {s.provider && (
-                      <p className="text-label-md text-on-surface-variant mt-1">{s.provider}</p>
-                    )}
-                  </div>
-                  <div className="space-y-3 mb-6 flex-1">
-                    <div className="flex items-start gap-3">
-                      <Icon name="event" className="text-primary text-[20px] mt-0.5" />
-                      <p className="text-label-md text-on-surface-variant leading-tight">
-                        Deadline: {formatDeadline(s.deadline)}
-                      </p>
-                    </div>
-                    {s.eligibility_criteria && (
-                      <div className="flex items-start gap-3">
-                        <Icon name="verified" className="text-primary text-[20px] mt-0.5" />
-                        <p className="text-label-md text-on-surface-variant leading-tight line-clamp-3">
-                          {s.eligibility_criteria}
-                        </p>
-                      </div>
-                    )}
-                    {s.career_path?.title && (
-                      <div className="flex items-start gap-3">
-                        <Icon name="work" className="text-primary text-[20px] mt-0.5" />
-                        <p className="text-label-md text-on-surface-variant leading-tight">
-                          Related career path: {s.career_path.title}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                  {s.source_url ? (
-                    <a
-                      href={s.source_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full text-center py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all"
-                    >
-                      Apply Now
-                    </a>
-                  ) : (
-                    <span className="w-full text-center py-3 bg-surface-container text-on-surface-variant rounded-xl font-label-md text-label-md block">
-                      No application link yet
-                    </span>
-                  )}
-                </article>
-              ))}
+                  </article>
+                )
+              })}
             </div>
           )}
         </section>

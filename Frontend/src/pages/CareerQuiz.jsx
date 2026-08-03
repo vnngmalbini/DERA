@@ -3,137 +3,163 @@ import { Link } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { useAuth } from '../context/AuthContext'
-import { apiPost } from '../services/apiClient'
-
-const VISUAL_IMAGE =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuAJTRSccTij9NnSqqQdezOej-cAcvWwZOWPZzbReEnDXzBHkwQaQecIQXeXtx99ev65LSXZCIqP8zJZXgUxvntf0ba94e2BLVQvFif3Bahk5QAg5eff4qiyGWxlsNUCBhPgrHj9KE9D-eXaugPYHUWZmHLs2gFHJHyBibhfbiZPVPGPlCGj47rUmhWP3oJct2dqv5pqcosaeWvmfWtEQvNBisnLOC2UFu4k9FvLMwyFntHnQvQXcYHj'
+import { apiGet, apiPost } from '../services/apiClient'
+import { formatDeadline, isClosed } from '../utils/scholarships'
 
 const QUESTIONS = [
   {
-    category: 'Interests & Skills',
-    question: 'Do you enjoy solving problems using logic and numbers, or expressing ideas creatively?',
-    fact: 'Students who identify their natural strengths early are 2x more likely to stay in a career path long-term.',
+    category: 'Activities You Enjoy',
+    question: 'Which activity do you enjoy the most?',
     options: [
-      { icon: 'calculate', title: 'Logic & Numbers', desc: 'I like working with data, patterns, and precise calculations.', trait: 'ANALYTICAL' },
-      { icon: 'palette', title: 'Creative Expression', desc: 'I like designing, storytelling, and coming up with new ideas.', trait: 'CREATIVE' },
+      { icon: 'query_stats', title: 'Solving puzzles, coding, or analyzing problems', trait: 'TECH' },
+      { icon: 'groups', title: 'Helping and supporting people', trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Designing, writing, or creating content', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Leading teams or organizing projects', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Building, repairing, or working with tools', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Environment',
-    question: 'Would you rather work outdoors close to nature, or indoors in an office setting?',
-    fact: "Ghana's agri-tech sector is one of the fastest-growing employers of rural youth under 25.",
+    category: 'School Subjects',
+    question: 'Which school subjects do you enjoy the most?',
     options: [
-      { icon: 'park', title: 'Outdoors in Nature', desc: 'I feel most productive out in the field, farm, or workshop.', trait: 'TECHNICAL' },
-      { icon: 'business_center', title: 'Indoors in an Office', desc: 'I prefer a structured desk-based or studio environment.', trait: 'ANALYTICAL' },
+      { icon: 'query_stats', title: 'Mathematics, Computer Science, or Physics', trait: 'TECH' },
+      { icon: 'groups', title: 'Biology, Health Science, or Psychology', trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Literature, Art, or Music', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Business, Economics, or Accounting', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Technical Drawing, Engineering, or Agriculture', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Interests & Skills',
-    question: 'When you think about your future work, do you prefer working with people or working with things?',
-    fact: '80% of successful business owners in your region started by combining community leadership with technical skills.',
+    category: 'What Makes You Happy',
+    question: 'What kind of work would make you happiest?',
     options: [
-      { icon: 'groups', title: 'Working with People', desc: 'I enjoy teaching, helping others, and being part of a team effort.', trait: 'PEOPLE' },
-      { icon: 'construction', title: 'Working with Things', desc: 'I prefer fixing tools, building structures, or managing technical equipment.', trait: 'TECHNICAL' },
+      { icon: 'query_stats', title: 'Solving technical or scientific problems', trait: 'TECH' },
+      { icon: 'groups', title: "Helping people improve their lives", trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Creating new ideas, designs, or stories', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Managing people or running a business', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Designing, building, or fixing things', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Community & Values',
-    question: 'Do you feel more motivated by helping your local community, or by building something of your own?',
-    fact: 'Community-driven mentorship programs have helped over 500 Ghanaian youth launch new ventures.',
+    category: 'Problem-Solving Style',
+    question: 'How do you usually solve problems?',
     options: [
-      { icon: 'diversity_3', title: 'Helping My Community', desc: 'I want my work to directly uplift people around me.', trait: 'PEOPLE' },
-      { icon: 'rocket_launch', title: 'Building My Own Venture', desc: 'I want to create a business or project that is mine.', trait: 'CREATIVE' },
+      { icon: 'query_stats', title: 'Analyze the situation carefully and find a logical solution', trait: 'TECH' },
+      { icon: 'groups', title: 'Talk to people and work together to find a solution', trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Think creatively and try new ideas', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Take charge and make decisions quickly', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Learn by doing and experimenting', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Work Style',
-    question: 'Do you prefer following clear step-by-step instructions, or figuring things out your own way?',
-    fact: 'Employers across Ghana consistently rank adaptability as a top-3 hiring skill.',
+    category: 'Your Personality',
+    question: 'Which of these best describes your personality?',
     options: [
-      { icon: 'checklist', title: 'Clear Instructions', desc: 'I do my best work when the steps are well defined.', trait: 'ANALYTICAL' },
-      { icon: 'explore', title: 'My Own Way', desc: 'I like experimenting and finding my own approach.', trait: 'CREATIVE' },
+      { icon: 'query_stats', title: 'Curious and analytical', trait: 'TECH' },
+      { icon: 'groups', title: 'Caring and compassionate', trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Creative and imaginative', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Confident and ambitious', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Practical and hands-on', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Environment',
-    question: 'Would you rather work in a fast-paced, busy environment or a calm, steady one?',
-    fact: 'Fast-growing sectors like logistics and ICT reward youth who thrive under pressure.',
+    category: 'Work Environment',
+    question: 'What type of work environment do you prefer?',
     options: [
-      { icon: 'bolt', title: 'Fast-Paced', desc: 'I enjoy variety, energy, and quick decision-making.', trait: 'CREATIVE' },
-      { icon: 'spa', title: 'Calm & Steady', desc: 'I prefer predictable routines and careful planning.', trait: 'ANALYTICAL' },
+      { icon: 'query_stats', title: 'Technology company or office', trait: 'TECH' },
+      { icon: 'groups', title: 'Hospital, school, or community organization', trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Creative studio or media company', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Corporate office or business environment', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Workshop, laboratory, construction site, or outdoors', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Skills & Strengths',
-    question: 'Are you more confident speaking and persuading others, or analyzing data and details?',
-    fact: 'Strong communicators are in high demand for community health and extension worker roles.',
+    category: 'What Fulfills You',
+    question: 'Which achievement would make you feel most fulfilled?',
     options: [
-      { icon: 'campaign', title: 'Speaking & Persuading', desc: 'I like presenting ideas and convincing a crowd.', trait: 'PEOPLE' },
-      { icon: 'query_stats', title: 'Analyzing Data', desc: 'I like digging into the details behind a decision.', trait: 'ANALYTICAL' },
+      { icon: 'query_stats', title: 'Creating technology that solves real-world problems', trait: 'TECH' },
+      { icon: 'groups', title: "Improving someone's life through healthcare, teaching, or counselling", trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Producing creative work that inspires others', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Building a successful business or leading an organization', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Designing or constructing something useful', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Future Goals',
-    question: 'Is earning a strong income more important to you, or making a visible impact on your community?',
-    fact: 'Many DERA scholars combine paid trade skills with volunteer community projects.',
+    category: 'Your Strengths',
+    question: 'Which skill do people compliment you on the most?',
     options: [
-      { icon: 'payments', title: 'Strong Income', desc: 'Financial stability and growth matter most to me.', trait: 'TECHNICAL' },
-      { icon: 'volunteer_activism', title: 'Community Impact', desc: "Seeing my community grow matters most to me.", trait: 'PEOPLE' },
+      { icon: 'query_stats', title: 'Logical thinking and problem-solving', trait: 'TECH' },
+      { icon: 'groups', title: 'Kindness and communication', trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Creativity and imagination', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Leadership and decision-making', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Practical or technical abilities', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Learning Style',
-    question: 'Do you learn best by doing hands-on practical work, or by studying theory and concepts?',
-    fact: 'Vocational and technical institutes across Ghana report rising enrollment from rural districts.',
+    category: 'What Motivates You',
+    question: 'What motivates you most in a career?',
     options: [
-      { icon: 'handyman', title: 'Hands-on Practice', desc: 'I understand things best by doing them myself.', trait: 'TECHNICAL' },
-      { icon: 'menu_book', title: 'Studying Theory', desc: 'I like understanding the concepts behind the work.', trait: 'ANALYTICAL' },
+      { icon: 'query_stats', title: 'Innovation and solving complex challenges', trait: 'TECH' },
+      { icon: 'groups', title: "Making a positive impact on people's lives", trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Expressing creativity and originality', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Financial success and leadership opportunities', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Building practical solutions that improve everyday life', trait: 'PRACTICAL' },
     ],
   },
   {
-    category: 'Work Style',
-    question: 'When facing a challenge, do you prefer working as part of a team, or tackling it independently?',
-    fact: "You're almost done! Your answers will help match you with local scholarship and career resources.",
+    category: 'Career Field',
+    question: 'If you could choose one career field today, which would you explore first?',
     options: [
-      { icon: 'groups_3', title: 'As Part of a Team', desc: 'I do my best thinking alongside other people.', trait: 'PEOPLE' },
-      { icon: 'person', title: 'Independently', desc: 'I do my best thinking when working on my own.', trait: 'TECHNICAL' },
+      { icon: 'query_stats', title: 'Technology & Computing', trait: 'TECH' },
+      { icon: 'groups', title: 'Healthcare, Education & Social Services', trait: 'PEOPLE' },
+      { icon: 'palette', title: 'Arts, Media & Design', trait: 'CREATIVE' },
+      { icon: 'trending_up', title: 'Business, Finance & Entrepreneurship', trait: 'BUSINESS' },
+      { icon: 'handyman', title: 'Engineering, Construction & Agriculture', trait: 'PRACTICAL' },
     ],
   },
 ]
 
 const RESULTS = {
-  PEOPLE: {
-    title: 'Community & People-Focused Careers',
-    icon: 'groups',
-    desc: 'You thrive working with others. Consider teaching, healthcare, social work, or community leadership roles.',
+  TECH: {
+    title: 'Technology & Computing Careers',
+    icon: 'query_stats',
+    desc: 'You enjoy logical thinking and solving complex problems. Consider software engineering, data science, cybersecurity, or AI-related roles.',
   },
-  TECHNICAL: {
-    title: 'Technical & Hands-On Careers',
-    icon: 'construction',
-    desc: 'You have a knack for tools and systems. Consider engineering, agri-tech, trades, or ICT support roles.',
+  PEOPLE: {
+    title: 'Healthcare, Education & Social Services',
+    icon: 'groups',
+    desc: "You're driven to support and uplift others. Consider healthcare, teaching, counselling, or community and social work roles.",
   },
   CREATIVE: {
-    title: 'Creative & Entrepreneurial Careers',
+    title: 'Arts, Media & Design Careers',
     icon: 'palette',
-    desc: 'You like building and expressing new ideas. Consider design, media, or launching your own venture.',
+    desc: 'You think imaginatively and enjoy creating. Consider design, media production, writing, or the arts.',
   },
-  ANALYTICAL: {
-    title: 'Analytical & Research-Focused Careers',
-    icon: 'query_stats',
-    desc: 'You enjoy structure and detail. Consider finance, data science, medicine, or research fields.',
+  BUSINESS: {
+    title: 'Business, Finance & Entrepreneurship',
+    icon: 'trending_up',
+    desc: "You're motivated by leading, organizing, and building. Consider entrepreneurship, business management, finance, or marketing roles.",
+  },
+  PRACTICAL: {
+    title: 'Engineering, Construction & Agriculture',
+    icon: 'handyman',
+    desc: 'You like hands-on, practical work building and fixing real things. Consider engineering, construction trades, or agricultural careers.',
   },
 }
 
 export default function CareerQuiz() {
   const { user } = useAuth()
+  const [started, setStarted] = useState(false)
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState({})
   const submittedRef = useRef(false)
+  const cardRef = useRef(null)
 
   const total = QUESTIONS.length
   const isComplete = step >= total
   const current = !isComplete ? QUESTIONS[step] : null
   const progress = Math.round((Math.min(step + (isComplete ? 0 : 1), total) / total) * 100)
+  const hasAnswered = answers[step] !== undefined
 
   // Fire-and-forget audit record only — the question bank, scoring, and
   // displayed result are entirely client-side (the backend deliberately
@@ -147,6 +173,12 @@ export default function CareerQuiz() {
     if (!isComplete) submittedRef.current = false
   }, [isComplete, user])
 
+  // Beginners lose their place if the page stays scrolled down after
+  // tapping Next on mobile, so bring the next question into view every step.
+  useEffect(() => {
+    if (started) cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [step, started])
+
   const topTrait = useMemo(() => {
     const tally = {}
     Object.entries(answers).forEach(([qIndex, optIndex]) => {
@@ -158,12 +190,29 @@ export default function CareerQuiz() {
     return entries.sort((a, b) => b[1] - a[1])[0][0]
   }, [answers])
 
+  // Backend recommendations (real institutions + scholarships) for whichever
+  // trait the client-side quiz landed on — fetched only once results show.
+  const [careerPath, setCareerPath] = useState(null)
+  const [recLoading, setRecLoading] = useState(false)
+
+  useEffect(() => {
+    if (!isComplete) {
+      setCareerPath(null)
+      return
+    }
+    setRecLoading(true)
+    apiGet(`/career-paths/?trait=${topTrait}`)
+      .then((data) => setCareerPath((data.results ?? data)[0] ?? null))
+      .catch(() => setCareerPath(null))
+      .finally(() => setRecLoading(false))
+  }, [isComplete, topTrait])
+
   const selectOption = (optIndex) => {
     setAnswers((prev) => ({ ...prev, [step]: optIndex }))
   }
 
   const goNext = () => {
-    if (answers[step] === undefined) return
+    if (!hasAnswered) return
     setStep((s) => Math.min(s + 1, total))
   }
 
@@ -178,26 +227,44 @@ export default function CareerQuiz() {
     <PageLayout>
       <div className="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
         <section className="py-md text-center">
-          <h2 className="font-headline-md text-headline-md text-on-background mb-2">Career Discovery Quiz</h2>
-          <p className="text-body-md text-on-surface-variant max-w-md mx-auto">
+          <h2 className="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-background mb-3">Career Discovery Quiz</h2>
+          <p className="text-body-lg text-on-surface-variant max-w-lg mx-auto">
             Every Young Person Belongs Here. Find the path that matches your unique strengths and local
             community needs.
           </p>
         </section>
 
-        {!isComplete ? (
+        {!started ? (
+          <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg shadow-sm mb-md text-center py-20">
+            <div className="w-24 h-24 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-6">
+              <Icon name="explore" className="text-5xl" filled />
+            </div>
+            <h3 className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-4">Let's find out where you fit</h3>
+            <p className="text-body-lg text-on-surface-variant max-w-lg mx-auto mb-10">
+              10 quick questions about how you actually think and act. It's not what you think you're supposed to
+              say. Takes about 3 minutes. There's no wrong answer here.
+            </p>
+            <button
+              onClick={() => setStarted(true)}
+              className="h-14 px-10 rounded-full bg-primary text-on-primary font-label-lg text-lg font-semibold inline-flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+            >
+              Start
+              <Icon name="arrow_forward" className="text-2xl" />
+            </button>
+          </div>
+        ) : !isComplete ? (
           <>
             {/* Progress Tracking */}
-            <div className="mb-lg space-y-3">
+            <div className="mb-xl space-y-3">
               <div className="flex justify-between items-end">
-                <span className="font-label-md text-label-md text-primary">
-                  Step {step + 1} of {total}
+                <span className="font-label-lg text-lg font-semibold text-primary">
+                  Question {step + 1} of {total}
                 </span>
-                <span className="font-label-sm text-label-sm text-on-surface-variant">
+                <span className="font-label-md text-label-md text-on-surface-variant">
                   {progress}% Complete
                 </span>
               </div>
-              <div className="w-full h-3 bg-outline-variant/30 rounded-full overflow-hidden">
+              <div className="w-full h-4 bg-outline-variant/30 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-tertiary rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
@@ -206,30 +273,34 @@ export default function CareerQuiz() {
             </div>
 
             {/* Question Section */}
-            <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-md shadow-sm mb-md">
-              <span className="inline-block bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full mb-4">
+            <div ref={cardRef} className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg shadow-sm mb-md scroll-mt-6">
+              <span className="inline-block bg-secondary-container text-on-secondary-container font-label-md text-label-md px-4 py-1.5 rounded-full mb-5">
                 {current.category}
               </span>
-              <h3 className="font-headline-md text-headline-md text-on-surface mb-6">{current.question}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h3 className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-7">{current.question}</h3>
+              <div className="grid grid-cols-1 gap-4">
                 {current.options.map((option, i) => {
                   const selected = answers[step] === i
                   return (
                     <button
                       key={option.title}
                       onClick={() => selectOption(i)}
-                      className={`group flex items-start gap-4 p-md rounded-xl border-2 transition-all text-left ${
+                      className={`group relative flex items-center gap-4 p-lg rounded-xl border-2 transition-all text-left ${
                         selected
                           ? 'border-primary bg-primary/5'
                           : 'border-outline-variant/30 hover:border-primary hover:bg-primary/5'
                       }`}
                     >
-                      <div className="w-12 h-12 flex-shrink-0 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center">
-                        <Icon name={option.icon} />
+                      {selected && (
+                        <span className="absolute top-3 right-3 w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center">
+                          <Icon name="check" className="text-lg" />
+                        </span>
+                      )}
+                      <div className="w-14 h-14 flex-shrink-0 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center">
+                        <Icon name={option.icon} className="text-2xl" />
                       </div>
-                      <div className="flex-1">
-                        <p className="font-label-md text-label-md text-on-surface mb-1">{option.title}</p>
-                        <p className="text-body-md text-on-surface-variant text-sm">{option.desc}</p>
+                      <div className="flex-1 pr-4">
+                        <p className="font-body-lg text-body-lg text-on-surface">{option.title}</p>
                       </div>
                     </button>
                   )
@@ -237,75 +308,128 @@ export default function CareerQuiz() {
               </div>
             </div>
 
-            {/* Contextual Visual (Asymmetric Layout) */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-              <div className="md:col-span-7">
-                <div className="relative overflow-hidden rounded-xl h-64 shadow-md">
-                  <img
-                    className="w-full h-full object-cover"
-                    alt="A professional photo of a young Ghanaian woman leading a community discussion outdoors under a large Baobab tree."
-                    src={VISUAL_IMAGE}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <p className="font-label-md text-label-md">Local Inspiration</p>
-                    <p className="font-headline-md text-headline-md-mobile">Ama finds joy in mentoring</p>
-                  </div>
-                </div>
-              </div>
-              <div className="md:col-span-5 bg-tertiary text-on-tertiary-container p-6 rounded-xl">
-                <Icon name="lightbulb" className="mb-2" filled />
-                <p className="font-label-md text-label-md mb-2">Did you know?</p>
-                <p className="text-sm">{current.fact}</p>
-              </div>
-            </div>
-
             {/* Navigation Buttons */}
-            <div className="flex justify-between items-center mt-xl gap-4">
-              <button
-                onClick={goPrev}
-                disabled={step === 0}
-                className="flex-1 h-12 rounded-full border-2 border-primary text-primary font-label-md flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-              >
-                <Icon name="arrow_back" />
-                Previous
-              </button>
-              <button
-                onClick={goNext}
-                disabled={answers[step] === undefined}
-                className="flex-1 h-12 rounded-full bg-primary text-on-primary font-label-md flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
-              >
-                {step === total - 1 ? 'See Results' : 'Next Question'}
-                <Icon name="arrow_forward" />
-              </button>
+            <div className="mt-xl">
+              <div className="flex justify-between items-center gap-4">
+                <button
+                  onClick={goPrev}
+                  disabled={step === 0}
+                  className="flex-1 h-14 rounded-full border-2 border-primary text-primary font-label-lg text-lg font-semibold flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                >
+                  <Icon name="arrow_back" className="text-2xl" />
+                  Previous
+                </button>
+                <button
+                  onClick={goNext}
+                  disabled={!hasAnswered}
+                  className="flex-1 h-14 rounded-full bg-primary text-on-primary font-label-lg text-lg font-semibold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
+                >
+                  {step === total - 1 ? 'See Results' : 'Next Question'}
+                  <Icon name="arrow_forward" className="text-2xl" />
+                </button>
+              </div>
+              {!hasAnswered && (
+                <p className="text-center text-label-md font-label-md text-on-surface-variant mt-4">
+                  Choose an option to continue
+                </p>
+              )}
             </div>
           </>
         ) : (
-          <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-md shadow-sm mb-md text-center py-xl">
-            <div className="w-16 h-16 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-4">
-              <Icon name={RESULTS[topTrait].icon} className="text-4xl" filled />
+          <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg shadow-sm mb-md text-center py-20">
+            <div className="w-24 h-24 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-6">
+              <Icon name={RESULTS[topTrait].icon} className="text-5xl" filled />
             </div>
-            <span className="inline-block bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full mb-4">
+            <span className="inline-block bg-secondary-container text-on-secondary-container font-label-md text-label-md px-4 py-1.5 rounded-full mb-5">
               Your Result
             </span>
-            <h3 className="font-headline-md text-headline-md text-on-surface mb-3">{RESULTS[topTrait].title}</h3>
-            <p className="text-body-md text-on-surface-variant max-w-md mx-auto mb-8">{RESULTS[topTrait].desc}</p>
+            <h3 className="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-4">{RESULTS[topTrait].title}</h3>
+            <p className="text-body-lg text-on-surface-variant max-w-lg mx-auto mb-10">{RESULTS[topTrait].desc}</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button
                 onClick={retake}
-                className="h-12 px-8 rounded-full border-2 border-primary text-primary font-label-md flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors"
+                className="h-14 px-8 rounded-full border-2 border-primary text-primary font-label-lg text-lg font-semibold flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors"
               >
-                <Icon name="refresh" />
+                <Icon name="refresh" className="text-2xl" />
                 Retake Quiz
               </button>
               <Link
                 to="/scholarships"
-                className="h-12 px-8 rounded-full bg-primary text-on-primary font-label-md flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+                className="h-14 px-8 rounded-full bg-primary text-on-primary font-label-lg text-lg font-semibold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
               >
                 Explore Scholarships
-                <Icon name="arrow_forward" />
+                <Icon name="arrow_forward" className="text-2xl" />
               </Link>
             </div>
+
+            {recLoading ? (
+              <p className="mt-xl text-body-lg text-on-surface-variant">
+                Finding institutions and scholarships for this path…
+              </p>
+            ) : careerPath ? (
+              <div className="mt-xl text-left grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-surface-container rounded-xl p-lg">
+                  <h4 className="font-headline-sm text-headline-sm text-lg text-on-surface mb-2 flex items-center gap-2">
+                    <Icon name="account_balance" className="text-primary text-2xl" />
+                    Institutions to consider
+                  </h4>
+                  {careerPath.qualification_required && (
+                    <p className="text-body-md text-on-surface-variant mb-4">
+                      Typically requires: {careerPath.qualification_required}
+                    </p>
+                  )}
+                  {careerPath.institutions.length === 0 ? (
+                    <p className="text-body-md text-on-surface-variant">
+                      We're still curating institutions for this path — check back soon.
+                    </p>
+                  ) : (
+                    <ul className="space-y-3">
+                      {careerPath.institutions.map((inst) => (
+                        <li key={inst.id} className="flex items-start gap-3">
+                          <Icon name="school" className="text-primary text-2xl mt-0.5" />
+                          <span className="text-body-lg text-on-surface">
+                            {inst.name}
+                            {inst.region && (
+                              <span className="text-on-surface-variant"> — {inst.region}</span>
+                            )}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div className="bg-surface-container rounded-xl p-lg">
+                  <h4 className="font-headline-sm text-headline-sm text-lg text-on-surface mb-4 flex items-center gap-2">
+                    <Icon name="volunteer_activism" className="text-primary text-2xl" />
+                    Scholarships for this path
+                  </h4>
+                  {careerPath.scholarships.length === 0 ? (
+                    <p className="text-body-md text-on-surface-variant">
+                      No field-specific scholarships matched yet —{' '}
+                      <Link to="/scholarships" className="text-primary underline">
+                        browse all open scholarships
+                      </Link>
+                      .
+                    </p>
+                  ) : (
+                    <ul className="space-y-4">
+                      {careerPath.scholarships.map((s) => {
+                        const closed = isClosed(s.deadline)
+                        return (
+                          <li key={s.id}>
+                            <p className="text-body-lg text-on-surface font-medium">{s.title}</p>
+                            <p className={`text-body-md ${closed ? 'text-error' : 'text-on-surface-variant'}`}>
+                              {closed ? 'Closed' : `Deadline: ${formatDeadline(s.deadline)}`}
+                            </p>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            ) : null}
           </div>
         )}
       </div>

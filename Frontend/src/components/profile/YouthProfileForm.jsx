@@ -35,6 +35,7 @@ const REGIONS = [
 ]
 
 const EDUCATION_LEVELS = [
+  { value: 'primary', label: 'Primary School' },
   { value: 'jhs', label: 'Junior High School (JHS)' },
   { value: 'shs', label: 'Senior High School (SHS)' },
   { value: 'shs_graduate', label: 'SHS Graduate' },
@@ -50,21 +51,32 @@ const EDUCATION_LEVELS = [
 // for one would block them from continuing.
 const TERTIARY_TYPES = ['university', 'technical_university', 'college_of_education', 'tvet_centre']
 const LEVEL_TO_INSTITUTION_TYPES = {
-  jhs: ['school'],
   shs: ['school'],
   shs_graduate: TERTIARY_TYPES,
   tertiary: TERTIARY_TYPES,
 }
+
+// Primary/JHS have no seeded institution list to search (the seeded "school"
+// data is SHS-specific), so these levels just ask for the name directly
+// instead of offering a dropdown that would only ever show SHS names.
+const FREE_TEXT_INSTITUTION_LEVELS = ['primary', 'jhs']
 
 const GENDERS = ['Female', 'Male', 'Prefer not to say']
 
 const BASE_REQUIRED_FIELDS = ['dateOfBirth', 'region', 'district', 'educationLevel', 'gender']
 
 function institutionApplies(educationLevel) {
-  return Object.prototype.hasOwnProperty.call(LEVEL_TO_INSTITUTION_TYPES, educationLevel)
+  return (
+    Object.prototype.hasOwnProperty.call(LEVEL_TO_INSTITUTION_TYPES, educationLevel) ||
+    FREE_TEXT_INSTITUTION_LEVELS.includes(educationLevel)
+  )
 }
 
-export default function YouthProfileForm({ onSubmit, submitting, institutions = [] }) {
+function needsFreeTextInstitution(educationLevel) {
+  return FREE_TEXT_INSTITUTION_LEVELS.includes(educationLevel)
+}
+
+export default function YouthProfileForm({ onSubmit, submitting, institutions = [], defaultValues, submitLabel }) {
   const [values, setValues] = useState({
     dateOfBirth: '',
     region: '',
@@ -73,6 +85,7 @@ export default function YouthProfileForm({ onSubmit, submitting, institutions = 
     institution: '',
     customInstitutionName: '',
     gender: '',
+    ...defaultValues,
   })
   const [errors, setErrors] = useState({})
   const [districts, setDistricts] = useState([])
@@ -116,7 +129,10 @@ export default function YouthProfileForm({ onSubmit, submitting, institutions = 
   async function handleSubmit(e) {
     e.preventDefault()
     const needsInstitution = institutionApplies(values.educationLevel)
-    const requiredFields = needsInstitution ? [...BASE_REQUIRED_FIELDS, 'institution'] : BASE_REQUIRED_FIELDS
+    const freeText = needsFreeTextInstitution(values.educationLevel)
+    const requiredFields = needsInstitution
+      ? [...BASE_REQUIRED_FIELDS, freeText ? 'customInstitutionName' : 'institution']
+      : BASE_REQUIRED_FIELDS
     const nextErrors = validateRequiredFields(values, requiredFields)
 
     if (values.dateOfBirth && !nextErrors.dateOfBirth) {
@@ -129,7 +145,7 @@ export default function YouthProfileForm({ onSubmit, submitting, institutions = 
       }
     }
 
-    if (needsInstitution && values.institution === OTHER_INSTITUTION && !values.customInstitutionName.trim()) {
+    if (needsInstitution && !freeText && values.institution === OTHER_INSTITUTION && !values.customInstitutionName.trim()) {
       nextErrors.institution = 'Type the name of your institution.'
     }
 
@@ -141,7 +157,7 @@ export default function YouthProfileForm({ onSubmit, submitting, institutions = 
       return
     }
 
-    if (values.institution === OTHER_INSTITUTION) {
+    if (freeText || values.institution === OTHER_INSTITUTION) {
       setCreatingInstitution(true)
       try {
         const created = await apiPost('/institutions/', {
@@ -151,7 +167,8 @@ export default function YouthProfileForm({ onSubmit, submitting, institutions = 
         })
         onSubmit({ ...values, institution: created.id })
       } catch {
-        setErrors({ institution: "Couldn't add that institution — please try again." })
+        const message = "Couldn't add that institution — please try again."
+        setErrors(freeText ? { customInstitutionName: message } : { institution: message })
       } finally {
         setCreatingInstitution(false)
       }
@@ -222,35 +239,49 @@ export default function YouthProfileForm({ onSubmit, submitting, institutions = 
 
       {institutionApplies(values.educationLevel) && (
         <>
-          <Combobox
-            id="institution"
-            label="Institution"
-            required
-            value={values.institution}
-            onChange={handleChange('institution')}
-            error={errors.institution}
-            options={[
-              ...filteredInstitutions.map((inst) => ({ value: inst.id, label: inst.name })),
-              { value: OTHER_INSTITUTION, label: "Other (not listed — type your own)" },
-            ]}
-            placeholder="Type to search institutions..."
-          />
-
-          {values.institution === OTHER_INSTITUTION && (
+          {needsFreeTextInstitution(values.educationLevel) ? (
             <FormField
               id="customInstitutionName"
-              label="Your Institution's Name"
+              label="School Name"
               required
               value={values.customInstitutionName}
               onChange={handleChange('customInstitutionName')}
               error={errors.customInstitutionName}
-              placeholder="Enter the name of your school or institution"
+              placeholder="Enter the name of your school"
             />
+          ) : (
+            <>
+              <Combobox
+                id="institution"
+                label="Institution"
+                required
+                value={values.institution}
+                onChange={handleChange('institution')}
+                error={errors.institution}
+                options={[
+                  ...filteredInstitutions.map((inst) => ({ value: inst.id, label: inst.name })),
+                  { value: OTHER_INSTITUTION, label: "Other (not listed — type your own)" },
+                ]}
+                placeholder="Type to search institutions..."
+              />
+
+              {values.institution === OTHER_INSTITUTION && (
+                <FormField
+                  id="customInstitutionName"
+                  label="Your Institution's Name"
+                  required
+                  value={values.customInstitutionName}
+                  onChange={handleChange('customInstitutionName')}
+                  error={errors.customInstitutionName}
+                  placeholder="Enter the name of your school or institution"
+                />
+              )}
+            </>
           )}
         </>
       )}
 
-      <SubmitButton submitting={submitting || creatingInstitution} />
+      <SubmitButton submitting={submitting || creatingInstitution}>{submitLabel}</SubmitButton>
     </form>
   )
 }

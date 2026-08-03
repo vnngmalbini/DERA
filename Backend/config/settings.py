@@ -54,6 +54,11 @@ INSTALLED_APPS = [
     'marketplace',
     'stories',
     'helpcentre',
+    'mentorship',
+    'learning',
+    'donations',
+    'search',
+    'library',
 ]
 
 MIDDLEWARE = [
@@ -161,6 +166,9 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
+    'DEFAULT_THROTTLE_RATES': {
+        'auntie_chat': '20/min',
+    },
 }
 
 SIMPLE_JWT = {
@@ -174,3 +182,17 @@ SIMPLE_JWT = {
 # https://github.com/adamchainz/django-cors-headers
 
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=['http://localhost:5173'])
+
+
+# Gemini API (AI career counsellor)
+# https://ai.google.dev/gemini-api/docs
+
+GEMINI_API_KEY = env('GEMINI_API_KEY', default='')
+GEMINI_MODEL = env('GEMINI_MODEL', default='gemini-flash-latest')
+
+
+# Paystack (donations)
+# https://paystack.com/docs/payments/accept-payments/
+
+PAYSTACK_PUBLIC_KEY = env('PAYSTACK_PUBLIC_KEY', default='')
+PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY', default='')

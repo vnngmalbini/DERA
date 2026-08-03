@@ -1,7 +1,8 @@
+from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from rest_framework import serializers
 
-from .models import CounselorProfile, District, DonorProfile, Institution, User, YouthProfile
+from .models import CounselorProfile, District, DonorProfile, Institution, Notification, User, YouthProfile
 
 
 class InstitutionSerializer(serializers.ModelSerializer):
@@ -17,20 +18,38 @@ class DistrictSerializer(serializers.ModelSerializer):
 
 
 class YouthProfileSerializer(serializers.ModelSerializer):
+    # `institution` stays the writable FK id (frontend forms already submit
+    # it that way); this adds the display name alongside it so clients don't
+    # have to render the raw id or make a second lookup just to show it.
+    institution_name = serializers.SerializerMethodField()
+    assigned_counselor_name = serializers.SerializerMethodField()
+
     class Meta:
         model = YouthProfile
         fields = [
             'id', 'user', 'full_name', 'date_of_birth', 'region', 'district',
-            'education_level', 'institution', 'gender', 'created_at',
+            'education_level', 'institution', 'institution_name', 'gender',
+            'assigned_counselor', 'assigned_counselor_name', 'created_at',
         ]
         read_only_fields = ['id', 'user', 'created_at']
 
+    def get_institution_name(self, obj):
+        return obj.institution.name if obj.institution_id else None
+
+    def get_assigned_counselor_name(self, obj):
+        return obj.assigned_counselor.full_name if obj.assigned_counselor_id else None
+
 
 class CounselorProfileSerializer(serializers.ModelSerializer):
+    institution_name = serializers.SerializerMethodField()
+
     class Meta:
         model = CounselorProfile
-        fields = ['id', 'user', 'full_name', 'institution', 'role_title', 'created_at']
+        fields = ['id', 'user', 'full_name', 'institution', 'institution_name', 'role_title', 'created_at']
         read_only_fields = ['id', 'user', 'created_at']
+
+    def get_institution_name(self, obj):
+        return obj.institution.name if obj.institution_id else None
 
 
 class DonorProfileSerializer(serializers.ModelSerializer):
@@ -48,7 +67,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'email', 'phone', 'role', 'is_active', 'created_at', 'updated_at',
+            'id', 'email', 'phone', 'role', 'profile_picture', 'is_active', 'created_at', 'updated_at',
             'youth_profile', 'counselor_profile', 'donor_profile',
         ]
         read_only_fields = ['id', 'role', 'is_active', 'created_at', 'updated_at']
@@ -136,4 +155,32 @@ class RegisterSerializer(serializers.Serializer):
             )
         # role == ADMIN: no profile table in the schema; base User record is enough.
 
+        return user
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'category', 'title', 'message', 'link', 'related_object_id', 'is_read', 'created_at']
+        read_only_fields = fields
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError('Current password is incorrect.')
+        return value
+
+    def validate_new_password(self, value):
+        validate_password(value, user=self.context['request'].user)
+        return value
+
+    def save(self):
+        user = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.save(update_fields=['password'])
         return user

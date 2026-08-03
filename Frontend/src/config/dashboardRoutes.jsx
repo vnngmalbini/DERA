@@ -1,33 +1,42 @@
 // Pairs each role's dashboard paths with their page component, for
 // App.jsx to turn into <Route> entries. Kept separate from dashboardNav.js
 // (which DashboardLayout reads) to avoid a layout <-> pages import cycle.
-import YouthOverview from '../pages/youth/YouthOverview'
-import Mentorship from '../pages/youth/Mentorship'
-import Opportunities from '../pages/youth/Opportunities'
-import LearningResources from '../pages/youth/LearningResources'
+//
+// Every page is lazy — a youth account never needs the admin bundle (and
+// vice versa), so each is its own chunk fetched only on navigation.
+import { lazy } from 'react'
 
-import CounselorOverview from '../pages/counselor/CounselorOverview'
-import AssignedYouth from '../pages/counselor/AssignedYouth'
-import YouthDetails from '../pages/counselor/YouthDetails'
-import CounselingSessions from '../pages/counselor/CounselingSessions'
-import CounselorReports from '../pages/counselor/CounselorReports'
+const YouthOverview = lazy(() => import('../pages/youth/YouthOverview'))
+const Mentorship = lazy(() => import('../pages/youth/Mentorship'))
+const Opportunities = lazy(() => import('../pages/youth/Opportunities'))
+const LearningResources = lazy(() => import('../pages/youth/LearningResources'))
+const ReadingTracker = lazy(() => import('../pages/youth/ReadingTracker'))
 
-import DonorOverview from '../pages/donor/DonorOverview'
-import Donations from '../pages/donor/Donations'
-import ImpactReports from '../pages/donor/ImpactReports'
-import SponsoredProjects from '../pages/donor/SponsoredProjects'
+const CounselorOverview = lazy(() => import('../pages/counselor/CounselorOverview'))
+const AssignedYouth = lazy(() => import('../pages/counselor/AssignedYouth'))
+const YouthDetails = lazy(() => import('../pages/counselor/YouthDetails'))
+const CounselingSessions = lazy(() => import('../pages/counselor/CounselingSessions'))
+const CounselorReports = lazy(() => import('../pages/counselor/CounselorReports'))
 
-import AdminOverview from '../pages/admin/AdminOverview'
-import UserManagement from '../pages/admin/UserManagement'
-import InstitutionManagement from '../pages/admin/InstitutionManagement'
-import AdminReports from '../pages/admin/AdminReports'
-import AdminDonations from '../pages/admin/AdminDonations'
-import AdminOpportunities from '../pages/admin/AdminOpportunities'
-import ContentManagement from '../pages/admin/ContentManagement'
+const DonorOverview = lazy(() => import('../pages/donor/DonorOverview'))
+const Donations = lazy(() => import('../pages/donor/Donations'))
+const ImpactReports = lazy(() => import('../pages/donor/ImpactReports'))
+const SponsoredProjects = lazy(() => import('../pages/donor/SponsoredProjects'))
 
-import DashboardMessages from '../pages/dashboard/DashboardMessages'
-import DashboardProfile from '../pages/dashboard/DashboardProfile'
-import DashboardSettings from '../pages/dashboard/DashboardSettings'
+const AdminOverview = lazy(() => import('../pages/admin/AdminOverview'))
+const UserManagement = lazy(() => import('../pages/admin/UserManagement'))
+const InstitutionManagement = lazy(() => import('../pages/admin/InstitutionManagement'))
+const AdminReports = lazy(() => import('../pages/admin/AdminReports'))
+const AdminDonations = lazy(() => import('../pages/admin/AdminDonations'))
+const AdminScholarships = lazy(() => import('../pages/admin/AdminScholarships'))
+const AdminOpportunities = lazy(() => import('../pages/admin/AdminOpportunities'))
+const AdminMentors = lazy(() => import('../pages/admin/AdminMentors'))
+const AdminLearningResources = lazy(() => import('../pages/admin/AdminLearningResources'))
+const ContentManagement = lazy(() => import('../pages/admin/ContentManagement'))
+
+const DashboardMessages = lazy(() => import('../pages/dashboard/DashboardMessages'))
+const DashboardProfile = lazy(() => import('../pages/dashboard/DashboardProfile'))
+const DashboardSettings = lazy(() => import('../pages/dashboard/DashboardSettings'))
 
 export const DASHBOARD_PAGES = {
   youth: {
@@ -35,6 +44,7 @@ export const DASHBOARD_PAGES = {
     '/dashboard/youth/mentorship': Mentorship,
     '/dashboard/youth/opportunities': Opportunities,
     '/dashboard/youth/learning': LearningResources,
+    '/dashboard/youth/reading-tracker': ReadingTracker,
     '/dashboard/youth/messages': DashboardMessages,
     '/dashboard/youth/profile': DashboardProfile,
     '/dashboard/youth/settings': DashboardSettings,
@@ -64,7 +74,10 @@ export const DASHBOARD_PAGES = {
     '/dashboard/admin/institutions': InstitutionManagement,
     '/dashboard/admin/reports': AdminReports,
     '/dashboard/admin/donations': AdminDonations,
+    '/dashboard/admin/scholarships': AdminScholarships,
     '/dashboard/admin/opportunities': AdminOpportunities,
+    '/dashboard/admin/mentors': AdminMentors,
+    '/dashboard/admin/learning-resources': AdminLearningResources,
     '/dashboard/admin/content': ContentManagement,
     '/dashboard/admin/settings': DashboardSettings,
   },
