@@ -9,6 +9,20 @@ function isActivePath(pathname, item) {
   return item.end ? pathname === item.to : pathname.startsWith(item.to)
 }
 
+// Shared across every role — these public pages aren't part of any role's
+// dashboard workflow, but still need to be reachable from the one sidebar
+// logged-in users see everywhere (see PageLayout.jsx).
+const GENERAL_LINKS = [
+  { label: 'Real Stories', to: '/stories', icon: 'auto_stories' },
+  { label: 'Help Centre', to: '/help', icon: 'support_agent', roles: ['youth'] },
+]
+
+const COMPANY_LINKS = [
+  { label: 'About DERA', to: '/about', icon: 'info' },
+  { label: 'How It Works', to: '/how-it-works', icon: 'timeline' },
+  { label: 'Contact Us', to: '/contact', icon: 'mail' },
+]
+
 function initialsFor(name) {
   if (!name) return '?'
   return name
@@ -51,8 +65,8 @@ export default function DashboardLayout({ role, children }) {
     navigate('/')
   }
 
-  const navLinks = (onNavigate) =>
-    navItems.map((item) => {
+  const renderLinks = (items, onNavigate) =>
+    items.map((item) => {
       const active = isActivePath(location.pathname, item)
       return (
         <Link
@@ -71,6 +85,12 @@ export default function DashboardLayout({ role, children }) {
       )
     })
 
+  const visibleGeneralLinks = GENERAL_LINKS.filter((item) => !item.roles || item.roles.includes(role))
+
+  const navLinks = (onNavigate) => renderLinks(navItems, onNavigate)
+  const generalLinks = (onNavigate) => renderLinks(visibleGeneralLinks, onNavigate)
+  const companyLinks = (onNavigate) => renderLinks(COMPANY_LINKS, onNavigate)
+
   return (
     <div className="min-h-screen flex bg-surface-container-low">
       <aside className="hidden md:flex w-64 flex-col fixed top-0 left-0 h-screen bg-surface-container-lowest border-r border-outline-variant/30 px-md py-lg">
@@ -86,11 +106,18 @@ export default function DashboardLayout({ role, children }) {
           <NotificationBell />
         </div>
 
-        <nav className="flex flex-col gap-1 flex-1 min-h-0 overflow-y-auto">{navLinks()}</nav>
+        <nav className="flex flex-col gap-1 flex-1 min-h-0 overflow-y-auto">
+          {navLinks()}
+          {generalLinks()}
+          <p className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant/60 mt-lg mb-sm px-sm">
+            Company
+          </p>
+          {companyLinks()}
+        </nav>
 
         <div className="flex items-center gap-3 px-sm py-3 border-t border-outline-variant/30 pt-md">
           {user.profile_picture ? (
-            <img src={user.profile_picture} alt="" className="w-10 h-10 rounded-full object-cover shrink-0" />
+            <img src={user.profile_picture} alt="" loading="lazy" decoding="async" className="w-10 h-10 rounded-full object-cover shrink-0" />
           ) : (
             <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-label-md shrink-0">
               {initialsFor(displayName)}
@@ -104,7 +131,7 @@ export default function DashboardLayout({ role, children }) {
             onClick={handleLogout}
             title="Log Out"
             aria-label="Log Out"
-            className="p-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors shrink-0"
+            className="p-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors shrink-0"
           >
             <Icon name="logout" className="scale-x-[-1]" />
           </button>
@@ -133,6 +160,11 @@ export default function DashboardLayout({ role, children }) {
         {mobileNavOpen && (
           <nav className="md:hidden bg-surface-container-lowest border-b border-outline-variant/30 px-margin-mobile py-sm flex flex-col gap-1">
             {navLinks(() => setMobileNavOpen(false))}
+            {generalLinks(() => setMobileNavOpen(false))}
+            <p className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant/60 mt-md mb-1 px-sm">
+              Company
+            </p>
+            {companyLinks(() => setMobileNavOpen(false))}
             <button
               onClick={handleLogout}
               className="mt-2 flex items-center gap-3 px-sm py-3 rounded-xl text-error font-label-md text-label-md"

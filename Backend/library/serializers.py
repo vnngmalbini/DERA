@@ -2,7 +2,7 @@ from urllib.parse import quote_plus
 
 from rest_framework import serializers
 
-from .models import Book, LibrarianMessage, ReadingChallenge, UserBook
+from .models import Book, FreeBook, LibrarianMessage, ReadingChallenge, UserBook
 
 
 class LibrarianMessageSerializer(serializers.ModelSerializer):
@@ -26,9 +26,30 @@ class BookSerializer(serializers.ModelSerializer):
         ]
 
     def get_external_link(self, obj):
-        # A Goodreads *search* link (not a hand-picked permalink) so it's
-        # always correct — no risk of a stale or mistyped direct book ID.
+        # Prefer the hand-verified direct book page seeded in seed_books.py
+        # (see its docstring). Readers here are not tech-savvy, so a click
+        # must land on the one specific book, never a list of search
+        # results to sift through. Only fall back to a Goodreads *search*
+        # link for a book that hasn't been hand-verified yet.
+        if obj.external_link:
+            return obj.external_link
         return f'https://www.goodreads.com/search?q={quote_plus(f"{obj.title} {obj.author}")}'
+
+
+class FreeBookSerializer(serializers.ModelSerializer):
+    """Catalog shape for the Self Development Library. `cached_text` is
+    deliberately excluded — it can be large, and the reader view fetches it
+    on demand via the dedicated `read` action instead of on every list load.
+    """
+
+    category_display = serializers.CharField(source='get_category_display', read_only=True)
+
+    class Meta:
+        model = FreeBook
+        fields = [
+            'id', 'title', 'author', 'category', 'category_display', 'description',
+            'cover_url', 'html_url', 'epub_url',
+        ]
 
 
 class BookReviewSerializer(serializers.ModelSerializer):

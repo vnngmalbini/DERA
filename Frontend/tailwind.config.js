@@ -57,6 +57,11 @@ export default {
         DEFAULT: '0.25rem',
         lg: '0.5rem',
         xl: '0.75rem',
+        // 2xl/3xl are the standard card/surface and hero/feature-moment
+        // radii respectively — explicit here so every page draws from the
+        // same two tiers instead of drifting onto arbitrary values.
+        '2xl': '1rem',
+        '3xl': '1.5rem',
         full: '9999px',
       },
       spacing: {

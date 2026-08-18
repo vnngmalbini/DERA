@@ -18,6 +18,12 @@ export const DASHBOARD_META = {
         to: '/dashboard/youth/reading-tracker',
         icon: 'menu_book',
       },
+      {
+        key: 'self-development-library',
+        label: 'Self Development Library',
+        to: '/dashboard/youth/self-development-library',
+        icon: 'public',
+      },
       { key: 'mentorship', label: 'Mentorship', to: '/dashboard/youth/mentorship', icon: 'diversity_3' },
       { key: 'opportunities', label: 'Opportunities', to: '/dashboard/youth/opportunities', icon: 'explore' },
       { key: 'learning', label: 'Learning Resources', to: '/dashboard/youth/learning', icon: 'auto_stories' },

@@ -81,7 +81,9 @@ export default function Login() {
                 <img
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   alt="A serene and professional workspace with lush green plants and soft morning light streaming through a large window."
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdZS3tndHUz9cac7d3PM_1Ij8-zS4ASODkS2dA5kBEsLMs0k7V_16y-g2z0vcoqy49xydjoKLhvIQlFmLhcm9M2ZtV5MRFDDz2Sh7pUGTg6hbStK05MUZ9WtyXm5cIKwhvuXMlK9pPgPuh08-h3PLpwmpe7_Sri_zNnbacga0nsTmcN1Osgt0GwFdbNz1pAPSzlLAeOmY-7KIuZecW3dC4tQ9K7f_a4A_4ykAuwWkbbDkc7r55Tf60"
+                  loading="lazy"
+                  decoding="async"
+                  src="https://images.unsplash.com/photo-1755436612568-a197417c1ddf?auto=format&fit=crop&w=1200&q=80"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent flex flex-col justify-end p-lg">
                   <h2 className="font-headline-lg text-headline-lg text-white mb-xs">Nurture Your Ambition</h2>

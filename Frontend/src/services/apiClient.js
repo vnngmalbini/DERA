@@ -140,6 +140,31 @@ export async function apiPatchForm(path, formData, { retry = true } = {}) {
 }
 
 /**
+ * Authenticated binary download. A plain <a href> can't carry the Bearer
+ * token on browser navigation, so file downloads go through fetch() +
+ * Blob instead — the caller turns the Blob into an object URL and clicks a
+ * temporary <a download> to save it under a real filename.
+ */
+export async function apiGetBlob(path, { retry = true } = {}) {
+  const headers = {}
+  const access = getAccessToken()
+  if (access) headers.Authorization = `Bearer ${access}`
+
+  const res = await fetch(`${BASE_URL}${path}`, { headers })
+
+  if (res.status === 401 && retry && getRefreshToken()) {
+    const refreshed = await refreshAccessToken()
+    if (refreshed) return apiGetBlob(path, { retry: false })
+    clearTokens()
+  }
+
+  if (!res.ok) {
+    throw new ApiError(`Request failed with status ${res.status}`, res.status, null)
+  }
+  return res.blob()
+}
+
+/**
  * Deliberately unauthenticated — never attaches an Authorization header,
  * even if the caller happens to have a valid session elsewhere. Used only
  * for the anonymous Help Centre submission, to preserve anonymity end to

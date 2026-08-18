@@ -5,39 +5,61 @@ import Icon from '../components/ui/Icon'
 import { apiGet } from '../services/apiClient'
 
 function FormCard({ form }) {
+  const hasPrice = form.price_ghs !== null && form.price_ghs !== undefined
+  const officialUrl = form.institution?.application_url
+
   return (
-    <div className="group bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(13,31,8,0.05)] border border-transparent hover:border-secondary-fixed transition-all duration-300 flex flex-col h-full">
-      <div className="flex justify-between items-start mb-md">
-        <div className="w-16 h-16 rounded-lg overflow-hidden bg-surface-container-high flex items-center justify-center p-2">
-          <Icon name="school" className="text-secondary text-[32px]" />
+    <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/40 shadow-[0px_2px_12px_rgba(13,31,8,0.04)] hover:shadow-[0px_8px_28px_rgba(13,31,8,0.09)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col h-full overflow-hidden">
+      <div className="p-md pb-0 flex items-start justify-between gap-3">
+        <div className="w-14 h-14 rounded-xl bg-secondary-container flex items-center justify-center shrink-0">
+          <Icon name="account_balance" className="text-on-secondary-container text-[26px]" />
         </div>
-        <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-lg font-bold">
-          GHS {Number(form.price_ghs).toFixed(0)}
-        </span>
-      </div>
-      <div className="flex-grow space-y-sm">
-        <h3 className="font-headline-sm text-headline-sm text-on-surface">{form.title}</h3>
-        <p className="text-on-surface-variant text-body-md">{form.institution?.name}</p>
         {form.institution?.type && (
-          <div className="flex items-center gap-xs text-on-surface-variant">
-            <Icon name="check_circle" className="text-[18px] text-secondary" />
-            <span className="text-label-sm capitalize">{form.institution.type.replace(/_/g, ' ')}</span>
-          </div>
+          <span className="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-label-sm font-semibold capitalize whitespace-nowrap">
+            {form.institution.type.replace(/_/g, ' ')}
+          </span>
         )}
       </div>
-      <div className="mt-lg grid grid-cols-1 gap-sm">
-        <Link
-          to={`/purchase?form=${form.id}`}
-          className="w-full bg-secondary-fixed text-on-secondary-fixed py-3 rounded-lg font-bold hover:brightness-105 transition-all shadow-sm text-center"
-        >
-          Buy Now
-        </Link>
-        <Link
-          to={`/sponsorship?form=${form.id}`}
-          className="w-full border-2 border-secondary text-secondary py-3 rounded-lg font-bold hover:bg-secondary/5 transition-all text-center"
-        >
-          Apply for Sponsorship
-        </Link>
+
+      <div className="flex-grow p-md space-y-1">
+        <h3 className="font-headline-sm text-headline-sm text-on-surface leading-snug">{form.institution?.name}</h3>
+        <p className="text-on-surface-variant text-body-sm">{form.title}</p>
+        {form.institution?.region && (
+          <p className="text-on-surface-variant/70 text-label-sm flex items-center gap-1 pt-1">
+            <Icon name="location_on" className="text-[14px]" />
+            {form.institution.region} Region
+          </p>
+        )}
+      </div>
+
+      <div className="px-md pb-md pt-2 mt-auto border-t border-outline-variant/30">
+        {hasPrice && (
+          <div className="flex items-center justify-between py-3">
+            <span className="text-label-sm text-on-surface-variant uppercase tracking-wide font-semibold">
+              Application Fee
+            </span>
+            <span className="text-headline-sm font-bold text-secondary">GHS {Number(form.price_ghs).toFixed(0)}</span>
+          </div>
+        )}
+        <div className="grid grid-cols-1 gap-sm pt-1">
+          {officialUrl && (
+            <a
+              href={officialUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-secondary text-on-secondary py-3 rounded-lg font-semibold hover:brightness-105 active:scale-[0.98] transition-all shadow-sm text-center flex items-center justify-center gap-1.5 text-label-lg"
+            >
+              Apply on Official Site
+              <Icon name="open_in_new" className="text-[16px]" />
+            </a>
+          )}
+          <Link
+            to={`/sponsorship?form=${form.id}`}
+            className="w-full border border-secondary text-secondary py-3 rounded-lg font-semibold hover:bg-secondary/5 active:scale-[0.98] transition-all text-center text-label-lg"
+          >
+            Apply for Sponsorship
+          </Link>
+        </div>
       </div>
     </div>
   )
@@ -70,25 +92,25 @@ export default function FormsMarketplace() {
     <PageLayout>
       <div className="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-lg space-y-xl">
         {/* Hero Section */}
-        <section className="relative rounded-xl overflow-hidden bg-primary-container text-on-primary min-h-[340px] flex items-center p-md md:p-xl shadow-xl">
+        <section className="relative rounded-3xl overflow-hidden bg-primary-container text-on-primary min-h-[300px] flex items-center p-md md:p-xl shadow-lg">
           <div className="relative z-10 max-w-2xl space-y-md">
             <div className="inline-flex items-center gap-xs bg-secondary-fixed/20 text-secondary-fixed-dim px-3 py-1 rounded-full border border-secondary-fixed/30">
               <Icon name="verified_user" className="text-[16px]" />
-              <span className="text-label-sm uppercase tracking-widest font-bold">Empowering Futures</span>
+              <span className="text-label-sm uppercase tracking-widest font-bold">Verified Institutions Only</span>
             </div>
             <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg leading-tight">
-              Your gateway to tertiary education starts here.
+              Apply directly to Ghana&apos;s top institutions.
             </h1>
             <p className="text-body-lg text-on-primary-container opacity-90">
-              DERA connects you to official application forms. Can&apos;t afford the fee? We believe financial status
-              shouldn&apos;t block your dreams. Apply for a sponsorship directly on any form.
+              Every listing links straight to the institution&apos;s own official admissions portal — never a
+              third-party form. Need help with the fee? Apply for a sponsorship on any listing.
             </p>
             <div className="flex flex-wrap gap-md pt-base">
               <a
                 href="#marketplace"
                 className="bg-secondary-fixed text-primary-container px-md py-3 rounded-lg font-bold flex items-center gap-xs hover:shadow-lg transition-shadow"
               >
-                Explore All Forms
+                Browse Institutions
                 <Icon name="arrow_downward" />
               </a>
             </div>
@@ -100,7 +122,7 @@ export default function FormsMarketplace() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-md border-b border-outline-variant pb-md">
             <div className="space-y-xs">
               <h2 className="font-headline-sm text-headline-sm text-secondary">Forms Marketplace</h2>
-              <p className="text-on-surface-variant font-medium">Browse verified institution application forms.</p>
+              <p className="text-on-surface-variant font-medium">Real institutions, real official application links.</p>
             </div>
             <div className="flex flex-wrap gap-xs md:justify-end">
               {categories.map((category) => (
@@ -135,19 +157,22 @@ export default function FormsMarketplace() {
         </section>
 
         {/* Information / Trust Banner */}
-        <section className="bg-surface-container rounded-xl p-md md:p-lg flex flex-col md:flex-row items-center gap-lg">
-          <div className="flex-shrink-0 w-24 h-24 bg-secondary/10 rounded-full flex items-center justify-center text-secondary">
-            <Icon name="volunteer_activism" className="text-[48px]" />
+        <section className="bg-surface-container rounded-2xl p-md md:p-lg flex flex-col md:flex-row items-center gap-lg">
+          <div className="flex-shrink-0 w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center text-secondary">
+            <Icon name="volunteer_activism" className="text-[40px]" />
           </div>
           <div className="space-y-sm text-center md:text-left">
-            <h3 className="font-headline-sm text-headline-sm text-on-surface">Need a Sponsorship?</h3>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">Need help covering the fee?</h3>
             <p className="text-body-md text-on-surface-variant max-w-2xl">
-              The sponsorship application process is fast and confidential. Once approved, DERA pays for your form
-              directly to the institution. You only need to focus on your studies and providing the right documents.
+              The sponsorship application process is fast and confidential. Once approved, a vetted DERA sponsor
+              covers your application fee directly. You only need to focus on your studies and documents.
             </p>
           </div>
-          <div className="md:ml-auto">
-            <Link to="/sponsorship" className="text-secondary font-bold inline-flex items-center gap-xs hover:underline">
+          <div className="md:ml-auto shrink-0">
+            <Link
+              to="/sponsorship"
+              className="text-secondary font-bold inline-flex items-center gap-xs hover:underline whitespace-nowrap"
+            >
               Learn about Eligibility
               <Icon name="chevron_right" />
             </Link>

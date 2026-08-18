@@ -9,7 +9,6 @@ const ROLES = [
   { key: 'youth', label: 'Young Person', icon: 'person' },
   { key: 'donor', label: 'Sponsor', icon: 'volunteer_activism' },
   { key: 'counselor', label: 'Counselor', icon: 'support_agent' },
-  { key: 'admin', label: 'Admin', icon: 'admin_panel_settings' },
 ]
 
 export default function SignUp() {
@@ -88,7 +87,7 @@ export default function SignUp() {
                   className="bg-cover bg-center w-full h-full transition-transform duration-700 group-hover:scale-105"
                   style={{
                     backgroundImage:
-                      'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCvpy9wQHXxv3B_tmZN-QX7he8XotvybMXi9fmMay-mt7xR-Zc5yV9zL1Kp85XoCFC-M-Pu_G7nxjXV-L8AVN9mB8_hsi_v2734QRFxSgpFVB8PxwmPm0XsvbVdJeZGPNL7P4YodbCknsYLLOWCTyhUetVRRqG3d1RnCpTdHg0SLlO1G7x9mmB_93GL_JJXFtYJvUuYXLXhwLTeUP3oWbbQ0mFk0LnbzXSxAMKVJLOXpTl1up2cX89Q")',
+                      'url("https://images.unsplash.com/photo-1584365098838-50ccef838f4a?auto=format&fit=crop&w=1200&q=80")',
                   }}
                 />
               </div>
@@ -105,13 +104,13 @@ export default function SignUp() {
                   )}
                   <div className="space-y-sm">
                     <label className="font-label-lg text-label-lg text-on-surface-variant">I am a...</label>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-sm">
+                    <div className="flex flex-wrap justify-center gap-sm">
                       {ROLES.map((r) => (
                         <button
                           key={r.key}
                           type="button"
                           onClick={() => setRole(r.key)}
-                          className={`role-card group flex items-center justify-center flex-col p-md rounded-lg border-2 transition-all active:scale-95 ${
+                          className={`role-card group flex items-center justify-center flex-col p-md rounded-lg border-2 transition-all active:scale-95 basis-[45%] sm:basis-40 sm:flex-none ${
                             role === r.key
                               ? 'border-secondary bg-secondary-container scale-[1.02]'
                               : 'border-outline-variant bg-surface hover:border-secondary/50'

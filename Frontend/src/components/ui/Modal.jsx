@@ -30,7 +30,7 @@ export default function Modal({ open, onClose, title, children }) {
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="p-1 -m-1 rounded-full text-on-surface-variant hover:bg-surface-container transition-colors shrink-0"
+            className="p-2 -m-2 rounded-full text-on-surface-variant hover:bg-surface-container transition-colors shrink-0"
           >
             <Icon name="close" />
           </button>

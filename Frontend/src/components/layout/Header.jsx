@@ -10,6 +10,9 @@ const NAV_LINKS = [
   { label: 'Stories', to: '/stories' },
   { label: 'Donate', to: '/donate' },
   { label: 'Help', to: '/help' },
+  { label: 'About', to: '/about' },
+  { label: 'How It Works', to: '/how-it-works' },
+  { label: 'Contact Us', to: '/contact' },
 ]
 
 export default function Header() {
@@ -23,7 +26,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setMenuOpen(true)}
-              className="material-symbols-outlined text-primary text-2xl cursor-pointer hover:bg-secondary-container/20 p-2 rounded-full transition-colors"
+              className="lg:hidden material-symbols-outlined text-primary text-2xl cursor-pointer hover:bg-secondary-container/20 p-2.5 rounded-full transition-colors"
               aria-label="Open menu"
             >
               menu
@@ -35,7 +38,7 @@ export default function Header() {
               </h1>
             </Link>
           </div>
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-8 ml-10">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
@@ -54,7 +57,7 @@ export default function Header() {
             <Link
               to="/search"
               aria-label="Search"
-              className="material-symbols-outlined text-primary p-2 hover:bg-secondary-container/20 rounded-full transition-colors"
+              className="material-symbols-outlined text-primary p-2.5 hover:bg-secondary-container/20 rounded-full transition-colors"
             >
               search
             </Link>
@@ -66,7 +69,7 @@ export default function Header() {
             </Link>
             <Link
               to="/signup"
-              className="bg-primary text-on-primary font-label-md text-label-md px-4 py-2 rounded-full hover:shadow-lg transition-all whitespace-nowrap"
+              className="bg-primary text-on-primary font-label-md text-label-md px-5 py-2.5 rounded-full hover:shadow-lg transition-all whitespace-nowrap"
             >
               Sign Up
             </Link>

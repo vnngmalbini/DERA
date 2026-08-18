@@ -117,6 +117,39 @@ class ReadingChallenge(models.Model):
         return self.title
 
 
+class FreeBook(models.Model):
+    """The 'Self Development Library' — real, public-domain classics sourced
+    from Project Gutenberg, hand-verified (see seed_free_books) the same way
+    Book/seed_books is. Unlike Book, these are legally free to read in full
+    and download: Gutenberg only serves out-of-copyright works, so
+    `text_url`/`html_url`/`epub_url` point straight at Gutenberg-hosted
+    files rather than a search or storefront page. `cached_text` is filled
+    in lazily the first time anyone reads a given book (see
+    FreeBookViewSet.read), so Gutenberg is fetched once per book rather
+    than on every read.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    gutenberg_id = models.PositiveIntegerField(unique=True)
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    category = models.CharField(max_length=40, choices=Book.Category.choices, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    cover_url = models.URLField(max_length=500, blank=True, null=True)
+    html_url = models.URLField(max_length=500, blank=True, null=True)
+    text_url = models.URLField(max_length=500, blank=True, null=True)
+    epub_url = models.URLField(max_length=500, blank=True, null=True)
+    cached_text = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'library_free_books'
+        ordering = ['title']
+
+    def __str__(self):
+        return f'{self.title} — {self.author}'
+
+
 class LibrarianConversation(models.Model):
     """One ongoing AI Growth Librarian thread per youth — same shape as
     careers.CounsellorConversation so the two AI features stay consistent.

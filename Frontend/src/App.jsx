@@ -17,6 +17,9 @@ const SignUp = lazy(() => import('./pages/SignUp'))
 const CompleteProfile = lazy(() => import('./pages/CompleteProfile'))
 const ScholarshipHub = lazy(() => import('./pages/ScholarshipHub'))
 const CareerQuiz = lazy(() => import('./pages/CareerQuiz'))
+const CareerFieldDetail = lazy(() => import('./pages/CareerFieldDetail'))
+const CareerDetail = lazy(() => import('./pages/CareerDetail'))
+const CourseDetail = lazy(() => import('./pages/CourseDetail'))
 const Stories = lazy(() => import('./pages/Stories'))
 const HelpCentre = lazy(() => import('./pages/HelpCentre'))
 const FormsMarketplace = lazy(() => import('./pages/FormsMarketplace'))
@@ -52,6 +55,9 @@ export default function App() {
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/scholarships" element={<ScholarshipHub />} />
           <Route path="/career-quiz" element={<CareerQuiz />} />
+          <Route path="/career-fields/:careerPathId" element={<CareerFieldDetail />} />
+          <Route path="/careers/:careerId" element={<CareerDetail />} />
+          <Route path="/courses/:courseId" element={<CourseDetail />} />
           <Route path="/stories" element={<Stories />} />
           <Route path="/help" element={<HelpCentre />} />
           <Route path="/forms" element={<FormsMarketplace />} />

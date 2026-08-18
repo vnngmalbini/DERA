@@ -34,6 +34,60 @@ class CareerPath(models.Model):
         return self.title
 
 
+class Career(models.Model):
+    """A specific job/role within a CareerPath field (e.g. "Software Engineer"
+    under Technology & Computing) — what the quiz results screen counts and
+    lists under "careers available in this field", each with its own
+    read-more detail page.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    career_path = models.ForeignKey(CareerPath, on_delete=models.CASCADE, related_name='careers')
+    title = models.CharField(max_length=255)
+    summary = models.TextField(blank=True, null=True)
+    day_to_day = models.TextField(blank=True, null=True)
+    typical_earnings = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        db_table = 'career_roles'
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+
+
+class Course(models.Model):
+    """A real degree/diploma/certificate programme at a real institution that
+    prepares a youth for one or more Careers — what the quiz results screen
+    lists under "courses you can study to get there", each with its own
+    read-more detail page.
+    """
+
+    class Level(models.TextChoices):
+        CERTIFICATE = 'certificate', 'Certificate'
+        DIPLOMA = 'diploma', 'Diploma'
+        HND = 'hnd', 'HND'
+        BACHELORS = 'bachelors', "Bachelor's Degree"
+        MASTERS = 'masters', "Master's Degree"
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=255)
+    institution = models.ForeignKey('accounts.Institution', on_delete=models.CASCADE, related_name='courses')
+    career_path = models.ForeignKey(CareerPath, on_delete=models.CASCADE, related_name='courses')
+    careers = models.ManyToManyField(Career, related_name='courses', blank=True)
+    level = models.CharField(max_length=20, choices=Level.choices, default=Level.BACHELORS)
+    duration = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    entry_requirements = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'courses'
+        ordering = ['title']
+
+    def __str__(self):
+        return f'{self.title} — {self.institution}'
+
+
 class QuizResponse(models.Model):
     """Records that a youth submitted the career-discovery quiz.
 

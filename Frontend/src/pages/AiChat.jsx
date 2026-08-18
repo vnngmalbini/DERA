@@ -144,7 +144,7 @@ export default function AiChat() {
 
   return (
     <PageLayout bare>
-      <div className="h-screen flex flex-col bg-background">
+      <div className="h-dvh flex flex-col bg-background">
         <header className="sticky top-0 z-10 flex items-center gap-3 px-margin-mobile h-16 border-b border-outline-variant/30 bg-surface/80 backdrop-blur-md shrink-0">
           <Link
             to="/"
@@ -221,7 +221,7 @@ export default function AiChat() {
           </div>
         </div>
 
-        <div className="shrink-0 border-t border-outline-variant/30 bg-background px-margin-mobile pt-4 pb-6">
+        <div className="shrink-0 border-t border-outline-variant/30 bg-background px-margin-mobile pt-4 pb-safe">
           <div className="max-w-5xl mx-auto">
             {messages.length === 0 && (
               <div className="flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-2">

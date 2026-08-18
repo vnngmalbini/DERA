@@ -42,6 +42,16 @@ class FormOrderViewSet(viewsets.ModelViewSet):
         youth_profile = getattr(self.request.user, 'youth_profile', None)
         if youth_profile is None:
             raise PermissionDenied('Only youth accounts can place form orders.')
+        form = serializer.validated_data.get('form')
+        order_type = serializer.validated_data.get('order_type')
+        # Direct purchase needs a real price to charge (simulate_payment
+        # charges order.form.price_ghs). Sponsorship requests don't — the
+        # donor decides the amount when they fund it — so those are fine
+        # to submit even for forms we don't have a confirmed fee for yet.
+        if form is not None and form.price_ghs is None and order_type == FormOrder.OrderType.DIRECT_PURCHASE:
+            raise PermissionDenied(
+                'This form has no listed price yet — apply directly on the institution\'s official site instead.'
+            )
         serializer.save(youth=youth_profile)
 
     @action(detail=True, methods=['post'], url_path='simulate-payment')

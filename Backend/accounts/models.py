@@ -73,12 +73,17 @@ class Institution(models.Model):
         UNIVERSITY = 'university', 'University'
         TECHNICAL_UNIVERSITY = 'technical_university', 'Technical University'
         COLLEGE_OF_EDUCATION = 'college_of_education', 'College of Education'
+        NURSING_TRAINING_COLLEGE = 'nursing_training_college', 'Nursing Training College'
         TVET_CENTRE = 'tvet_centre', 'TVET Centre'
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=30, choices=Type.choices)
     region = models.CharField(max_length=100, blank=True, null=True)
+    # Link to the institution's own official admissions/application page.
+    # Left blank until verified — youth-facing pages must only show this
+    # button when we've confirmed a real URL, never a guessed one.
+    application_url = models.URLField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

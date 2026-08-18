@@ -4,6 +4,7 @@ from django.db.models import Avg, Count, Q
 from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.exceptions import NotFound, PermissionDenied
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -220,10 +221,12 @@ class CounselorReportsView(APIView):
 
 
 class RiskAssessmentViewSet(viewsets.ModelViewSet):
-    queryset = RiskAssessment.objects.all().order_by('-assessed_at')
     serializer_class = RiskAssessmentSerializer
     permission_classes = [IsCounselorOrAdmin]
     filterset_fields = ['youth', 'counselor']
+
+    def get_queryset(self):
+        return RiskAssessment.objects.filter(youth__in=_roster_queryset(self.request)).order_by('-assessed_at')
 
     def perform_create(self, serializer):
         counselor_profile = getattr(self.request.user, 'counselor_profile', None)
@@ -233,48 +236,69 @@ class RiskAssessmentViewSet(viewsets.ModelViewSet):
 
 
 class RiskIndicatorViewSet(viewsets.ModelViewSet):
-    queryset = RiskIndicator.objects.all()
     serializer_class = RiskIndicatorSerializer
     permission_classes = [IsCounselorOrAdmin]
     filterset_fields = ['assessment', 'category']
 
+    def get_queryset(self):
+        return RiskIndicator.objects.filter(assessment__youth__in=_roster_queryset(self.request))
+
 
 class InterventionViewSet(viewsets.ModelViewSet):
-    queryset = Intervention.objects.all()
     serializer_class = InterventionSerializer
     permission_classes = [IsCounselorOrAdmin]
     filterset_fields = ['assessment', 'status']
 
+    def get_queryset(self):
+        return Intervention.objects.filter(assessment__youth__in=_roster_queryset(self.request))
+
 
 class CounselingSessionViewSet(viewsets.ModelViewSet):
     serializer_class = CounselingSessionSerializer
-    permission_classes = [IsCounselorOrAdmin]
     filterset_fields = ['youth', 'status', 'session_type']
 
+    def get_permissions(self):
+        if self.action in ('list', 'retrieve'):
+            return [IsAuthenticated()]
+        return [IsCounselorOrAdmin()]
+
     def get_queryset(self):
-        if self.request.user.role == 'admin':
+        role = self.request.user.role
+        if role == 'admin':
             return CounselingSession.objects.all()
-        counselor_profile = getattr(self.request.user, 'counselor_profile', None)
-        if counselor_profile is None:
-            return CounselingSession.objects.none()
-        return CounselingSession.objects.filter(counselor=counselor_profile)
+        if role == 'counselor':
+            counselor_profile = getattr(self.request.user, 'counselor_profile', None)
+            if counselor_profile is None:
+                return CounselingSession.objects.none()
+            return CounselingSession.objects.filter(counselor=counselor_profile)
+        if role == 'youth':
+            return CounselingSession.objects.filter(youth__user=self.request.user)
+        return CounselingSession.objects.none()
 
     def perform_create(self, serializer):
         counselor_profile = getattr(self.request.user, 'counselor_profile', None)
         if counselor_profile is None:
             raise PermissionDenied('Only counselor accounts can schedule sessions.')
-        serializer.save(counselor=counselor_profile)
+        session = serializer.save(counselor=counselor_profile)
+        youth = session.youth
+        if youth.assigned_counselor_id is None:
+            youth.assigned_counselor = counselor_profile
+            youth.save(update_fields=['assigned_counselor'])
 
 
 class AttendanceRecordViewSet(viewsets.ModelViewSet):
-    queryset = AttendanceRecord.objects.all()
     serializer_class = AttendanceRecordSerializer
     permission_classes = [IsCounselorOrAdmin]
     filterset_fields = ['youth', 'date', 'present']
 
+    def get_queryset(self):
+        return AttendanceRecord.objects.filter(youth__in=_roster_queryset(self.request))
+
 
 class AcademicRecordViewSet(viewsets.ModelViewSet):
-    queryset = AcademicRecord.objects.all()
     serializer_class = AcademicRecordSerializer
     permission_classes = [IsCounselorOrAdmin]
     filterset_fields = ['youth', 'subject']
+
+    def get_queryset(self):
+        return AcademicRecord.objects.filter(youth__in=_roster_queryset(self.request))

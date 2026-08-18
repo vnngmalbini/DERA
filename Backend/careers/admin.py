@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CareerMatch, CareerPath, Opportunity, QuizResponse, Scholarship
+from .models import Career, CareerMatch, CareerPath, Course, Opportunity, QuizResponse, Scholarship
 
 
 class CareerMatchInline(admin.TabularInline):
@@ -8,10 +8,30 @@ class CareerMatchInline(admin.TabularInline):
     extra = 0
 
 
+class CareerInline(admin.TabularInline):
+    model = Career
+    extra = 0
+
+
 @admin.register(CareerPath)
 class CareerPathAdmin(admin.ModelAdmin):
     list_display = ('title', 'earnings_range', 'qualification_required')
     search_fields = ('title',)
+    inlines = [CareerInline]
+
+
+@admin.register(Career)
+class CareerAdmin(admin.ModelAdmin):
+    list_display = ('title', 'career_path', 'typical_earnings')
+    list_filter = ('career_path',)
+    search_fields = ('title',)
+
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('title', 'institution', 'career_path', 'level')
+    list_filter = ('career_path', 'level', 'institution__type')
+    search_fields = ('title', 'institution__name')
 
 
 @admin.register(Opportunity)

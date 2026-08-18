@@ -8,7 +8,7 @@ from .models import CounselorProfile, District, DonorProfile, Institution, Notif
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institution
-        fields = ['id', 'name', 'type', 'region', 'created_at']
+        fields = ['id', 'name', 'type', 'region', 'application_url', 'created_at']
 
 
 class DistrictSerializer(serializers.ModelSerializer):
@@ -88,7 +88,9 @@ class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     phone = serializers.CharField(required=False, allow_blank=True)
     password = serializers.CharField(write_only=True, min_length=8)
-    role = serializers.ChoiceField(choices=User.Role.choices)
+    role = serializers.ChoiceField(
+        choices=[c for c in User.Role.choices if c[0] != User.Role.ADMIN]
+    )
     full_name = serializers.CharField()
 
     # Youth-specific (optional)

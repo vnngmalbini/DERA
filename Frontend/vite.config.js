@@ -71,6 +71,21 @@ export default defineConfig({
               cacheableResponse: { statuses: [0, 200] },
             },
           },
+          {
+            // Same-origin or cross-origin API GET requests: try the network first
+            // (so data is always fresh when online) but fall back to the last
+            // successful response on a flaky/offline connection instead of a
+            // blank/broken screen.
+            urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+            method: 'GET',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-get-responses',
+              networkTimeoutSeconds: 5,
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
         ],
       },
     }),

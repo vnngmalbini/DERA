@@ -123,8 +123,8 @@ export default function UserManagement() {
                       <button
                         onClick={() => handleToggleActive(u)}
                         disabled={updatingId === u.id}
-                        className={`inline-flex items-center gap-1 font-label-md text-label-md hover:opacity-70 transition-opacity disabled:opacity-50 ${
-                          u.is_active ? 'text-error' : 'text-primary'
+                        className={`inline-flex items-center gap-1 px-3 py-2 rounded-full font-label-md text-label-md hover:opacity-70 transition-opacity disabled:opacity-50 ${
+                          u.is_active ? 'text-error bg-error-container/40' : 'text-primary bg-primary-container/40'
                         }`}
                       >
                         {updatingId === u.id ? 'Updating…' : u.is_active ? 'Deactivate' : 'Activate'}

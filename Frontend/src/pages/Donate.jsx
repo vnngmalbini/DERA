@@ -61,6 +61,11 @@ export default function Donate() {
         },
         onClose: () => {
           setStatus((current) => (current === 'processing' ? 'idle' : current))
+          // The popup was closed without completing payment — verify anyway
+          // so the backend resolves this reference to "failed" instead of
+          // leaving it "pending" forever (Paystack reports it as not
+          // successful, since no payment was actually completed).
+          verifyDonation(donation.reference).catch(() => {})
         },
       })
       handler.openIframe()

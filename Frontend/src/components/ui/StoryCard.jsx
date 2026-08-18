@@ -10,7 +10,7 @@ function StoryDetailModal({ story, onClose }) {
         <div className="relative">
           <div className="h-56 bg-primary-container flex items-center justify-center overflow-hidden">
             {story.photo ? (
-              <img src={story.photo} alt={story.title} className="w-full h-full object-cover" />
+              <img src={story.photo} alt={story.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
             ) : (
               <Icon name="auto_stories" className="text-primary text-[96px] opacity-40" />
             )}
@@ -64,7 +64,7 @@ export default function StoryCard({ story, featured = false }) {
         <article className="md:col-span-8 bg-white rounded-3xl overflow-hidden border border-outline-variant/10 flex flex-col md:flex-row">
           <div className="md:w-1/2 min-h-64 bg-primary-container flex items-center justify-center relative overflow-hidden">
             {story.photo ? (
-              <img src={story.photo} alt={story.title} className="w-full h-full object-cover" />
+              <img src={story.photo} alt={story.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
             ) : (
               <Icon name="auto_stories" className="text-primary text-[96px] opacity-40" />
             )}
@@ -101,11 +101,11 @@ export default function StoryCard({ story, featured = false }) {
 
   return (
     <>
-      <article className="md:col-span-4 bg-white p-6 rounded-3xl border border-outline-variant/10 space-y-4">
+      <article className="md:col-span-4 bg-white p-6 rounded-2xl border border-outline-variant/10 space-y-4">
         <div className="flex items-center justify-between">
           <div className="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center border-2 border-primary-fixed overflow-hidden">
             {story.photo ? (
-              <img src={story.photo} alt={story.title} className="w-full h-full object-cover" />
+              <img src={story.photo} alt={story.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
             ) : (
               <Icon name="person" className="text-primary text-[28px]" />
             )}

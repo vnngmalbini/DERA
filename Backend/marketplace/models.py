@@ -9,7 +9,10 @@ class ApplicationForm(models.Model):
         'accounts.Institution', on_delete=models.PROTECT, related_name='application_forms'
     )
     title = models.CharField(max_length=255)
-    price_ghs = models.DecimalField(max_digits=10, decimal_places=2)
+    # Null when we don't have a confidently-sourced current fee for this
+    # institution — those forms show only the official-site link, with
+    # Buy Now/Sponsorship hidden rather than display a guessed price.
+    price_ghs = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     class Meta:
         db_table = 'application_forms'

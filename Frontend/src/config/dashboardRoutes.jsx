@@ -11,6 +11,7 @@ const Mentorship = lazy(() => import('../pages/youth/Mentorship'))
 const Opportunities = lazy(() => import('../pages/youth/Opportunities'))
 const LearningResources = lazy(() => import('../pages/youth/LearningResources'))
 const ReadingTracker = lazy(() => import('../pages/youth/ReadingTracker'))
+const SelfDevelopmentLibrary = lazy(() => import('../pages/youth/SelfDevelopmentLibrary'))
 
 const CounselorOverview = lazy(() => import('../pages/counselor/CounselorOverview'))
 const AssignedYouth = lazy(() => import('../pages/counselor/AssignedYouth'))
@@ -45,6 +46,7 @@ export const DASHBOARD_PAGES = {
     '/dashboard/youth/opportunities': Opportunities,
     '/dashboard/youth/learning': LearningResources,
     '/dashboard/youth/reading-tracker': ReadingTracker,
+    '/dashboard/youth/self-development-library': SelfDevelopmentLibrary,
     '/dashboard/youth/messages': DashboardMessages,
     '/dashboard/youth/profile': DashboardProfile,
     '/dashboard/youth/settings': DashboardSettings,

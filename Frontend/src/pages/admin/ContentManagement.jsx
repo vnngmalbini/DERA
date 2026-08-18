@@ -124,6 +124,8 @@ function AddStoryModal({ careerPaths, onClose, onCreated }) {
                 <img
                   src={photoPreview}
                   alt="Preview"
+                  loading="lazy"
+                  decoding="async"
                   className="h-16 w-16 rounded-full object-cover border border-outline-variant/40"
                 />
               )}
@@ -312,7 +314,7 @@ export default function ContentManagement() {
                   <tr key={story.id} className="hover:bg-surface-container transition-colors">
                     <td className="px-6 py-4">
                       {story.photo ? (
-                        <img src={story.photo} alt="" className="h-10 w-10 rounded-full object-cover" />
+                        <img src={story.photo} alt="" loading="lazy" decoding="async" className="h-10 w-10 rounded-full object-cover" />
                       ) : (
                         <div className="h-10 w-10 rounded-full bg-surface-container-highest flex items-center justify-center">
                           <Icon name="person" className="text-on-surface-variant text-[18px]" />

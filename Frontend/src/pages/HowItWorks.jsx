@@ -87,7 +87,7 @@ export default function HowItWorks() {
               className="w-full h-full bg-cover bg-center"
               style={{
                 backgroundImage:
-                  "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCaA0dvt5A6E8WIdkyfKtnkkAhvk2k3wJcBVZhnC_EbrrGsjkAjwE0dWMowl9-686U-MVOJNJhgPpPkQManvIvBGiwa6NBaqhDBTW2Gbwsp4Uis_mb7DPDrRHSub1kvHaJ3dwwp2qiRcnoY2Ed3bRT8xRTCQy-FDbN-4Pj1tT02ycDKzNEHc_Inhwqs9WEE_iOPnecMY-GsEE3Kuv328Z_GiSMTLGvETAR7ii-6MTKLkR1EXGXuE-zt')",
+                  "url('https://images.unsplash.com/photo-1758876203819-4cb3eec8e1aa?auto=format&fit=crop&w=1200&q=80')",
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -103,13 +103,13 @@ export default function HowItWorks() {
 
         {/* Bento Grid for Stories and Community */}
         <section className="mt-xl grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-gutter h-auto md:h-[600px]">
-          <div className="md:col-span-2 md:row-span-2 bg-primary-container rounded-xl p-lg relative overflow-hidden flex flex-col justify-end">
+          <div className="md:col-span-2 md:row-span-2 bg-primary-container rounded-3xl p-lg relative overflow-hidden flex flex-col justify-end">
             <div className="absolute inset-0 opacity-40">
               <div
                 className="w-full h-full bg-cover bg-center"
                 style={{
                   backgroundImage:
-                    "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUEIurJPI-mrRfOTP0LYmutRI_cV4SYXSvsSpM9up-QPzYAENlwfb8dY1s4mv6Eku8IfIDKhvPWdNx9mVxayWSz2kxhRDif-HIVz-7piSqEBmPyhnIz3pH2hu8l203p2zP2JbVyehO5ypf-hnqHtkZU5PqWQaL5jKK5ouQQpgylAmkcSWJqUHUDDIBd-7P5IF4x30Sn4q_jebQt35iGPpHWf-ib61-RyYLnwi-Wobp5jn7jqp-ckFD')",
+                    "url('https://images.unsplash.com/photo-1528901166007-3784c7dd3653?auto=format&fit=crop&w=1200&q=80')",
                 }}
               />
             </div>

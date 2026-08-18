@@ -63,12 +63,14 @@ export default function Sponsorship() {
   if (!isLoggedIn) return <Navigate to="/login" replace />
   if (user.role !== 'youth') {
     return (
-      <div className="min-h-screen flex items-center justify-center px-margin-mobile text-center">
-        <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
-          Only youth accounts can request form sponsorships. If you'd like to fund a request instead, visit the donor
-          dashboard.
-        </p>
-      </div>
+      <PageLayout>
+        <div className="min-h-[60vh] flex items-center justify-center px-margin-mobile text-center">
+          <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+            Only youth accounts can request form sponsorships. If you'd like to fund a request instead, visit the
+            donor dashboard.
+          </p>
+        </div>
+      </PageLayout>
     )
   }
 
@@ -103,26 +105,8 @@ export default function Sponsorship() {
   }
 
   return (
-    <PageLayout bare>
-      {/* Top Navigation Bar */}
-      <header className="w-full top-0 sticky z-50 bg-surface shadow-[0px_4px_20px_rgba(13,31,8,0.05)]">
-        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-base max-w-[1280px] mx-auto w-full">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors duration-200 font-label-lg text-label-lg"
-          >
-            <Icon name="arrow_back" />
-            <span className="hidden md:inline">Back</span>
-          </button>
-          <Link to="/" className="flex items-center gap-xs cursor-pointer active:opacity-80">
-            <Icon name="spa" className="text-secondary text-headline-md" filled />
-            <h1 className="font-headline-md text-headline-md font-bold text-secondary">DERA</h1>
-          </Link>
-        </div>
-      </header>
-
-      <main className="min-h-[calc(100vh-64px)] pb-xl">
-        {/* Hero Section / Encouragement */}
+    <PageLayout>
+      {/* Hero Section / Encouragement */}
         <section className="relative overflow-hidden pt-lg pb-xl px-margin-mobile md:px-margin-desktop bg-primary-container text-on-primary">
           <div className="max-w-[800px] mx-auto text-center relative z-10">
             <div className="inline-flex items-center justify-center p-3 rounded-full bg-secondary-container text-on-secondary-container mb-md">
@@ -194,7 +178,10 @@ export default function Sponsorship() {
                       <div>
                         <p className="font-label-lg text-label-lg text-on-surface">{applicationForm.title}</p>
                         <p className="font-label-sm text-label-sm text-on-surface-variant">
-                          {applicationForm.institution?.name} · GHS {Number(applicationForm.price_ghs).toFixed(2)}
+                          {applicationForm.institution?.name}
+                          {applicationForm.price_ghs !== null && applicationForm.price_ghs !== undefined
+                            ? ` · GHS ${Number(applicationForm.price_ghs).toFixed(2)}`
+                            : ' · Fee to be confirmed with sponsor'}
                         </p>
                       </div>
                     </div>
@@ -286,7 +273,7 @@ export default function Sponsorship() {
                 <div className="bg-secondary/10 p-md rounded-xl flex items-center gap-4">
                   <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 bg-secondary-container flex items-center justify-center">
                     {story.photo ? (
-                      <img className="w-full h-full object-cover" alt={story.title} src={story.photo} />
+                      <img className="w-full h-full object-cover" alt={story.title} src={story.photo} loading="lazy" decoding="async" />
                     ) : (
                       <Icon name="person" className="text-secondary text-2xl" />
                     )}
@@ -313,25 +300,6 @@ export default function Sponsorship() {
             </div>
           </div>
         </section>
-      </main>
-
-      {/* Bottom Footer */}
-      <footer className="bg-surface border-t border-outline-variant/10 py-lg px-margin-mobile md:px-margin-desktop mt-xl">
-        <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
-          <p className="font-label-sm text-label-sm text-on-surface-variant">© 2024 DERA Community. All rights reserved.</p>
-          <div className="flex gap-gutter">
-            <a className="text-label-sm font-label-sm text-on-surface-variant hover:text-secondary" href="#">
-              Privacy Policy
-            </a>
-            <Link className="text-label-sm font-label-sm text-on-surface-variant hover:text-secondary" to="/help">
-              Help Center
-            </Link>
-            <a className="text-label-sm font-label-sm text-on-surface-variant hover:text-secondary" href="#">
-              Terms of Service
-            </a>
-          </div>
-        </div>
-      </footer>
 
       {/* Success Modal */}
       {submitted && (

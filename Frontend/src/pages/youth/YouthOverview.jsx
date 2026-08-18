@@ -4,8 +4,26 @@ import DashboardStatCard from '../../components/dashboard/DashboardStatCard'
 import QuickActions from '../../components/dashboard/QuickActions'
 import ActivityFeed from '../../components/dashboard/ActivityFeed'
 import DashboardSkeleton from '../../components/dashboard/DashboardSkeleton'
+import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
 import { useDashboardSummary } from '../../hooks/useDashboardSummary'
+
+const SESSION_TYPE_LABELS = {
+  academic_checkin: 'Academic Check-in',
+  home_visit: 'Home Visit',
+  mentorship_pairing: 'Mentorship Pairing',
+  crisis_support: 'Crisis Support',
+  other: 'Session',
+}
+
+function formatSessionTime(iso) {
+  return new Date(iso).toLocaleString('en-US', {
+    month: 'short',
+    day: '2-digit',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
+}
 
 export default function YouthOverview() {
   const { user } = useAuth()
@@ -34,6 +52,37 @@ export default function YouthOverview() {
           <section className="mb-xl">
             <QuickActions actions={summary.quickActions} />
           </section>
+
+          {summary.upcomingSessions?.length > 0 && (
+            <section className="mb-xl">
+              <h3 className="font-headline-md text-headline-md text-on-surface mb-4">Upcoming Sessions</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {summary.upcomingSessions.map((session) => (
+                  <div
+                    key={session.id}
+                    className="bg-surface-container-lowest p-md rounded-xl border border-outline-variant/40 shadow-sm flex items-start gap-3"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
+                      <Icon name="event_available" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-label-md text-label-md text-on-surface">
+                        {SESSION_TYPE_LABELS[session.session_type] || session.session_type_display}
+                      </p>
+                      <p className="font-body-md text-body-md text-on-surface-variant">
+                        {formatSessionTime(session.scheduled_at)}
+                      </p>
+                      {session.counselor_name && (
+                        <p className="font-label-sm text-label-sm text-on-surface-variant mt-1">
+                          With {session.counselor_name}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ActivityFeed items={summary.activity} title="Recent Activity" />

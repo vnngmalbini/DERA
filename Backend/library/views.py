@@ -1,5 +1,9 @@
 from datetime import timedelta
 
+import re
+
+import requests
+from django.http import HttpResponse
 from django.utils import timezone
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
@@ -8,10 +12,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .ai_librarian import LibrarianServiceError, build_welcome_message, get_librarian_reply
-from .models import Book, LibrarianConversation, LibrarianMessage, ReadingChallenge, UserBook
+from .models import Book, FreeBook, LibrarianConversation, LibrarianMessage, ReadingChallenge, UserBook
+from .pdf_export import build_book_brief_pdf, build_pdf
 from .serializers import (
     BookReviewSerializer,
     BookSerializer,
+    FreeBookSerializer,
     LibrarianMessageSerializer,
     ReadingChallengeSerializer,
     UserBookSerializer,
@@ -75,6 +81,12 @@ class LibrarianMessageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+def _safe_filename(book, ext, label=None):
+    name = f'{book.title} - {book.author}' + (f' ({label})' if label else '')
+    raw_name = re.sub(r'[^\w\s-]', ' ', name)
+    return re.sub(r'\s+', ' ', raw_name).strip() + f'.{ext}'
+
+
 class BookViewSet(viewsets.ReadOnlyModelViewSet):
     """The real, curated book catalog (see seed_books) — public read for any
     authenticated user, never written to via the API.
@@ -92,6 +104,84 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         reviews = UserBook.objects.filter(book=book).exclude(review__isnull=True).exclude(review__exact='')
         serializer = BookReviewSerializer(reviews, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def download(self, request, pk=None):
+        """These are real, copyrighted books we have no rights to
+        redistribute — so this never serves the book's own text. Instead it
+        typesets DERA's own recommendation notes (see
+        pdf_export.build_book_brief_pdf) into a downloadable "book brief":
+        why it's recommended, key lessons, and who should read it, clearly
+        labelled as a summary and pointing back to the real book.
+        """
+        book = self.get_object()
+        pdf_bytes = build_book_brief_pdf(book)
+
+        http_response = HttpResponse(pdf_bytes, content_type='application/pdf')
+        http_response['Content-Disposition'] = (
+            f'attachment; filename="{_safe_filename(book, "pdf", label="DERA Book Brief")}"'
+        )
+        return http_response
+
+
+class FreeBookUnavailable(APIException):
+    status_code = 503
+    default_detail = 'This book is temporarily unavailable. Please try again in a moment.'
+    default_code = 'free_book_unavailable'
+
+
+class FreeBookViewSet(viewsets.ReadOnlyModelViewSet):
+    """Self Development Library — real, public-domain classics from Project
+    Gutenberg (see seed_free_books). Legally free to read in full and
+    download, unlike the curated Book catalog above.
+    """
+
+    queryset = FreeBook.objects.all()
+    serializer_class = FreeBookSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filterset_fields = ['category']
+    pagination_class = None
+
+    def _ensure_cached_text(self, book):
+        """Fetches and caches the book's plain text from Gutenberg the
+        first time it's needed (by either the reader or the PDF export),
+        so it's fetched once per book rather than on every request.
+        """
+        if book.cached_text:
+            return book.cached_text
+        if not book.text_url:
+            raise FreeBookUnavailable('No readable text is available for this book yet.')
+        try:
+            response = requests.get(book.text_url, timeout=10)
+            response.raise_for_status()
+        except requests.RequestException as exc:
+            raise FreeBookUnavailable() from exc
+        book.cached_text = response.text
+        book.save(update_fields=['cached_text'])
+        return book.cached_text
+
+    @action(detail=True, methods=['get'])
+    def read(self, request, pk=None):
+        book = self.get_object()
+        text = self._ensure_cached_text(book)
+        return Response({'id': book.id, 'title': book.title, 'author': book.author, 'content': text})
+
+    @action(detail=True, methods=['get'])
+    def download(self, request, pk=None):
+        """Project Gutenberg doesn't publish a PDF format for any of the
+        titles in this catalog (verified against the Gutendex API) — only
+        plain text, HTML, and EPUB. We typeset one ourselves (see
+        pdf_export.build_pdf) from the same cached plain text the reader
+        uses, since it's public-domain content we're already legally
+        serving in full — this is the only downloadable format offered.
+        """
+        book = self.get_object()
+        text = self._ensure_cached_text(book)
+        pdf_bytes = build_pdf(book.title, book.author, text)
+
+        http_response = HttpResponse(pdf_bytes, content_type='application/pdf')
+        http_response['Content-Disposition'] = f'attachment; filename="{_safe_filename(book, "pdf")}"'
+        return http_response
 
 
 class UserBookViewSet(viewsets.ModelViewSet):

@@ -6,10 +6,12 @@ from common.permissions import IsAdminOrReadOnly
 
 from .ai_counsellor import WELCOME_MESSAGE, CounsellorServiceError, get_counsellor_reply
 from .models import (
+    Career,
     CareerMatch,
     CareerPath,
     CounsellorConversation,
     CounsellorMessage,
+    Course,
     Opportunity,
     QuizResponse,
     Scholarship,
@@ -17,7 +19,9 @@ from .models import (
 from .serializers import (
     CareerMatchSerializer,
     CareerPathSerializer,
+    CareerSerializer,
     CounsellorMessageSerializer,
+    CourseSerializer,
     OpportunitySerializer,
     QuizResponseSerializer,
     ScholarshipSerializer,
@@ -85,6 +89,22 @@ class CareerPathViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
     filterset_fields = ['trait']
     pagination_class = None  # 5 trait buckets total; the quiz result screen needs the full filtered list at once
+
+
+class CareerViewSet(viewsets.ModelViewSet):
+    queryset = Career.objects.all().select_related('career_path').prefetch_related('courses__institution').order_by('title')
+    serializer_class = CareerSerializer
+    permission_classes = [IsAdminOrReadOnly]
+    filterset_fields = ['career_path']
+    pagination_class = None  # small dataset; a career's detail page needs the whole record at once
+
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all().select_related('institution', 'career_path').prefetch_related('careers').order_by('title')
+    serializer_class = CourseSerializer
+    permission_classes = [IsAdminOrReadOnly]
+    filterset_fields = ['career_path', 'institution', 'level']
+    pagination_class = None
 
 
 class ScholarshipViewSet(viewsets.ModelViewSet):

@@ -22,7 +22,7 @@ export default function Button({
 }) {
   const base =
     variant === 'text'
-      ? 'inline-flex items-center gap-2 font-label-md text-label-md transition-transform'
+      ? 'inline-flex items-center gap-2 font-label-md text-label-md transition-transform py-2 -my-2'
       : 'inline-flex items-center justify-center gap-2 py-4 px-8 rounded-full font-label-md text-label-md transition-all'
 
   const classes = `${base} ${VARIANTS[variant]} ${className}`

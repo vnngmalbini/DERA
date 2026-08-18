@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
+import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet } from '../../services/apiClient'
 
@@ -54,16 +55,10 @@ export default function CounselorReports() {
 
   return (
     <DashboardLayout role="counselor">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-lg">
-        <div>
-          <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-xs">
-            Reports &amp; Insights
-          </h1>
-          <p className="text-on-surface-variant font-body-md text-body-md max-w-2xl">
-            Based on {report.assigned_youth_count} youth assigned to you.
-          </p>
-        </div>
-      </div>
+      <DashboardPageHeader
+        title="Reports & Insights"
+        description={`Based on ${report.assigned_youth_count} youth assigned to you.`}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
         <div className="md:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-md shadow-sm">

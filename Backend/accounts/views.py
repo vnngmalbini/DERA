@@ -103,6 +103,7 @@ class YouthProfileViewSet(_ProfileViewSet):
     queryset = YouthProfile.objects.select_related('institution', 'assigned_counselor').order_by('full_name')
     serializer_class = YouthProfileSerializer
     filterset_fields = ['education_level', 'region', 'institution', 'assigned_counselor']
+    pagination_class = None  # counsellor-facing dropdowns (e.g. schedule-session) need the full list at once
 
 
 class CounselorProfileViewSet(_ProfileViewSet):

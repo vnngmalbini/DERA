@@ -3,6 +3,8 @@ import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { sendAuntieMessage } from '../services/auntieService'
 
+const MEDIA_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '')
+
 const PRIVACY_BADGES = [
   { icon: 'no_accounts', label: 'No Identity Required' },
   { icon: 'encrypted', label: 'End-to-End Private' },
@@ -140,7 +142,7 @@ export default function HelpCentre() {
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-base pb-24 md:pb-12">
         {/* Hero Section: Safe & Anonymous */}
         <section className="mt-8 mb-xl">
-          <div className="relative overflow-hidden bg-primary-container rounded-xl p-md md:p-lg flex flex-col md:flex-row items-center gap-md">
+          <div className="relative overflow-hidden bg-primary-container rounded-3xl p-md md:p-lg flex flex-col md:flex-row items-center gap-md">
             <div className="z-10 flex-1 space-y-4 text-center md:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-secondary-container/10 border border-secondary-container/30 rounded-full">
                 <Icon name="shield_person" filled className="text-secondary-fixed text-sm" />
@@ -160,8 +162,10 @@ export default function HelpCentre() {
               <div className="absolute inset-0 bg-secondary-container/20 rounded-full animate-pulse" />
               <img
                 className="w-full h-full object-cover rounded-full border-4 border-secondary-container/30"
-                alt="A portrait of a warm, friendly Ghanaian woman in her late 40s, a trustworthy mentor for the DERA platform."
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuChEQ4cLnoC7c-3Y1NAHtLxtTuyRyCWF31Owr_p-kSqCjBXyB-7ceA703JydSLrR2iacko4WQpqf74sa5lCUX3VXx9fqxQFNV2NUoodpEJCyGmTIXOQFz9JVZOfUiJE_XBGanlr5iaq_9cbuHVrk5S_XPdKfFSNsfE_L3epxA-HH5Ni2YUonSn9xl9V0YLFKfIgnthiAvaUiIMfcMnzZ9Z2grZUgtKOBKhly1P4yJ0xYNkVg5t4TL21"
+                alt="Portrait of Veronica Nakol Ngmalbini, the trustworthy mentor persona for the DERA platform."
+                fetchPriority="high"
+                decoding="async"
+                src={`${MEDIA_BASE_URL}/media/stories/WhatsApp_Image_2026-07-22_at_21.52.24.jpeg`}
               />
               <div className="absolute bottom-2 right-2 bg-secondary-container text-on-secondary-fixed px-3 py-1 rounded-full font-label-lg shadow-lg">
                 Auntie DERA

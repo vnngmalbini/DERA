@@ -12,6 +12,15 @@ recommend real books too, but this catalog is what backs the Reading
 Tracker, ratings, and reviews, so it needs to be right independently of
 whatever the chat says in any given conversation.
 
+Each entry's external_link is a hand-verified Open Library *work* page —
+one specific book, not a search results list — confirmed by fetching
+openlibrary.org's search/editions API directly (August 2026) and checking
+the author and edition metadata match. This is deliberately the same
+"hand-verified, no guessing" approach as
+accounts/management/commands/seed_institution_application_urls.py: readers
+here are not tech-savvy, so "Start Reading" must land them on the one real
+book, never on a page of results to sift through themselves.
+
 One book per category (16 categories, matching the Growth Librarian's
 system prompt) — a starting catalog, not exhaustive. Safe to re-run:
 update_or_create keyed on title.
@@ -41,6 +50,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone who wants to build consistency in study, work, or personal routines.',
         'difficulty_rating': 1,
+        'external_link': 'https://openlibrary.org/works/OL17930368W',
     },
     {
         'title': 'Rich Dad Poor Dad',
@@ -59,6 +69,7 @@ BOOKS = [
         ],
         'who_should_read': 'Young people who have never had a structured conversation about money.',
         'difficulty_rating': 1,
+        'external_link': 'https://openlibrary.org/works/OL2010879W',
     },
     {
         'title': 'Designing Your Life',
@@ -77,6 +88,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone feeling stuck or undecided about what career path to pursue.',
         'difficulty_rating': 2,
+        'external_link': 'https://openlibrary.org/works/OL20033319W',
     },
     {
         'title': 'The Pragmatic Programmer',
@@ -95,6 +107,7 @@ BOOKS = [
         ],
         'who_should_read': 'Aspiring developers ready to move from tutorials to real engineering practice.',
         'difficulty_rating': 3,
+        'external_link': 'https://openlibrary.org/works/OL5748544W',
     },
     {
         'title': 'The Lean Startup',
@@ -113,6 +126,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone with a business idea who has never launched anything before.',
         'difficulty_rating': 2,
+        'external_link': 'https://openlibrary.org/works/OL16086010W',
     },
     {
         'title': 'The 7 Habits of Highly Effective People',
@@ -131,6 +145,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone starting to take on leadership responsibility, formal or informal.',
         'difficulty_rating': 2,
+        'external_link': 'https://openlibrary.org/works/OL2629977W',
     },
     {
         'title': 'Deep Work',
@@ -149,6 +164,7 @@ BOOKS = [
         ],
         'who_should_read': 'Students or early professionals who feel constantly distracted.',
         'difficulty_rating': 2,
+        'external_link': 'https://openlibrary.org/works/OL17713267W',
     },
     {
         'title': 'Emotional Intelligence',
@@ -167,6 +183,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone who wants to understand and manage their reactions under pressure.',
         'difficulty_rating': 2,
+        'external_link': 'https://openlibrary.org/works/OL1878267W',
     },
     {
         'title': 'How to Win Friends and Influence People',
@@ -185,6 +202,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone who wants to build better relationships at school, work, or in interviews.',
         'difficulty_rating': 1,
+        'external_link': 'https://openlibrary.org/works/OL1063267W',
     },
     {
         'title': 'A Mind for Numbers',
@@ -203,6 +221,7 @@ BOOKS = [
         ],
         'who_should_read': 'Students who feel like they are "not a math person" and want real study techniques.',
         'difficulty_rating': 2,
+        'external_link': 'https://openlibrary.org/works/OL18199470W',
     },
     {
         'title': 'The World Is Flat',
@@ -221,6 +240,7 @@ BOOKS = [
         ],
         'who_should_read': 'Youth considering studying, working, or competing internationally.',
         'difficulty_rating': 4,
+        'external_link': 'https://openlibrary.org/works/OL3740416W',
     },
     {
         'title': 'The First 90 Days',
@@ -239,6 +259,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone starting a first job, internship, or new leadership role.',
         'difficulty_rating': 3,
+        'external_link': 'https://openlibrary.org/works/OL5519710W',
     },
     {
         'title': 'How to Write a Winning Scholarship Essay',
@@ -257,6 +278,7 @@ BOOKS = [
         ],
         'who_should_read': 'SHS graduates and tertiary students preparing scholarship applications.',
         'difficulty_rating': 1,
+        'external_link': 'https://openlibrary.org/works/OL19925999W',
     },
     {
         'title': 'Creative Confidence',
@@ -275,6 +297,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone who wants to build ideas or solve problems more originally.',
         'difficulty_rating': 2,
+        'external_link': 'https://openlibrary.org/works/OL16814100W',
     },
     {
         'title': 'Lean In',
@@ -293,6 +316,7 @@ BOOKS = [
         ],
         'who_should_read': 'Young women pursuing leadership roles in tech, business, or any male-dominated field.',
         'difficulty_rating': 2,
+        'external_link': 'https://openlibrary.org/works/OL16802331W',
     },
     {
         'title': "Man's Search for Meaning",
@@ -311,6 +335,7 @@ BOOKS = [
         ],
         'who_should_read': 'Anyone facing hardship who wants a grounded, universal perspective on meaning.',
         'difficulty_rating': 3,
+        'external_link': 'https://openlibrary.org/works/OL1268413W',
     },
 ]
 

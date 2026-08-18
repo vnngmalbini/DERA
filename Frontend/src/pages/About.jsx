@@ -79,16 +79,15 @@ export default function About() {
     <PageLayout>
       {/* Hero Section */}
       <section className="relative w-full h-[618px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-black/40">
-          <div
-            className="w-full h-full bg-cover bg-center"
-            style={{
-              backgroundImage:
-                "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZbd23NM8XquyxX1vH7zBKLnhEYt4UDWTusUM2DK1aRp9IdO2G6ntUlBrwPc33Z1zX7Rr4Qw44NkAWjjKyltb8scOCmi3Gt_WY-sBFKm7-BCm9UaBsq9Y2sa4ZsEA-XAgwjY68JQckLS28YzZXpn11mtk9uLSgtIUkvjFLwsnPug8F55K7u73dNmY2a-TN5x4YlWdMPghTli599nK0usAZ8njvrDwVEMNXHUpbsu24XSPzaFowA88q')",
-            }}
-          />
-        </div>
-        <div className="relative z-10 text-center px-margin-mobile max-w-4xl">
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1747889268735-31192c2a6df4?auto=format&fit=crop&w=1600&q=80')",
+          }}
+        />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/70 to-black/60" />
+        <div className="relative z-20 text-center px-margin-mobile max-w-4xl">
           <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-md drop-shadow-lg">
             DERA - Every Young Person Belongs Here
           </h1>
@@ -142,10 +141,39 @@ export default function About() {
                 className="w-full h-full bg-cover bg-center"
                 style={{
                   backgroundImage:
-                    "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfAc65EkP-RjAlIPA0L68nfMrS_PHgUlRJiRABbOrxJtj18NKiOTZgo_UzuH_QGc_8C7FlJWo5YPFza4nTnaHEDfv2YTkAK1S--Q4Sq1lBfb_7DatrzPfgE-W-OtY263N6zRps7li9FG0ii1z6GTtbReETdfNvDwEiVDeS7olj5cHIy9GZwQv4hbbvfoQCDEoy89B5Ayjq7n_czADm5v2CzSvQRON6ws2ipQ5W2zEFvbauZmnIqhiq')",
+                    "url('https://images.unsplash.com/photo-1655720348590-c739c860beed?auto=format&fit=crop&w=1200&q=80')",
                 }}
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission & Vision Section */}
+      <section className="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop pb-xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
+          <div className="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(13,31,8,0.05)] flex flex-col gap-md">
+            <div className="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center">
+              <Icon name="flag" className="text-secondary" />
+            </div>
+            <h3 className="font-headline-sm text-headline-sm text-primary">Mission</h3>
+            <p className="font-body-lg text-on-surface-variant leading-relaxed">
+              To transform information into opportunity by equipping young people with the knowledge, guidance,
+              resources, and connections they need to discover their potential, access education and career
+              opportunities, secure scholarships, and find hope because no dream should die simply because the right
+              opportunity was out of reach.
+            </p>
+          </div>
+          <div className="bg-primary-container p-lg rounded-xl shadow-lg flex flex-col gap-md text-white">
+            <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center">
+              <Icon name="visibility" className="text-secondary-fixed" />
+            </div>
+            <h3 className="font-headline-sm text-headline-sm">Vision</h3>
+            <p className="font-body-lg text-on-primary-container leading-relaxed">
+              To create a future where every young person, regardless of their background, location, or
+              circumstances, can discover their potential, access the opportunities they need, and confidently build
+              a meaningful future.
+            </p>
           </div>
         </div>
       </section>
@@ -194,15 +222,15 @@ export default function About() {
             <div className="space-y-md">
               <div className="flex items-center gap-md">
                 <Icon name="mail" className="text-secondary" />
-                <span className="font-body-md">hello@dera.com</span>
+                <span className="font-body-md">deravee2602@gmail.com</span>
               </div>
               <div className="flex items-center gap-md">
                 <Icon name="call" className="text-secondary" />
-                <span className="font-body-md">+233 (0) 24 000 0000</span>
+                <span className="font-body-md">053 502 2447</span>
               </div>
               <div className="flex items-center gap-md">
                 <Icon name="location_on" className="text-secondary" />
-                <span className="font-body-md">Accra, Ghana</span>
+                <span className="font-body-md">Kumasi, Ghana</span>
               </div>
             </div>
           </div>
@@ -211,7 +239,7 @@ export default function About() {
               className="w-full h-full bg-cover bg-center"
               style={{
                 backgroundImage:
-                  "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEtQ57v2gS0WXkuXJLhk6Oc0Yu_HTfEeKiz5kYkPVC7wPDSDaFp81oKFT8D1pMGcAR_aBTnFllyY4XR9M8eaNzzYQN_iHbkM8xL7B1Drfe1fojfrtC0g8WZ9b8S3D4FGD1IAn06zPuirnzMixE7RQroO8URZhizEkq8YgmtvXKXd4ZvWQV8q2zw4qa_4o725btLgJKsPUoNqgQDlQ-87d4U3eiKQhIj2rqvLBldGRmwvfB9u4Z6xFj')",
+                  "url('https://images.unsplash.com/photo-1573164574511-73c773193279?auto=format&fit=crop&w=1200&q=80')",
               }}
             />
             <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm p-base rounded-lg shadow-md flex items-center gap-base">

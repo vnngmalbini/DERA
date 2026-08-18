@@ -2,7 +2,7 @@ import Header from './Header'
 import MobileBottomNav from './MobileBottomNav'
 import Footer from './Footer'
 import Fab from './Fab'
-import SideNav from './SideNav'
+import DashboardLayout from './DashboardLayout'
 import { useAuth } from '../../context/AuthContext'
 
 /**
@@ -10,8 +10,14 @@ import { useAuth } from '../../context/AuthContext'
  * Pass `bare` for chromeless screens (auth, standalone forms) that
  * shouldn't get the header/bottom-nav/footer/fab.
  *
- * Logged-in users get the persistent SideNav instead of the public
- * Header/Footer/MobileBottomNav/Fab chrome, on every non-bare page.
+ * Logged-in users get the same role-scoped DashboardLayout sidebar here as
+ * on their `/dashboard/*` routes — not a separate "public" sidebar — so the
+ * nav never changes shape just because they clicked Home/Forms
+ * Marketplace/etc instead of a dashboard link. `ProfileCompletionGate`
+ * (see App.jsx) guarantees `user.profileComplete` by the time any non-bare
+ * page reaches this branch, so `user.role` always resolves a real
+ * dashboard. (CompleteProfile/AccessDenied render their own SideNav
+ * directly for the cases where that guarantee doesn't hold.)
  */
 export default function PageLayout({
   children,
@@ -20,7 +26,7 @@ export default function PageLayout({
   showFooter = true,
   mainClassName = '',
 }) {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, user } = useAuth()
 
   if (bare) {
     return <div className="min-h-screen bg-surface text-on-surface">{children}</div>
@@ -28,9 +34,9 @@ export default function PageLayout({
 
   if (isLoggedIn) {
     return (
-      <SideNav>
-        <main className={mainClassName}>{children}</main>
-      </SideNav>
+      <DashboardLayout role={user?.role}>
+        <div className={mainClassName}>{children}</div>
+      </DashboardLayout>
     )
   }
 

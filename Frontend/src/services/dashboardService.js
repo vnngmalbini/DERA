@@ -36,14 +36,20 @@ function mergeActivity(...groups) {
 }
 
 async function fetchYouthSummary() {
-  const [quizRes, formOrdersRes, scholarshipsRes] = await Promise.all([
+  const [quizRes, formOrdersRes, scholarshipsRes, sessionsRes] = await Promise.all([
     apiGet('/quiz-responses/'),
     apiGet('/form-orders/'),
     apiGet('/scholarships/'),
+    apiGet('/counseling-sessions/'),
   ])
   const quizResponses = quizRes.results ?? quizRes
   const formOrders = formOrdersRes.results ?? formOrdersRes
   const scholarships = scholarshipsRes.results ?? scholarshipsRes
+  const sessions = sessionsRes.results ?? sessionsRes
+
+  const upcomingSessions = sessions
+    .filter((s) => s.status === 'upcoming')
+    .sort((a, b) => new Date(a.scheduled_at) - new Date(b.scheduled_at))
 
   const stats = [
     { label: 'Career Quizzes Taken', value: String(quizRes.count ?? quizResponses.length), icon: 'psychology', tone: 'primary' },
@@ -73,7 +79,7 @@ async function fetchYouthSummary() {
     at: o.created_at,
   }))
 
-  return { stats, quickActions, activity: mergeActivity(quizActivity, orderActivity) }
+  return { stats, quickActions, activity: mergeActivity(quizActivity, orderActivity), upcomingSessions }
 }
 
 async function fetchCounselorSummary() {

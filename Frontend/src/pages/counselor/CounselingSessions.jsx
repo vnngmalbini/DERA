@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
-import { apiGet, apiPost } from '../../services/apiClient'
+import { apiGet, apiPatch, apiPost, ApiError } from '../../services/apiClient'
 
 const SESSION_TYPES = [
   { value: 'academic_checkin', label: 'Academic Check-in' },
@@ -10,6 +10,12 @@ const SESSION_TYPES = [
   { value: 'mentorship_pairing', label: 'Mentorship Pairing' },
   { value: 'crisis_support', label: 'Crisis Support' },
   { value: 'other', label: 'Other' },
+]
+
+const SESSION_STATUSES = [
+  { value: 'upcoming', label: 'Upcoming' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'cancelled', label: 'Cancelled' },
 ]
 
 const STATUS_STYLES = {
@@ -28,7 +34,7 @@ function formatTime(iso) {
 
 export default function CounselingSessions() {
   const [sessions, setSessions] = useState([])
-  const [roster, setRoster] = useState([])
+  const [youthList, setYouthList] = useState([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -38,16 +44,29 @@ export default function CounselingSessions() {
 
   function load() {
     setLoading(true)
-    Promise.all([apiGet('/counseling-sessions/'), apiGet('/counselor-roster/')])
-      .then(([sessionsData, rosterData]) => {
+    Promise.all([apiGet('/counseling-sessions/'), apiGet('/youth-profiles/')])
+      .then(([sessionsData, youthData]) => {
         setSessions(sessionsData.results ?? sessionsData)
-        setRoster(rosterData)
+        setYouthList(youthData.results ?? youthData)
       })
-      .catch(() => setLoadError('Could not load counseling sessions right now.'))
+      .catch((err) => {
+        setLoadError(
+          err instanceof ApiError ? err.message : 'Could not load counseling sessions right now.'
+        )
+      })
       .finally(() => setLoading(false))
   }
 
   useEffect(load, [])
+
+  async function handleStatusChange(sessionId, status) {
+    try {
+      const updated = await apiPatch(`/counseling-sessions/${sessionId}/`, { status })
+      setSessions((prev) => prev.map((s) => (s.id === sessionId ? updated : s)))
+    } catch {
+      // Leave the row as-is; the select will just revert to its previous value on next render.
+    }
+  }
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -69,8 +88,10 @@ export default function CounselingSessions() {
       })
       closeModal()
       load()
-    } catch {
-      setSubmitError("Couldn't schedule that session. Please try again.")
+    } catch (err) {
+      setSubmitError(
+        err instanceof ApiError ? err.message : "Couldn't schedule that session. Please try again."
+      )
     } finally {
       setSubmitting(false)
     }
@@ -121,9 +142,17 @@ export default function CounselingSessions() {
                     <td className="px-6 py-4 text-on-surface-variant">{formatDate(s.scheduled_at)}</td>
                     <td className="px-6 py-4 text-on-surface-variant">{formatTime(s.scheduled_at)}</td>
                     <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full font-label-sm text-label-sm ${STATUS_STYLES[s.status]}`}>
-                        {s.status_display}
-                      </span>
+                      <select
+                        value={s.status}
+                        onChange={(e) => handleStatusChange(s.id, e.target.value)}
+                        className={`px-3 py-1 rounded-full font-label-sm text-label-sm border-none outline-none cursor-pointer ${STATUS_STYLES[s.status]}`}
+                      >
+                        {SESSION_STATUSES.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
                     </td>
                   </tr>
                 ))}
@@ -158,9 +187,9 @@ export default function CounselingSessions() {
                   <option value="" disabled>
                     Select a youth
                   </option>
-                  {roster.map((r) => (
-                    <option key={r.id} value={r.id}>
-                      {r.full_name}
+                  {youthList.map((y) => (
+                    <option key={y.id} value={y.id}>
+                      {y.full_name}
                     </option>
                   ))}
                 </select>
@@ -200,7 +229,7 @@ export default function CounselingSessions() {
               <div className="flex gap-4 pt-2">
                 <button
                   type="submit"
-                  disabled={submitting || roster.length === 0}
+                  disabled={submitting || youthList.length === 0}
                   className="flex-1 py-3 bg-primary text-on-primary font-bold rounded-full hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-95 disabled:opacity-60"
                 >
                   {submitting ? 'Scheduling…' : 'Schedule Session'}
@@ -213,9 +242,9 @@ export default function CounselingSessions() {
                   Cancel
                 </button>
               </div>
-              {roster.length === 0 && (
+              {youthList.length === 0 && (
                 <p className="text-on-surface-variant font-label-sm text-label-sm">
-                  You have no assigned youth to schedule a session with yet.
+                  No young people are registered on the platform yet.
                 </p>
               )}
             </form>

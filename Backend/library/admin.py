@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Book, LibrarianConversation, LibrarianMessage, ReadingChallenge, UserBook
+from .models import Book, FreeBook, LibrarianConversation, LibrarianMessage, ReadingChallenge, UserBook
 
 
 class LibrarianMessageInline(admin.TabularInline):
@@ -19,6 +19,13 @@ class LibrarianConversationAdmin(admin.ModelAdmin):
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'category', 'reading_level', 'difficulty_rating')
     list_filter = ('category', 'reading_level')
+    search_fields = ('title', 'author')
+
+
+@admin.register(FreeBook)
+class FreeBookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'category', 'gutenberg_id')
+    list_filter = ('category',)
     search_fields = ('title', 'author')
 
 

@@ -23,7 +23,7 @@ export default function ContentCard({ icon, title, subtitle, description, tag, a
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-auto self-start font-label-md text-label-md text-primary hover:underline flex items-center gap-1"
+          className="mt-auto self-start font-label-md text-label-md text-primary hover:underline flex items-center gap-1 py-2 -my-2"
         >
           {actionLabel}
           <Icon name="arrow_forward" className="text-[16px]" />
@@ -32,7 +32,7 @@ export default function ContentCard({ icon, title, subtitle, description, tag, a
         <button
           type="button"
           onClick={onAction}
-          className="mt-auto self-start font-label-md text-label-md text-primary hover:underline flex items-center gap-1"
+          className="mt-auto self-start font-label-md text-label-md text-primary hover:underline flex items-center gap-1 py-2 -my-2"
         >
           {actionLabel}
           <Icon name="arrow_forward" className="text-[16px]" />
@@ -42,7 +42,7 @@ export default function ContentCard({ icon, title, subtitle, description, tag, a
           type="button"
           disabled
           title="Connects to live data once the backend is wired up"
-          className="mt-auto self-start font-label-md text-label-md text-primary opacity-60 cursor-not-allowed flex items-center gap-1"
+          className="mt-auto self-start font-label-md text-label-md text-primary opacity-60 cursor-not-allowed flex items-center gap-1 py-2 -my-2"
         >
           {actionLabel}
           <Icon name="arrow_forward" className="text-[16px]" />

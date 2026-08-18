@@ -6,9 +6,9 @@ import Button from '../components/ui/Button'
 const INITIAL_FORM = { name: '', email: '', message: '' }
 
 const CONTACT_DETAILS = [
-  { icon: 'mail', label: 'Email Us', value: 'hello@dera.com' },
-  { icon: 'call', label: 'Call Us', value: '+233 (0) 24 000 0000' },
-  { icon: 'location_on', label: 'Our Office', value: 'Accra, Ghana' },
+  { icon: 'mail', label: 'Email Us', value: 'deravee2602@gmail.com', href: 'mailto:deravee2602@gmail.com' },
+  { icon: 'call', label: 'Call Us', value: '053 502 2447', href: 'whatsapp://send?phone=233535022447' },
+  { icon: 'location_on', label: 'Our Office', value: 'Kumasi, Ghana' },
 ]
 
 export default function ContactUs() {
@@ -100,7 +100,9 @@ export default function ContactUs() {
                 type="submit"
                 disabled={status === 'sending'}
                 className={`w-full md:w-auto px-lg py-md rounded-lg font-label-lg flex items-center justify-center gap-sm active:scale-95 transition-all disabled:opacity-70 ${
-                  status === 'sent' ? 'bg-green-600 text-white' : 'bg-secondary text-on-secondary hover:opacity-90'
+                  status === 'sent'
+                    ? 'bg-on-secondary-container text-white'
+                    : 'bg-secondary text-on-secondary hover:opacity-90'
                 }`}
               >
                 {status === 'idle' && (
@@ -132,17 +134,34 @@ export default function ContactUs() {
               <div className="relative z-10 space-y-lg">
                 <h2 className="font-headline-sm text-headline-sm text-secondary-fixed">Contact Details</h2>
                 <div className="space-y-md">
-                  {CONTACT_DETAILS.map((detail) => (
-                    <div className="flex items-center gap-md" key={detail.label}>
-                      <div className="w-12 h-12 rounded-full bg-on-primary-fixed-variant flex items-center justify-center text-secondary-fixed">
-                        <Icon name={detail.icon} />
+                  {CONTACT_DETAILS.map((detail) => {
+                    const content = (
+                      <>
+                        <div className="w-12 h-12 rounded-full bg-on-primary-fixed-variant flex items-center justify-center text-secondary-fixed">
+                          <Icon name={detail.icon} />
+                        </div>
+                        <div>
+                          <p className="font-label-sm text-label-sm opacity-70">{detail.label}</p>
+                          <p className="font-body-md text-body-md font-semibold">{detail.value}</p>
+                        </div>
+                      </>
+                    )
+                    return detail.href ? (
+                      <a
+                        className="flex items-center gap-md hover:opacity-80 transition-opacity"
+                        key={detail.label}
+                        href={detail.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <div className="flex items-center gap-md" key={detail.label}>
+                        {content}
                       </div>
-                      <div>
-                        <p className="font-label-sm text-label-sm opacity-70">{detail.label}</p>
-                        <p className="font-body-md text-body-md font-semibold">{detail.value}</p>
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
               <div className="absolute -right-10 -bottom-10 opacity-10">
@@ -170,10 +189,11 @@ export default function ContactUs() {
         {/* Map Section */}
         <section className="mb-xl">
           <div className="rounded-xl overflow-hidden h-[350px] shadow-sm relative group">
-            <img
-              className="w-full h-full object-cover"
-              alt="A clean, minimalist 3D map illustration of Accra, Ghana, using a sophisticated color palette of soft greens, charcoal grays, and lime highlights."
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIGl45sj0yfkHbHMA1KEDGyl_s7LKPaErHSwc3ePFh2sQMMkPtssjLstfj4jdXoJJFdBl0xdc6m38uN4dyx15zVlHFDc5ezxP7FmedLVDDAdMFFjQvLLdc80QbgKhCTRpaECENlb7P3NlTJAcAc6-j1SvqochsE5efYjUrpio24Ej1oQvyBg5Biw4nuH5Nu469mfUAawFQ9Xp09MsiYsTyGOgcbQNettmvaqwB5d_JZBV365aSR9EC"
+            <iframe
+              className="w-full h-full border-0"
+              title="Map of Kumasi, Ghana"
+              loading="lazy"
+              src="https://www.google.com/maps?q=Kumasi,+Ghana&output=embed"
             />
             <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-all pointer-events-none" />
             <div className="absolute bottom-md left-md bg-surface p-md rounded-lg shadow-lg flex items-center gap-md">
@@ -182,7 +202,7 @@ export default function ContactUs() {
               </div>
               <div>
                 <h4 className="font-label-lg text-label-lg font-bold">DERA HQ</h4>
-                <p className="font-label-sm text-label-sm text-on-surface-variant">Accra Tech Hub District</p>
+                <p className="font-label-sm text-label-sm text-on-surface-variant">Kumasi, Ghana</p>
               </div>
             </div>
           </div>

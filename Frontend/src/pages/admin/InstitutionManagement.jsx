@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
+import Modal from '../../components/ui/Modal'
 import { apiGet, apiPost, apiDelete, ApiError } from '../../services/apiClient'
 
 const GHANA_REGIONS = [
@@ -43,95 +44,86 @@ function AddInstitutionModal({ onClose, onCreated }) {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex items-center justify-center px-margin-mobile">
-      <div className="bg-surface-container-lowest rounded-xl shadow-2xl max-w-lg w-full p-lg border border-outline-variant/30">
-        <div className="flex items-center justify-between mb-md">
-          <h3 className="font-headline-sm text-headline-sm text-on-surface">Add Institution</h3>
-          <button onClick={onClose} className="text-on-surface-variant hover:text-error transition-colors">
-            <Icon name="close" />
-          </button>
+    <Modal open onClose={onClose} title="Add Institution">
+      {error && (
+        <div className="mb-md p-md rounded-lg bg-error-container">
+          <p className="font-body-md text-body-md text-on-error-container">{error}</p>
+        </div>
+      )}
+
+      <form className="space-y-md" onSubmit={handleSubmit}>
+        <div className="space-y-xs">
+          <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="name">
+            Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            required
+            value={form.name}
+            onChange={handleChange}
+            className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
+            placeholder="e.g. Tamale Girls SHS"
+          />
         </div>
 
-        {error && (
-          <div className="mb-md p-md rounded-lg bg-error-container">
-            <p className="font-body-md text-body-md text-on-error-container">{error}</p>
-          </div>
-        )}
-
-        <form className="space-y-md" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-sm">
           <div className="space-y-xs">
-            <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="name">
-              Name
+            <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="type">
+              Type
             </label>
-            <input
-              id="name"
-              name="name"
-              required
-              value={form.name}
+            <select
+              id="type"
+              name="type"
+              value={form.type}
               onChange={handleChange}
               className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-              placeholder="e.g. Tamale Girls SHS"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-sm">
-            <div className="space-y-xs">
-              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="type">
-                Type
-              </label>
-              <select
-                id="type"
-                name="type"
-                value={form.type}
-                onChange={handleChange}
-                className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-              >
-                {Object.entries(TYPE_LABELS).map(([value, label]) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="space-y-xs">
-              <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="region">
-                Region
-              </label>
-              <select
-                id="region"
-                name="region"
-                value={form.region}
-                onChange={handleChange}
-                className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
-              >
-                <option value="">—</option>
-                {GHANA_REGIONS.map((r) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="pt-sm flex gap-sm">
-            <button
-              type="submit"
-              disabled={submitting}
-              className="flex-1 bg-primary text-on-primary font-semibold py-sm rounded-lg flex items-center justify-center gap-xs active:scale-95 transition-transform disabled:opacity-70"
             >
-              {submitting ? <Icon name="progress_activity" className="animate-spin" /> : <Icon name="check" />}
-              Add Institution
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={submitting}
-              className="px-lg py-sm rounded-lg border border-outline-variant text-on-surface-variant font-semibold hover:bg-surface-container transition-colors"
-            >
-              Cancel
-            </button>
+              {Object.entries(TYPE_LABELS).map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
           </div>
-        </form>
-      </div>
-    </div>
+
+          <div className="space-y-xs">
+            <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="region">
+              Region
+            </label>
+            <select
+              id="region"
+              name="region"
+              value={form.region}
+              onChange={handleChange}
+              className="w-full bg-surface-container border border-outline-variant rounded-lg px-md py-sm font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
+            >
+              <option value="">—</option>
+              {GHANA_REGIONS.map((r) => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="pt-sm flex gap-sm">
+          <button
+            type="submit"
+            disabled={submitting}
+            className="flex-1 bg-primary text-on-primary font-semibold py-sm rounded-lg flex items-center justify-center gap-xs active:scale-95 transition-transform disabled:opacity-70"
+          >
+            {submitting ? <Icon name="progress_activity" className="animate-spin" /> : <Icon name="check" />}
+            Add Institution
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={submitting}
+            className="px-lg py-sm rounded-lg border border-outline-variant text-on-surface-variant font-semibold hover:bg-surface-container transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </Modal>
   )
 }
 
@@ -245,7 +237,7 @@ export default function InstitutionManagement() {
                       <button
                         onClick={() => handleDelete(inst.id)}
                         disabled={deletingId === inst.id}
-                        className="inline-flex items-center gap-1 text-error font-label-md text-label-md hover:opacity-70 transition-opacity disabled:opacity-50"
+                        className="inline-flex items-center gap-1 px-3 py-2 rounded-full text-error bg-error-container/40 font-label-md text-label-md hover:opacity-70 transition-opacity disabled:opacity-50"
                       >
                         {deletingId === inst.id ? 'Deleting…' : 'Delete'}
                         <Icon name="delete" className="text-[18px]" />

@@ -1,22 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { useAuth } from '../context/AuthContext'
 import { apiGet, apiPost, ApiError } from '../services/apiClient'
-
-const NAV_LINKS = [
-  { label: 'Home', to: '/' },
-  { label: 'Scholarships', to: '/scholarships' },
-  { label: 'Career', to: '/career-quiz' },
-  { label: 'Help', to: '/help' },
-]
-
-const BOTTOM_NAV = [
-  { label: 'Home', to: '/', icon: 'home' },
-  { label: 'Scholarships', to: '/scholarships', icon: 'school' },
-  { label: 'Career', to: '/career-quiz', icon: 'work_history' },
-  { label: 'Help', to: '/help', icon: 'help_center' },
-]
 
 function formatMomoNumber(raw) {
   const digits = raw.replace(/\D/g, '').substring(0, 10)
@@ -53,15 +40,33 @@ export default function PurchaseForm() {
   if (!isLoggedIn) return <Navigate to="/login" replace />
   if (user.role !== 'youth') {
     return (
-      <div className="min-h-screen flex items-center justify-center px-margin-mobile text-center">
-        <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
-          Only youth accounts can purchase application forms directly. If you'd like to support a student instead,
-          visit the sponsorship dashboard.
-        </p>
-      </div>
+      <PageLayout>
+        <div className="min-h-[60vh] flex items-center justify-center px-margin-mobile text-center">
+          <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+            Only youth accounts can purchase application forms directly. If you'd like to support a student instead,
+            visit the sponsorship dashboard.
+          </p>
+        </div>
+      </PageLayout>
     )
   }
   if (!formId) return <Navigate to="/forms" replace />
+  if (applicationForm && applicationForm.price_ghs === null) {
+    return (
+      <PageLayout>
+        <div className="min-h-[60vh] flex items-center justify-center px-margin-mobile text-center">
+          <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+            This form doesn&apos;t have a listed price yet. Please apply directly on{' '}
+            {applicationForm.institution?.name ?? 'the institution'}&apos;s official site from the{' '}
+            <Link to="/forms" className="text-secondary font-bold hover:underline">
+              Forms Marketplace
+            </Link>
+            .
+          </p>
+        </div>
+      </PageLayout>
+    )
+  }
 
   const handleMomoChange = (e) => {
     setMomoNumber(formatMomoNumber(e.target.value))
@@ -90,31 +95,8 @@ export default function PurchaseForm() {
   }
 
   return (
-    <div className="bg-background text-on-background min-h-screen flex flex-col">
-      <header className="bg-surface shadow-[0px_4px_20px_rgba(13,31,8,0.05)] w-full top-0 sticky z-50">
-        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-base max-w-[1280px] mx-auto w-full">
-          <Link to="/" className="flex items-center gap-xs">
-            <Icon name="spa" className="text-secondary text-headline-md" filled />
-            <h1 className="font-headline-md text-headline-md font-bold text-secondary tracking-tight">DERA</h1>
-          </Link>
-          <nav className="hidden md:flex gap-md">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-200"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-xs cursor-pointer active:opacity-80">
-            <Icon name="account_circle" className="text-on-surface-variant" />
-          </div>
-        </div>
-      </header>
-
-      <main className="flex-grow flex items-center justify-center py-xl px-margin-mobile">
+    <PageLayout>
+      <div className="flex items-center justify-center py-xl px-margin-mobile">
         <div className="max-w-[1000px] w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter">
           <div className="lg:col-span-5 flex flex-col gap-gutter">
             <div className="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(13,31,8,0.05)] p-md flex-grow border border-surface-variant/30">
@@ -269,7 +251,7 @@ export default function PurchaseForm() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       {status === 'success' && paidOrder && (
         <div className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex items-center justify-center transition-opacity duration-300">
@@ -292,20 +274,6 @@ export default function PurchaseForm() {
         </div>
       )}
 
-      <footer className="md:hidden">
-        <div className="fixed bottom-0 left-0 w-full flex justify-around items-center py-sm px-margin-mobile bg-surface shadow-[0px_-4px_20px_rgba(13,31,8,0.05)] z-50">
-          {BOTTOM_NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-transform"
-            >
-              <Icon name={item.icon} />
-              <span className="font-label-lg text-label-lg">{item.label}</span>
-            </Link>
-          ))}
-        </div>
-      </footer>
-    </div>
+    </PageLayout>
   )
 }

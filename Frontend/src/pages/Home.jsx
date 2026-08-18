@@ -6,6 +6,8 @@ import StatCard from '../components/ui/StatCard'
 import { useAuth } from '../context/AuthContext'
 import { getDashboardMeta } from '../config/dashboardNav'
 
+const MEDIA_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '')
+
 const QUICK_ACTIONS = [
   { icon: 'school', title: 'Scholarships', description: 'Find local and international funding.', to: '/scholarships' },
   { icon: 'assignment', title: 'Digital Forms', description: 'Access essential government applications.', to: '/forms' },
@@ -45,11 +47,13 @@ export default function Home() {
           </div>
           <div className="relative order-1 md:order-2 flex justify-center items-center">
             <div className="absolute -z-10 w-72 h-72 bg-tertiary-fixed rounded-full blur-3xl opacity-30 top-0 right-0" />
-            <div className="organic-mask w-full max-w-md aspect-square bg-surface-container-high overflow-hidden shadow-2xl">
+            <div className="rounded-3xl w-full max-w-xl aspect-square bg-surface-container-high overflow-hidden shadow-2xl">
               <img
                 className="w-full h-full object-cover"
                 alt="Diverse group of optimistic young Ghanaian students collaborating in a modern, naturally lit agricultural-tech learning hub."
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJWrQgne4aXf375EHr_G6SxRzIgF67xCMxc46Y6TQcq-psvggTIc3djdVamapR0vyn5EyORYsGLYYPO1ZK7lYvkv8XeQ2TBI8FPmx-CpGXS5vXsGYq5MXPOPVpFdbRZPsljNDRCbNyOSXmS1Ae6W25Tyq0QKGnWwFPuAFoEbc7KTas_gSoKa901pd3JVnEw26FmktglvMHN1qvQaLeMKnuAKq0rjPj6Tr5g4tu4sYvVH9OGH_pYDD3"
+                fetchPriority="high"
+                decoding="async"
+                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80"
               />
             </div>
             <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-xl border border-outline-variant/30 max-w-[200px]">
@@ -122,28 +126,33 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
               <img
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                alt="Portrait of a smiling young Ghanaian woman in professional attire at a cocoa processing facility."
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa4fQq1_l3PUXOF60qHhrGmxz_KZTinTXlpYfX-xmQBpqFaMZyBQT92Oen_8dutNt6GJhtYqnSpwH2bDewJ-ADu8vd4lz4oeOlTBLbkUU0Rw7pvXVe06j2hKZrt8MCDF6fZ2behHcaG-iEJpzBs1LCNSsQrb-FybLhQD0nQC4ZDZNLSG1mte98SeGMACpQk5dI-nBoPnsqOHRzzEu6Nq0CpY7wWFCNMr3e2sPdh5dGCF3UGjMAKx9x"
+                alt="Portrait of Veronica Nakol Ngmalbini, who found her way into tech."
+                loading="lazy"
+                decoding="async"
+                src={`${MEDIA_BASE_URL}/media/stories/WhatsApp_Image_2026-07-22_at_21.52.24.jpeg`}
               />
               <div className="absolute bottom-0 left-0 p-8 z-20">
                 <span className="bg-tertiary-fixed text-primary font-label-sm text-label-sm px-3 py-1 rounded-full mb-4 inline-block">
-                  Agri-Tech Pioneer
+                  Technology & Computing Careers
                 </span>
-                <h4 className="font-headline-lg text-white mb-2">Amara's Journey from Kumasi to Global Markets</h4>
+                <h4 className="font-headline-lg text-white mb-2">Veronica Found Her Way Into Tech</h4>
                 <p className="text-white/80 font-body-md max-w-lg mb-4">
-                  See how DERA is helping students bridge the gap between education and employment across Ghana.
+                  With little experience but a strong desire to learn, Veronica stayed consistent through every
+                  challenge and grew her way into a career in tech.
                 </p>
-                <Button variant="white" to="/stories">Read Amara's Story</Button>
+                <Button variant="white" to="/stories">Read Veronica's Story</Button>
               </div>
             </div>
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-outline-variant/20 flex flex-col justify-between group cursor-pointer hover:shadow-md transition-all">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-outline-variant/20 flex flex-col justify-between group cursor-pointer hover:shadow-md transition-all">
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full overflow-hidden">
                     <img
                       className="w-full h-full object-cover"
                       alt="Headshot of a young student wearing a traditional woven Ghanaian textile accessory."
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMurPNfgevwdBk5zYGNm0APk-o_1Dparz3EIU3WAENcMpIaGj9EqnMfs_iV7f1J_KM7IU5bBupiBEM3upisAKDi3Ysvuah_rKtmtwRQULWBDnU2WxwKFHd0Y7fH0r5bjCXVv-Ip7lr67QcY21_-v-ia5OFbTstE02WjBYsOinlQv79UNQXiJkPsBhTpKhabYqWWyTqodyFPJ-r9cl5dkfQJoi1-FB4LJPetlm2qzru-jPIE8lxVOD8"
+                      loading="lazy"
+                      decoding="async"
+                      src="https://images.unsplash.com/photo-1617056239820-8ce90ba48193?auto=format&fit=crop&w=1200&q=80"
                     />
                   </div>
                   <span className="font-label-md text-label-md text-on-surface">Kofi Mensah</span>
@@ -159,7 +168,7 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <div className="bg-tertiary-container p-6 rounded-3xl flex flex-col justify-center text-center items-center">
+            <div className="bg-tertiary-container p-6 rounded-2xl flex flex-col justify-center text-center items-center">
               <div className="w-16 h-16 bg-on-tertiary-container rounded-full flex items-center justify-center mb-4">
                 <span
                   className="material-symbols-outlined text-tertiary-container text-4xl"

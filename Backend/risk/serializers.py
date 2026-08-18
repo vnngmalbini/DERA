@@ -27,14 +27,15 @@ class RiskAssessmentSerializer(serializers.ModelSerializer):
 
 class CounselingSessionSerializer(serializers.ModelSerializer):
     youth_name = serializers.CharField(source='youth.full_name', read_only=True)
+    counselor_name = serializers.CharField(source='counselor.full_name', read_only=True)
     session_type_display = serializers.CharField(source='get_session_type_display', read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
 
     class Meta:
         model = CounselingSession
         fields = [
-            'id', 'youth', 'youth_name', 'counselor', 'session_type', 'session_type_display', 'scheduled_at',
-            'status', 'status_display', 'notes', 'created_at',
+            'id', 'youth', 'youth_name', 'counselor', 'counselor_name', 'session_type', 'session_type_display',
+            'scheduled_at', 'status', 'status_display', 'notes', 'created_at',
         ]
         read_only_fields = ['id', 'counselor', 'created_at']
 

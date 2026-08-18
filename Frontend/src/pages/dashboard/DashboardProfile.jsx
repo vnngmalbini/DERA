@@ -118,6 +118,8 @@ export default function DashboardProfile() {
               <img
                 src={user.profile_picture}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="w-16 h-16 rounded-full object-cover"
               />
             ) : (

@@ -133,7 +133,7 @@ export default function AssignedYouth() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl overflow-hidden border border-outline-variant shadow-sm mb-xl">
+      <div className="bg-white rounded-2xl overflow-hidden border border-outline-variant shadow-sm mb-xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
