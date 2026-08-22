@@ -38,7 +38,7 @@ function AddOpportunityModal({ onClose, onCreated }) {
 
   return (
     <div className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex items-center justify-center px-margin-mobile">
-      <div className="bg-surface-container-lowest rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-lg border border-outline-variant/30">
+      <div className="bg-surface-container-lowest rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-md md:p-lg border border-outline-variant/30">
         <div className="flex items-center justify-between mb-md">
           <h3 className="font-headline-sm text-headline-sm text-on-surface">Add Opportunity</h3>
           <button onClick={onClose} className="text-on-surface-variant hover:text-error transition-colors">
@@ -68,7 +68,7 @@ function AddOpportunityModal({ onClose, onCreated }) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sm">
             <div className="space-y-xs">
               <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="subtitle">
                 Subtitle
@@ -97,7 +97,7 @@ function AddOpportunityModal({ onClose, onCreated }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sm">
             <div className="space-y-xs">
               <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="region">
                 Region
@@ -126,7 +126,7 @@ function AddOpportunityModal({ onClose, onCreated }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sm">
             <div className="space-y-xs">
               <label className="font-label-lg text-label-lg text-on-surface-variant block" htmlFor="icon">
                 Icon
