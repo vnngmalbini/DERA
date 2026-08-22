@@ -21,7 +21,7 @@ export default function Modal({ open, onClose, title, children }) {
       <div
         role="dialog"
         aria-modal="true"
-        className="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full p-lg max-h-[85vh] overflow-y-auto"
+        className="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full p-md md:p-lg max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 mb-md">
