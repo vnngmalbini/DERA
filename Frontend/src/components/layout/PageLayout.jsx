@@ -18,10 +18,15 @@ import { useAuth } from '../../context/AuthContext'
  * page reaches this branch, so `user.role` always resolves a real
  * dashboard. (CompleteProfile/AccessDenied render their own SideNav
  * directly for the cases where that guarantee doesn't hold.)
+ *
+ * Pass `forcePublic` for the marketing homepage, which stays the same page
+ * for a logged-in visitor as for anyone else — it isn't a dashboard content
+ * page, so it always gets the plain Header/Footer chrome instead.
  */
 export default function PageLayout({
   children,
   bare = false,
+  forcePublic = false,
   showFab = true,
   showFooter = true,
   mainClassName = '',
@@ -32,7 +37,7 @@ export default function PageLayout({
     return <div className="min-h-screen bg-surface text-on-surface">{children}</div>
   }
 
-  if (isLoggedIn) {
+  if (isLoggedIn && !forcePublic) {
     return (
       <DashboardLayout role={user?.role}>
         <div className={mainClassName}>{children}</div>

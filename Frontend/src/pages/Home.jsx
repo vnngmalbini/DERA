@@ -1,10 +1,7 @@
-import { Navigate } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
 import Button from '../components/ui/Button'
 import ActionCard from '../components/ui/ActionCard'
 import StatCard from '../components/ui/StatCard'
-import { useAuth } from '../context/AuthContext'
-import { getDashboardMeta } from '../config/dashboardNav'
 
 const MEDIA_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '')
 
@@ -16,15 +13,8 @@ const QUICK_ACTIONS = [
 ]
 
 export default function Home() {
-  const { isLoggedIn, user } = useAuth()
-
-  if (isLoggedIn && user?.profileComplete !== false) {
-    const dashboard = getDashboardMeta(user.role)
-    if (dashboard) return <Navigate to={dashboard.basePath} replace />
-  }
-
   return (
-    <PageLayout>
+    <PageLayout forcePublic>
       {/* Hero Section */}
       <section className="relative px-margin-mobile md:px-margin-desktop py-xl overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">

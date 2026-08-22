@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import NavDrawer from './NavDrawer'
+import { useAuth } from '../../context/AuthContext'
+import { getDashboardMeta } from '../../config/dashboardNav'
 
 const NAV_LINKS = [
   { label: 'Home', to: '/' },
@@ -18,6 +20,8 @@ const NAV_LINKS = [
 export default function Header() {
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
+  const { isLoggedIn, user } = useAuth()
+  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMeta(user?.role) : null
 
   return (
     <>
@@ -61,18 +65,30 @@ export default function Header() {
             >
               search
             </Link>
-            <Link
-              to="/login"
-              className="hidden md:inline-block font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2"
-            >
-              Log In
-            </Link>
-            <Link
-              to="/signup"
-              className="bg-primary text-on-primary font-label-md text-label-md px-5 py-2.5 rounded-full hover:shadow-lg transition-all whitespace-nowrap"
-            >
-              Sign Up
-            </Link>
+            {dashboard ? (
+              <Link
+                to={dashboard.basePath}
+                className="bg-primary text-on-primary font-label-md text-label-md px-5 py-2.5 rounded-full hover:shadow-lg transition-all whitespace-nowrap flex items-center gap-1.5"
+              >
+                <Icon name="dashboard" className="text-[18px]" />
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="hidden md:inline-block font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-primary text-on-primary font-label-md text-label-md px-5 py-2.5 rounded-full hover:shadow-lg transition-all whitespace-nowrap"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
