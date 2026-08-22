@@ -184,11 +184,17 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=['http://localhost:5173'])
 
 
-# Gemini API (AI career counsellor)
+# Gemini API (AI librarian, AI Auntie)
 # https://ai.google.dev/gemini-api/docs
 
 GEMINI_API_KEY = env('GEMINI_API_KEY', default='')
 GEMINI_MODEL = env('GEMINI_MODEL', default='gemini-flash-latest')
+
+# Groq API (AI career counsellor)
+# https://console.groq.com/docs/quickstart
+
+GROQ_API_KEY = env('GROQ_API_KEY', default='')
+GROQ_MODEL = env('GROQ_MODEL', default='openai/gpt-oss-120b')
 
 
 # Paystack (donations)
