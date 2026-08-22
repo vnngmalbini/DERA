@@ -1,4 +1,4 @@
-from common.gemini_client import GeminiServiceError, call_gemini
+from common.groq_client import GroqServiceError, call_groq
 
 SYSTEM_PROMPT = """You are an experienced AI Career Counsellor on a youth empowerment platform. Your role is to help users discover careers that best match their interests, strengths, personality, values, and work preferences.
 
@@ -56,15 +56,13 @@ I'm your AI Career Counsellor, and I'm here to help you discover careers that tr
 To start, tell me about something you genuinely enjoy doing — it could be a subject in school, a hobby, or just something you find yourself doing whenever you get free time. What is it, and what do you like about it?"""
 
 
-CounsellorServiceError = GeminiServiceError
-
-_GEMINI_ROLES = {'user': 'user', 'assistant': 'model'}
+CounsellorServiceError = GroqServiceError
 
 
 def get_counsellor_reply(message_history):
-    """Call Gemini with the full conversation history and return the reply text."""
-    contents = [
-        {'role': _GEMINI_ROLES.get(message.role, 'user'), 'parts': [{'text': message.content}]}
+    """Call Groq with the full conversation history and return the reply text."""
+    messages = [
+        {'role': 'assistant' if message.role == 'assistant' else 'user', 'content': message.content}
         for message in message_history
     ]
-    return call_gemini(contents, system_prompt=SYSTEM_PROMPT, max_output_tokens=4096)
+    return call_groq(messages, system_prompt=SYSTEM_PROMPT, max_output_tokens=4096)

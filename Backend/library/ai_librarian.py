@@ -1,6 +1,6 @@
 from datetime import date
 
-from common.gemini_client import GeminiServiceError, call_gemini
+from common.groq_client import GroqServiceError, call_groq
 
 BASE_SYSTEM_PROMPT = """You are an AI Growth Librarian and Personal Development Advisor for a Youth Empowerment Platform.
 
@@ -188,15 +188,13 @@ To get you the best first recommendations, tell me a bit about yourself:
 Share as much or as little as you'd like, and I'll recommend 3 to 5 books that actually fit where you are right now."""
 
 
-LibrarianServiceError = GeminiServiceError
-
-_GEMINI_ROLES = {'user': 'user', 'assistant': 'model'}
+LibrarianServiceError = GroqServiceError
 
 
 def get_librarian_reply(message_history, youth_profile):
-    """Call Gemini with the full conversation history and return the reply text."""
-    contents = [
-        {'role': _GEMINI_ROLES.get(message.role, 'user'), 'parts': [{'text': message.content}]}
+    """Call Groq with the full conversation history and return the reply text."""
+    messages = [
+        {'role': 'assistant' if message.role == 'assistant' else 'user', 'content': message.content}
         for message in message_history
     ]
-    return call_gemini(contents, system_prompt=build_system_prompt(youth_profile), max_output_tokens=4096)
+    return call_groq(messages, system_prompt=build_system_prompt(youth_profile), max_output_tokens=4096)
