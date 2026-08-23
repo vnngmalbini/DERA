@@ -109,6 +109,25 @@ export default function UnifiedBookCard({ book, userBook, onAdd, onUpdate, onRem
           </p>
         )}
 
+        {isFree && userBook?.total_pages > 0 && (
+          <div className="mb-2">
+            <div className="flex items-center justify-between mb-1 font-label-sm text-label-sm text-on-surface-variant">
+              <span>
+                Page {userBook.current_page} of {userBook.total_pages}
+              </span>
+              <span>{userBook.progress_percent}%</span>
+            </div>
+            <div className="w-full h-1.5 bg-outline-variant/25 rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all ${
+                  userBook.status === 'completed' ? 'bg-tertiary' : 'bg-primary'
+                }`}
+                style={{ width: `${userBook.progress_percent}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         {userBook?.status === 'completed' && (
           <div className="flex items-center gap-2 mb-3">
             <StarRating value={userBook.rating || 0} readOnly size={16} />

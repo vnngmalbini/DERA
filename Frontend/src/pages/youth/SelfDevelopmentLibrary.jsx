@@ -4,6 +4,7 @@ import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import FreeBookReaderModal from '../../components/library/FreeBookReaderModal'
 import UnifiedBookCard from '../../components/library/UnifiedBookCard'
+import useMyBooks from '../../hooks/useMyBooks'
 import { fetchFreeBooks } from '../../services/libraryService'
 
 /**
@@ -14,6 +15,8 @@ import { fetchFreeBooks } from '../../services/libraryService'
  * UnifiedBookCard — which is a different job from this page).
  */
 export default function SelfDevelopmentLibrary() {
+  const { myBooks, handleUpdate, handleRemove } = useMyBooks()
+
   const [freeBooks, setFreeBooks] = useState([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState('')
@@ -26,6 +29,15 @@ export default function SelfDevelopmentLibrary() {
       .catch(() => setLoadError('Could not load the library right now.'))
       .finally(() => setLoading(false))
   }, [])
+
+  // Automatic reading progress lives on the youth's UserBook for this free
+  // book (see FreeBookViewSet.progress) — keyed here so each card can show
+  // its own "page X of Y" bar without every card fetching separately.
+  const myBooksByFreeBookId = useMemo(() => {
+    const map = new Map()
+    myBooks.forEach((ub) => ub.free_book && map.set(ub.free_book.id, ub))
+    return map
+  }, [myBooks])
 
   const categories = useMemo(() => {
     const seen = new Map()
@@ -85,7 +97,14 @@ export default function SelfDevelopmentLibrary() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {filteredBooks.map((book) => (
-                <UnifiedBookCard key={`${book.kind}-${book.id}`} book={book} onRead={setReaderTarget} />
+                <UnifiedBookCard
+                  key={`${book.kind}-${book.id}`}
+                  book={book}
+                  userBook={myBooksByFreeBookId.get(book.id)}
+                  onUpdate={handleUpdate}
+                  onRemove={handleRemove}
+                  onRead={setReaderTarget}
+                />
               ))}
             </div>
           )}

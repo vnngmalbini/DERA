@@ -1,6 +1,5 @@
 import { apiDelete, apiGet, apiGetBlob, apiPatch, apiPost } from './apiClient'
 
-export const fetchBooks = (params = '') => apiGet(`/books/${params}`)
 export const fetchBookReviews = (bookId) => apiGet(`/books/${bookId}/reviews/`)
 
 // Curated books are copyrighted, so this never serves the book's own text —
@@ -9,8 +8,6 @@ export const fetchBookReviews = (bookId) => apiGet(`/books/${bookId}/reviews/`)
 export const downloadBookBriefPdf = (bookId) => apiGetBlob(`/books/${bookId}/download/`)
 
 export const fetchMyBooks = () => apiGet('/my-books/')
-export const addBookToTracker = (bookId, status = 'want_to_read') =>
-  apiPost('/my-books/', { book_id: bookId, status })
 export const updateMyBook = (userBookId, payload) => apiPatch(`/my-books/${userBookId}/`, payload)
 export const removeMyBook = (userBookId) => apiDelete(`/my-books/${userBookId}/`)
 
