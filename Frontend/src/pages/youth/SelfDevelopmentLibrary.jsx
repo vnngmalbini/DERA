@@ -1,39 +1,60 @@
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import FreeBookReaderModal from '../../components/library/FreeBookReaderModal'
-import ReflectionModal from '../../components/library/ReflectionModal'
 import UnifiedBookCard from '../../components/library/UnifiedBookCard'
-import useLibraryCatalog from '../../hooks/useLibraryCatalog'
+import useMyBooks from '../../hooks/useMyBooks'
+import { fetchFreeBooks } from '../../services/libraryService'
 
 /**
- * Browses the exact same combined catalog as the Reading Tracker's Browse
- * Catalog tab (curated recommendations + free public-domain classics), via
- * the same UnifiedBookCard and the same useLibraryCatalog hook — so a book
- * added or started here shows up in "My Library" on the Reading Tracker
- * too, and vice versa. Progress stats, badges, and challenges stay on the
- * Reading Tracker, which this page links out to.
+ * Real, public-domain classics from Project Gutenberg — every book here can
+ * be read in full or downloaded right on the platform, no external links.
+ * The Reading Tracker's own "Browse Catalog" tab is where curated,
+ * externally-linked recommendations still live (they're trackable — see
+ * UnifiedBookCard — which is a different job from this page).
  */
 export default function SelfDevelopmentLibrary() {
-  const { catalog, myBooksByBookId, categories, loading, loadError, handleAdd, handleStartReading, handleUpdate, handleRemove } =
-    useLibraryCatalog()
+  const { myBooks, handleUpdate, handleRemove } = useMyBooks()
 
+  const [freeBooks, setFreeBooks] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [readerTarget, setReaderTarget] = useState(null)
-  const [reflectionTarget, setReflectionTarget] = useState(null)
+
+  useEffect(() => {
+    fetchFreeBooks()
+      .then((res) => setFreeBooks((res.results ?? res).map((b) => ({ ...b, kind: 'free_book' }))))
+      .catch(() => setLoadError('Could not load the library right now.'))
+      .finally(() => setLoading(false))
+  }, [])
+
+  // Automatic reading progress lives on the youth's UserBook for this free
+  // book (see FreeBookViewSet.progress) — keyed here so each card can show
+  // its own "page X of Y" bar without every card fetching separately.
+  const myBooksByFreeBookId = useMemo(() => {
+    const map = new Map()
+    myBooks.forEach((ub) => ub.free_book && map.set(ub.free_book.id, ub))
+    return map
+  }, [myBooks])
+
+  const categories = useMemo(() => {
+    const seen = new Map()
+    freeBooks.forEach((b) => b.category && seen.set(b.category, b.category_display))
+    return [...seen.entries()]
+  }, [freeBooks])
 
   const filteredBooks = useMemo(() => {
-    if (categoryFilter === 'all') return catalog
-    return catalog.filter((b) => b.category === categoryFilter)
-  }, [catalog, categoryFilter])
+    if (categoryFilter === 'all') return freeBooks
+    return freeBooks.filter((b) => b.category === categoryFilter)
+  }, [freeBooks, categoryFilter])
 
   return (
     <DashboardLayout role="youth">
       <DashboardPageHeader
         title="Self Development Library"
-        description="Curated growth reads and free, public-domain classics — read in full or download for free right here, or save a pick to your Reading Tracker."
+        description="Free, public-domain classics — read in full or download for free, right here on the platform."
       />
 
       {loading ? (
@@ -79,34 +100,15 @@ export default function SelfDevelopmentLibrary() {
                 <UnifiedBookCard
                   key={`${book.kind}-${book.id}`}
                   book={book}
-                  userBook={myBooksByBookId.get(book.id)}
-                  onAdd={handleAdd}
+                  userBook={myBooksByFreeBookId.get(book.id)}
                   onUpdate={handleUpdate}
                   onRemove={handleRemove}
-                  onMarkComplete={setReflectionTarget}
-                  onStartReading={handleStartReading}
                   onRead={setReaderTarget}
                 />
               ))}
             </div>
           )}
-
-          <p className="text-center text-body-sm text-on-surface-variant mt-lg">
-            Tracking your progress, badges, and reading streaks?{' '}
-            <Link to="/dashboard/youth/reading-tracker" className="text-primary font-label-sm hover:underline">
-              Open your Reading Tracker
-            </Link>
-            .
-          </p>
         </>
-      )}
-
-      {reflectionTarget && (
-        <ReflectionModal
-          userBook={reflectionTarget}
-          onClose={() => setReflectionTarget(null)}
-          onSave={(payload) => handleUpdate(reflectionTarget, payload)}
-        />
       )}
 
       {readerTarget && <FreeBookReaderModal book={readerTarget} onClose={() => setReaderTarget(null)} />}

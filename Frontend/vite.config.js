@@ -4,6 +4,15 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // pdfjs-dist is only ever reached via a lazy route (the Self Development
+  // Library's PDF reader), so Vite's dev-server dependency scanner doesn't
+  // discover it at startup — without this, the *first* book a youth opens
+  // triggers an on-demand esbuild pass over it, stalling that request for
+  // many seconds (and can even force a full-page reload mid-fetch). Listing
+  // it here makes Vite pre-bundle it at server startup instead.
+  optimizeDeps: {
+    include: ['pdfjs-dist'],
+  },
   plugins: [
     react(),
     VitePWA({

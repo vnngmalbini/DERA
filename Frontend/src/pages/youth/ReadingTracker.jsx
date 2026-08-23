@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import DashboardStatCard from '../../components/dashboard/DashboardStatCard'
@@ -6,7 +7,7 @@ import Icon from '../../components/ui/Icon'
 import FreeBookReaderModal from '../../components/library/FreeBookReaderModal'
 import ReflectionModal from '../../components/library/ReflectionModal'
 import UnifiedBookCard from '../../components/library/UnifiedBookCard'
-import useLibraryCatalog from '../../hooks/useLibraryCatalog'
+import useMyBooks from '../../hooks/useMyBooks'
 import { fetchReadingChallenges, fetchReadingStats } from '../../services/libraryService'
 
 const STATUS_FILTERS = [
@@ -86,23 +87,10 @@ function ChallengeRow({ challenge }) {
 }
 
 export default function ReadingTracker() {
-  const {
-    catalog,
-    myBooks,
-    myBooksByBookId,
-    categories,
-    loading,
-    loadError,
-    handleAdd,
-    handleStartReading,
-    handleUpdate,
-    handleRemove,
-  } = useLibraryCatalog()
+  const { myBooks, loading, loadError, handleUpdate, handleRemove } = useMyBooks()
 
   const [stats, setStats] = useState(null)
   const [challenges, setChallenges] = useState([])
-  const [categoryFilter, setCategoryFilter] = useState('all')
-  const [view, setView] = useState('library')
   const [statusFilter, setStatusFilter] = useState('all')
   const [reflectionTarget, setReflectionTarget] = useState(null)
   const [readerTarget, setReaderTarget] = useState(null)
@@ -116,11 +104,6 @@ export default function ReadingTracker() {
     refreshStats()
   }, [])
 
-  const catalogBooks = useMemo(() => {
-    if (categoryFilter === 'all') return catalog
-    return catalog.filter((b) => b.category === categoryFilter)
-  }, [catalog, categoryFilter])
-
   const libraryBooks = useMemo(() => {
     if (statusFilter === 'all') return myBooks
     if (statusFilter === 'favorites') return myBooks.filter((ub) => ub.is_favorite)
@@ -132,8 +115,6 @@ export default function ReadingTracker() {
     refreshStats()
     return result
   }
-  const onAdd = withRefresh(handleAdd)
-  const onStartReading = withRefresh(handleStartReading)
   const onUpdate = withRefresh(handleUpdate)
   const onRemove = withRefresh(handleRemove)
 
@@ -197,95 +178,60 @@ export default function ReadingTracker() {
       </div>
 
       <SectionCard
-        title={view === 'library' ? 'My Library' : 'Browse Catalog'}
-        icon={view === 'library' ? 'collections_bookmark' : 'storefront'}
+        title="My Library"
+        icon="collections_bookmark"
         action={
-          <div className="flex bg-surface-container rounded-full p-1 shrink-0">
-            {[
-              ['library', 'My Library'],
-              ['browse', 'Browse Catalog'],
-            ].map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setView(key)}
-                className={`px-4 py-1.5 rounded-full font-label-sm text-label-sm transition-colors ${
-                  view === key ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:text-on-surface'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          <Link
+            to="/dashboard/youth/self-development-library"
+            className="px-4 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-secondary-container/20 transition-colors shrink-0 inline-flex items-center gap-1.5"
+          >
+            <Icon name="storefront" className="text-[16px]" />
+            Browse Catalog
+          </Link>
         }
       >
-
-        {view === 'library' ? (
-          <div className="flex gap-2 overflow-x-auto no-scrollbar mb-md">
-            {STATUS_FILTERS.map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setStatusFilter(key)}
-                className={`whitespace-nowrap px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-colors ${
-                  statusFilter === key
-                    ? 'bg-primary-container text-on-primary-container'
-                    : 'bg-surface-container text-on-surface-variant hover:bg-secondary-container/20'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <div className="flex gap-2 overflow-x-auto no-scrollbar mb-md">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar mb-md">
+          {STATUS_FILTERS.map(([key, label]) => (
             <button
-              onClick={() => setCategoryFilter('all')}
+              key={key}
+              onClick={() => setStatusFilter(key)}
               className={`whitespace-nowrap px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-colors ${
-                categoryFilter === 'all'
+                statusFilter === key
                   ? 'bg-primary-container text-on-primary-container'
                   : 'bg-surface-container text-on-surface-variant hover:bg-secondary-container/20'
               }`}
             >
-              All Categories
+              {label}
             </button>
-            {categories.map(([value, label]) => (
-              <button
-                key={value}
-                onClick={() => setCategoryFilter(value)}
-                className={`whitespace-nowrap px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-colors ${
-                  categoryFilter === value
-                    ? 'bg-primary-container text-on-primary-container'
-                    : 'bg-surface-container text-on-surface-variant hover:bg-secondary-container/20'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        )}
+          ))}
+        </div>
 
-        {view === 'library' && libraryBooks.length === 0 ? (
+        {libraryBooks.length === 0 ? (
           <div className="text-center py-xl">
             <Icon name="auto_stories" className="text-4xl text-on-surface-variant/40 mb-2" />
             <p className="text-on-surface-variant">Nothing here yet.</p>
-            <button onClick={() => setView('browse')} className="text-primary font-label-md text-label-md hover:underline mt-1">
+            <Link
+              to="/dashboard/youth/self-development-library"
+              className="text-primary font-label-md text-label-md hover:underline mt-1 inline-block"
+            >
               Browse the catalog to add your first book
-            </button>
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {(view === 'library' ? libraryBooks : catalogBooks).map((item) => {
-              const book = view === 'library' ? { ...item.book, kind: 'book' } : item
-              const userBook = view === 'library' ? item : myBooksByBookId.get(item.id)
+            {libraryBooks.map((userBook) => {
+              const book = {
+                ...(userBook.book ?? userBook.free_book),
+                kind: userBook.book ? 'book' : 'free_book',
+              }
               return (
                 <UnifiedBookCard
                   key={`${book.kind}-${book.id}`}
                   book={book}
                   userBook={userBook}
-                  onAdd={onAdd}
                   onUpdate={onUpdate}
                   onRemove={onRemove}
                   onMarkComplete={setReflectionTarget}
-                  onStartReading={onStartReading}
                   onRead={setReaderTarget}
                 />
               )
