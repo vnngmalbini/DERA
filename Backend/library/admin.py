@@ -31,9 +31,9 @@ class FreeBookAdmin(admin.ModelAdmin):
 
 @admin.register(UserBook)
 class UserBookAdmin(admin.ModelAdmin):
-    list_display = ('youth', 'book', 'status', 'rating', 'is_favorite', 'updated_at')
+    list_display = ('youth', 'book', 'free_book', 'status', 'rating', 'is_favorite', 'updated_at')
     list_filter = ('status', 'is_favorite')
-    search_fields = ('youth__full_name', 'book__title')
+    search_fields = ('youth__full_name', 'book__title', 'free_book__title')
 
 
 @admin.register(ReadingChallenge)

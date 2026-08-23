@@ -3,6 +3,7 @@ from datetime import timedelta
 import re
 
 import requests
+from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.utils import timezone
 from rest_framework import permissions, status, viewsets
@@ -144,8 +145,8 @@ class FreeBookViewSet(viewsets.ReadOnlyModelViewSet):
 
     def _ensure_cached_text(self, book):
         """Fetches and caches the book's plain text from Gutenberg the
-        first time it's needed (by either the reader or the PDF export),
-        so it's fetched once per book rather than on every request.
+        first time it's needed, so it's fetched once per book rather than
+        on every request.
         """
         if book.cached_text:
             return book.cached_text
@@ -161,19 +162,14 @@ class FreeBookViewSet(viewsets.ReadOnlyModelViewSet):
         return book.cached_text
 
     @action(detail=True, methods=['get'])
-    def read(self, request, pk=None):
-        book = self.get_object()
-        text = self._ensure_cached_text(book)
-        return Response({'id': book.id, 'title': book.title, 'author': book.author, 'content': text})
-
-    @action(detail=True, methods=['get'])
     def download(self, request, pk=None):
         """Project Gutenberg doesn't publish a PDF format for any of the
         titles in this catalog (verified against the Gutendex API) — only
         plain text, HTML, and EPUB. We typeset one ourselves (see
-        pdf_export.build_pdf) from the same cached plain text the reader
-        uses, since it's public-domain content we're already legally
-        serving in full — this is the only downloadable format offered.
+        pdf_export.build_pdf) from the cached plain text, since it's
+        public-domain content we're already legally serving in full. The
+        in-app reader (see FreeBookReaderModal on the frontend) renders
+        this same PDF inline rather than a plain-text dump.
         """
         book = self.get_object()
         text = self._ensure_cached_text(book)
@@ -182,6 +178,49 @@ class FreeBookViewSet(viewsets.ReadOnlyModelViewSet):
         http_response = HttpResponse(pdf_bytes, content_type='application/pdf')
         http_response['Content-Disposition'] = f'attachment; filename="{_safe_filename(book, "pdf")}"'
         return http_response
+
+    @action(detail=True, methods=['post'])
+    def progress(self, request, pk=None):
+        """Called by the in-app PDF reader as the youth turns pages, so
+        their reading position is saved automatically — no manual 'mark as
+        reading' step. Upserts the youth's UserBook for this free book
+        (creating it as 'currently_reading' on first call) and flips it to
+        'completed' once they reach the last page.
+        """
+        book = self.get_object()
+        youth_profile = getattr(request.user, 'youth_profile', None)
+        if youth_profile is None:
+            raise PermissionDenied('Only youth accounts can track reading.')
+
+        try:
+            current_page = int(request.data.get('current_page'))
+            total_pages = int(request.data.get('total_pages'))
+        except (TypeError, ValueError):
+            raise ValidationError('current_page and total_pages must be integers.')
+        if total_pages <= 0 or current_page < 0:
+            raise ValidationError('current_page and total_pages must be positive.')
+        current_page = min(current_page, total_pages)
+
+        user_book, _created = UserBook.objects.get_or_create(
+            youth=youth_profile, free_book=book,
+            defaults={'status': UserBook.Status.CURRENTLY_READING, 'started_at': timezone.now()},
+        )
+        user_book.current_page = current_page
+        user_book.total_pages = total_pages
+        update_fields = ['current_page', 'total_pages']
+        if not user_book.started_at:
+            user_book.started_at = timezone.now()
+            update_fields.append('started_at')
+        if current_page >= total_pages and user_book.status != UserBook.Status.COMPLETED:
+            user_book.status = UserBook.Status.COMPLETED
+            user_book.completed_at = user_book.completed_at or timezone.now()
+            update_fields += ['status', 'completed_at']
+        elif user_book.status == UserBook.Status.WANT_TO_READ:
+            user_book.status = UserBook.Status.CURRENTLY_READING
+            update_fields.append('status')
+        user_book.save(update_fields=update_fields)
+
+        return Response(UserBookSerializer(user_book, context={'request': request}).data)
 
 
 class UserBookViewSet(viewsets.ModelViewSet):
@@ -193,13 +232,13 @@ class UserBookViewSet(viewsets.ModelViewSet):
     serializer_class = UserBookSerializer
     permission_classes = [permissions.IsAuthenticated]
     pagination_class = None
-    filterset_fields = ['status', 'is_favorite']
+    filterset_fields = ['status', 'is_favorite', 'book', 'free_book']
 
     def get_queryset(self):
         youth_profile = getattr(self.request.user, 'youth_profile', None)
         if youth_profile is None:
             return UserBook.objects.none()
-        return UserBook.objects.filter(youth=youth_profile).select_related('book')
+        return UserBook.objects.filter(youth=youth_profile).select_related('book', 'free_book')
 
     def _youth_profile(self):
         youth_profile = getattr(self.request.user, 'youth_profile', None)
@@ -289,7 +328,12 @@ def _reading_streak_weeks(youth_profile):
 def _badges_for(youth_profile):
     completed_qs = UserBook.objects.filter(youth=youth_profile, status=UserBook.Status.COMPLETED)
     completed_count = completed_qs.count()
-    distinct_categories = completed_qs.values_list('book__category', flat=True).distinct().count()
+    distinct_categories = (
+        completed_qs.annotate(_category=Coalesce('book__category', 'free_book__category'))
+        .values_list('_category', flat=True)
+        .distinct()
+        .count()
+    )
     favorites_count = UserBook.objects.filter(youth=youth_profile, is_favorite=True).count()
     streak_weeks = _reading_streak_weeks(youth_profile)
 

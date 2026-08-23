@@ -68,7 +68,12 @@ class UserBook(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     youth = models.ForeignKey('accounts.YouthProfile', on_delete=models.CASCADE, related_name='books')
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='user_books')
+    # Exactly one of book/free_book is set — see the CheckConstraint below.
+    # free_book entries also get automatic current_page/total_pages progress
+    # from the in-app PDF reader (see FreeBookViewSet.progress), since those
+    # are the only books actually read on the platform.
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='user_books', null=True, blank=True)
+    free_book = models.ForeignKey('FreeBook', on_delete=models.CASCADE, related_name='user_books', null=True, blank=True)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.WANT_TO_READ)
     is_favorite = models.BooleanField(default=False)
     rating = models.PositiveSmallIntegerField(blank=True, null=True)
@@ -76,6 +81,8 @@ class UserBook(models.Model):
     biggest_lesson = models.TextField(blank=True, null=True)
     application_plan = models.TextField(blank=True, null=True)
     habit_change = models.TextField(blank=True, null=True)
+    current_page = models.PositiveIntegerField(blank=True, null=True)
+    total_pages = models.PositiveIntegerField(blank=True, null=True)
     started_at = models.DateTimeField(blank=True, null=True)
     completed_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -83,11 +90,21 @@ class UserBook(models.Model):
 
     class Meta:
         db_table = 'library_user_books'
-        unique_together = ('youth', 'book')
+        unique_together = [('youth', 'book'), ('youth', 'free_book')]
+        constraints = [
+            models.CheckConstraint(
+                condition=(
+                    models.Q(book__isnull=False, free_book__isnull=True)
+                    | models.Q(book__isnull=True, free_book__isnull=False)
+                ),
+                name='library_user_book_exactly_one_of_book_or_free_book',
+            ),
+        ]
         ordering = ['-updated_at']
 
     def __str__(self):
-        return f'{self.youth} — {self.book.title} ({self.status})'
+        title = self.book.title if self.book_id else self.free_book.title
+        return f'{self.youth} — {title} ({self.status})'
 
 
 class ReadingChallenge(models.Model):
@@ -124,9 +141,10 @@ class FreeBook(models.Model):
     and download: Gutenberg only serves out-of-copyright works, so
     `text_url`/`html_url`/`epub_url` point straight at Gutenberg-hosted
     files rather than a search or storefront page. `cached_text` is filled
-    in lazily the first time anyone reads a given book (see
-    FreeBookViewSet.read), so Gutenberg is fetched once per book rather
-    than on every read.
+    in lazily the first time anyone opens a given book (see
+    FreeBookViewSet.download, which typesets it into the PDF the in-app
+    reader renders), so Gutenberg is fetched once per book rather than on
+    every request.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

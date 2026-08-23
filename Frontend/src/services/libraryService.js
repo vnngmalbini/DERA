@@ -20,5 +20,15 @@ export const fetchReadingStats = () => apiGet('/reading-stats/')
 // Self Development Library — real, public-domain books that can legally be
 // read in full and downloaded (see Backend/library/management/commands/seed_free_books.py).
 export const fetchFreeBooks = (params = '') => apiGet(`/free-books/${params}`)
-export const fetchFreeBookText = (freeBookId) => apiGet(`/free-books/${freeBookId}/read/`)
 export const downloadFreeBookPdf = (freeBookId) => apiGetBlob(`/free-books/${freeBookId}/download/`)
+
+// Automatic, page-based reading progress for the in-app PDF reader — see
+// FreeBookViewSet.progress. Upserts the youth's tracker entry for this book
+// and flips it to completed once they reach the last page.
+export const trackFreeBookProgress = (freeBookId, currentPage, totalPages) =>
+  apiPost(`/free-books/${freeBookId}/progress/`, { current_page: currentPage, total_pages: totalPages })
+
+// The youth's existing progress for one free book, if any — used to resume
+// the reader at the last page they were on instead of always page 1.
+export const fetchMyFreeBookProgress = (freeBookId) =>
+  apiGet(`/my-books/?free_book=${freeBookId}`).then((res) => (res.results ?? res)[0] ?? null)

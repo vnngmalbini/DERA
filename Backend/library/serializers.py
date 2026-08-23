@@ -1,5 +1,6 @@
 from urllib.parse import quote_plus
 
+from django.db.models import Q
 from rest_framework import serializers
 
 from .models import Book, FreeBook, LibrarianMessage, ReadingChallenge, UserBook
@@ -70,22 +71,56 @@ class BookReviewSerializer(serializers.ModelSerializer):
 
 
 class UserBookSerializer(serializers.ModelSerializer):
-    book = BookSerializer(read_only=True)
-    book_id = serializers.PrimaryKeyRelatedField(queryset=Book.objects.all(), source='book', write_only=True)
+    """Backs both the curated-Book tracker (want to read / reviews / etc,
+    set via book_id) and the Self Development Library's automatic
+    page-based progress (set via free_book_id — see FreeBookViewSet.progress,
+    which is the only place free_book UserBooks are created/updated).
+    Exactly one of book_id/free_book_id is required on create.
+    """
+
+    book = BookSerializer(read_only=True, allow_null=True)
+    free_book = FreeBookSerializer(read_only=True, allow_null=True)
+    book_id = serializers.PrimaryKeyRelatedField(
+        queryset=Book.objects.all(), source='book', write_only=True, required=False, allow_null=True,
+    )
+    free_book_id = serializers.PrimaryKeyRelatedField(
+        queryset=FreeBook.objects.all(), source='free_book', write_only=True, required=False, allow_null=True,
+    )
+    progress_percent = serializers.SerializerMethodField()
 
     class Meta:
         model = UserBook
         fields = [
-            'id', 'book', 'book_id', 'status', 'is_favorite', 'rating', 'review',
-            'biggest_lesson', 'application_plan', 'habit_change', 'started_at', 'completed_at',
-            'created_at', 'updated_at',
+            'id', 'book', 'book_id', 'free_book', 'free_book_id', 'status', 'is_favorite', 'rating', 'review',
+            'biggest_lesson', 'application_plan', 'habit_change', 'current_page', 'total_pages',
+            'progress_percent', 'started_at', 'completed_at', 'created_at', 'updated_at',
         ]
-        read_only_fields = ['id', 'started_at', 'completed_at', 'created_at', 'updated_at']
+        read_only_fields = [
+            'id', 'current_page', 'total_pages', 'started_at', 'completed_at', 'created_at', 'updated_at',
+        ]
 
     def validate_rating(self, value):
         if value is not None and not (1 <= value <= 5):
             raise serializers.ValidationError('Rating must be between 1 and 5.')
         return value
+
+    def get_progress_percent(self, obj):
+        if obj.current_page and obj.total_pages:
+            return round(100 * obj.current_page / obj.total_pages)
+        return None
+
+    def validate(self, attrs):
+        # Only re-check the invariant when book/free_book is actually part
+        # of this request — a plain status/rating PATCH shouldn't have to
+        # resubmit whichever one was set at creation.
+        if 'book' in attrs or 'free_book' in attrs:
+            book = attrs.get('book', getattr(self.instance, 'book', None))
+            free_book = attrs.get('free_book', getattr(self.instance, 'free_book', None))
+            if bool(book) == bool(free_book):
+                raise serializers.ValidationError('Provide exactly one of book_id or free_book_id.')
+        elif self.instance is None:
+            raise serializers.ValidationError('Provide exactly one of book_id or free_book_id.')
+        return attrs
 
 
 class ReadingChallengeSerializer(serializers.ModelSerializer):
@@ -112,6 +147,6 @@ class ReadingChallengeSerializer(serializers.ModelSerializer):
             youth=youth_profile, status=UserBook.Status.COMPLETED, completed_at__gte=start, completed_at__lt=end,
         )
         if obj.category:
-            qs = qs.filter(book__category=obj.category)
+            qs = qs.filter(Q(book__category=obj.category) | Q(free_book__category=obj.category))
         completed = qs.count()
         return {'completed': completed, 'target': obj.target_count, 'is_met': completed >= obj.target_count}

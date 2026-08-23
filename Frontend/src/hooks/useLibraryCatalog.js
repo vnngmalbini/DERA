@@ -9,12 +9,11 @@ import {
 } from '../services/libraryService'
 
 /**
- * One source of truth for a page's whole library: the curated Book catalog
- * (external link + trackable) merged with the free, public-domain FreeBook
- * catalog (in-app read + PDF download), plus the youth's own tracked
- * UserBook records. ReadingTracker and SelfDevelopmentLibrary each call
- * this once, so both pages browse the exact same combined set of books
- * through the exact same actions.
+ * Backs the Reading Tracker: the curated Book catalog (external link +
+ * trackable) merged with the free, public-domain FreeBook catalog (in-app
+ * read + PDF download), plus the youth's own tracked UserBook records.
+ * (The Self Development Library page only shows free books, so it fetches
+ * FreeBook directly instead of using this hook.)
  */
 export default function useLibraryCatalog() {
   const [books, setBooks] = useState([])
