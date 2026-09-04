@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import NavDrawer from './NavDrawer'
 import { useAuth } from '../../context/AuthContext'
-import { getDashboardMeta } from '../../config/dashboardNav'
+import { getDashboardMetaForUser } from '../../config/dashboardNav'
 
 const NAV_LINKS = [
   { label: 'Home', to: '/' },
@@ -21,7 +21,7 @@ export default function Header() {
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const { isLoggedIn, user } = useAuth()
-  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMeta(user?.role) : null
+  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMetaForUser(user) : null
 
   return (
     <>

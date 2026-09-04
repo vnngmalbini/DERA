@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
-import { useAuth } from '../context/AuthContext'
-import { getDashboardMeta } from '../config/dashboardNav'
 import { ApiError } from '../services/apiClient'
 
 const ROLES = [
@@ -13,7 +11,6 @@ const ROLES = [
 
 export default function SignUp() {
   const navigate = useNavigate()
-  const { register } = useAuth()
   const [role, setRole] = useState(null)
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
@@ -45,16 +42,18 @@ export default function SignUp() {
 
     setStatus('submitting')
     try {
-      const user = await register({
-        email,
-        phone: phone || undefined,
-        password,
-        role,
-        full_name: fullName,
+      navigate('/complete-profile', {
+        state: {
+          registration: {
+            email,
+            phone: phone || undefined,
+            password,
+            role,
+            full_name: fullName,
+          },
+        },
       })
-      setStatus('success')
-      const dest = user.profileComplete === false ? '/complete-profile' : (getDashboardMeta(role)?.basePath ?? '/')
-      setTimeout(() => navigate(dest), 700)
+      setErrorMessage('')
     } catch (err) {
       setStatus('idle')
       setErrorMessage(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.')
@@ -100,6 +99,14 @@ export default function SignUp() {
                     <div className="p-md rounded-lg bg-error-container flex items-start gap-2">
                       <span className="material-symbols-outlined text-on-error-container text-[20px]">error</span>
                       <p className="font-body-md text-body-md text-on-error-container">{errorMessage}</p>
+                    </div>
+                  )}
+                  {status === 'success' && (
+                    <div className="p-md rounded-lg bg-primary-container flex items-start gap-2">
+                      <span className="material-symbols-outlined text-on-primary-container text-[20px]">mark_email_read</span>
+                      <p className="font-body-md text-body-md text-on-primary-container">
+                        Your account details are ready. Continue to your profile form, then log in to DERA.
+                      </p>
                     </div>
                   )}
                   <div className="space-y-sm">

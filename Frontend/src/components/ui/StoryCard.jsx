@@ -52,9 +52,9 @@ export default function StoryCard({ story, featured = false }) {
   const readMoreButton = (
     <button
       onClick={() => setShowDetail(true)}
-      className="text-label-md font-label-md text-primary font-bold hover:underline"
+      className="read-more-link"
     >
-      Read more
+      Read more <Icon name="arrow_forward" className="text-base" />
     </button>
   )
 

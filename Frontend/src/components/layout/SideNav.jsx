@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import NavDrawer from './NavDrawer'
 import { useAuth } from '../../context/AuthContext'
-import { getDashboardMeta } from '../../config/dashboardNav'
+import { getDashboardMetaForUser } from '../../config/dashboardNav'
 
 const SECTIONS = [
   {
@@ -36,7 +36,7 @@ export default function SideNav({ children }) {
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
-  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMeta(user?.role) : null
+  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMetaForUser(user) : null
 
   const sections = dashboard
     ? [

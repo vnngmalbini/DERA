@@ -1,3 +1,4 @@
+from django.contrib import messages
 from rest_framework import generics, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -30,10 +31,13 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        return Response(UserSerializer(user).data, status=201)
+        return Response({
+            'detail': 'Account created successfully. Please log in to continue.',
+            'user': UserSerializer(user).data,
+        }, status=201)
 
 
 class MeView(generics.RetrieveUpdateAPIView):

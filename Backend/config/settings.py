@@ -183,6 +183,19 @@ SIMPLE_JWT = {
 
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=['http://localhost:5173'])
 
+# Email configuration
+# Set these in .env to enable real outbound email delivery. If they are not
+# configured, Django falls back to the console backend so local development can
+# still test the verification flow without introducing third-party services.
+EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = env('EMAIL_HOST', default='')
+EMAIL_PORT = env.int('EMAIL_PORT', default=587)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@localhost')
+FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:5173')
+
 
 # Gemini API (AI Auntie)
 # https://ai.google.dev/gemini-api/docs

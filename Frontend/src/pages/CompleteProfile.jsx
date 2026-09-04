@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
 import SideNav from '../components/layout/SideNav'
 import { useAuth } from '../context/AuthContext'
-import { getDashboardMeta } from '../config/dashboardNav'
+import { getDashboardMetaForUser } from '../config/dashboardNav'
 import { submitProfile, toSnakeCasePayload } from '../services/profileService'
 import { apiGet } from '../services/apiClient'
 import YouthProfileForm from '../components/profile/YouthProfileForm'
@@ -23,11 +23,14 @@ const PROFILE_ID_KEY = {
 }
 
 export default function CompleteProfile() {
-  const { user, isLoggedIn, refreshUser, loading: authLoading } = useAuth()
+  const { user, isLoggedIn, register, refreshUser, loading: authLoading } = useAuth()
+  const location = useLocation()
   const navigate = useNavigate()
   const [status, setStatus] = useState('idle') // idle | submitting | error
   const [errorMessage, setErrorMessage] = useState('')
   const [institutions, setInstitutions] = useState([])
+  const registration = location.state?.registration
+  const isRegistrationFlow = Boolean(registration)
 
   useEffect(() => {
     if (user?.role === 'youth' || user?.role === 'counselor') {
@@ -37,9 +40,9 @@ export default function CompleteProfile() {
     }
   }, [user?.role])
 
-  if (authLoading) return null
-  if (!isLoggedIn) return <Navigate to="/login" replace />
-  if (user?.profileComplete) return <Navigate to={getDashboardMeta(user.role)?.basePath ?? '/'} replace />
+  if (authLoading && !isRegistrationFlow) return null
+  if (!isLoggedIn && !isRegistrationFlow) return <Navigate to="/login" replace />
+  if (user?.profileComplete) return <Navigate to={getDashboardMetaForUser(user)?.basePath ?? '/'} replace />
 
   const meta = ROLE_META[user?.role] ?? ROLE_META.youth
   const { Form, label } = meta
@@ -48,10 +51,20 @@ export default function CompleteProfile() {
     setStatus('submitting')
     setErrorMessage('')
     try {
+      if (isRegistrationFlow) {
+        await register({ ...registration, ...toSnakeCasePayload(registration.role, values, registration.full_name) })
+        navigate('/login', {
+          state: {
+            email: registration.email,
+            message: 'Profile saved successfully. Please log in to continue.',
+          },
+        })
+        return
+      }
       const profile = user[PROFILE_ID_KEY[user.role]]
       await submitProfile(user.role, profile?.id, toSnakeCasePayload(user.role, values, profile?.full_name))
-      await refreshUser()
-      navigate(getDashboardMeta(user.role)?.basePath ?? '/', { replace: true })
+      const updatedUser = await refreshUser()
+      navigate(getDashboardMetaForUser(updatedUser)?.basePath ?? '/', { replace: true })
     } catch {
       setStatus('error')
       setErrorMessage('Something went wrong while saving your profile. Please try again.')
@@ -88,7 +101,13 @@ export default function CompleteProfile() {
                   </div>
                 )}
 
-                <Form onSubmit={handleSubmit} submitting={status === 'submitting'} institutions={institutions} />
+                <Form
+                  onSubmit={handleSubmit}
+                  submitting={status === 'submitting'}
+                  institutions={institutions}
+                  submitLabel={isRegistrationFlow ? 'Save Profile and Continue' : 'Save Profile'}
+                  deferInstitutionCreation={isRegistrationFlow}
+                />
               </div>
             </div>
           </main>

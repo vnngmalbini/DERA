@@ -26,6 +26,7 @@ export function toSnakeCasePayload(role, values, fullName) {
       district: values.district,
       education_level: values.educationLevel,
       institution: values.institution || null,
+      custom_institution_name: values.customInstitutionName || '',
       gender: values.gender,
     }
   }
@@ -33,6 +34,7 @@ export function toSnakeCasePayload(role, values, fullName) {
     return {
       full_name: fullName,
       institution: values.institution,
+      custom_institution_name: values.customInstitutionName || '',
       role_title: values.roleTitle,
     }
   }

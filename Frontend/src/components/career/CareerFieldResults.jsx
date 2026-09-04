@@ -10,7 +10,7 @@ import Icon from '../ui/Icon'
  */
 export default function CareerFieldResults({ careerPath }) {
   return (
-    <div className="text-left max-w-3xl mx-auto space-y-6">
+    <div className="text-left max-w-5xl mx-auto space-y-6">
       <div className="bg-surface-container rounded-xl p-lg">
         <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
           <h4 className="font-headline-sm text-headline-sm text-lg text-on-surface flex items-center gap-2">
@@ -45,9 +45,9 @@ export default function CareerFieldResults({ careerPath }) {
                 </div>
                 <Link
                   to={`/careers/${career.id}`}
-                  className="flex-shrink-0 text-secondary font-label-md text-label-md hover:underline whitespace-nowrap"
+                  className="read-more-link flex-shrink-0"
                 >
-                  Read more
+                  Read more <Icon name="arrow_forward" className="text-base" />
                 </Link>
               </li>
             ))}
@@ -89,9 +89,9 @@ export default function CareerFieldResults({ careerPath }) {
                 </div>
                 <Link
                   to={`/courses/${course.id}`}
-                  className="flex-shrink-0 text-secondary font-label-md text-label-md hover:underline whitespace-nowrap"
+                  className="read-more-link flex-shrink-0"
                 >
-                  Read more
+                  Read more <Icon name="arrow_forward" className="text-base" />
                 </Link>
               </li>
             ))}

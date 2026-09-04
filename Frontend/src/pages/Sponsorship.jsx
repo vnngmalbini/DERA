@@ -11,10 +11,18 @@ const INITIAL_FORM = {
   terms: false,
 }
 
+const ELIGIBILITY_POINTS = [
+  'You are a young person who needs help paying for an official education or application form.',
+  'The form is listed in the DERA Forms Marketplace and the fee is confirmed by the institution.',
+  'You can provide accurate academic information and explain why financial support is needed.',
+  'You agree that DERA may review your request and share only the necessary details with a vetted sponsor.',
+]
+
 export default function Sponsorship() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const formId = searchParams.get('form')
+  const isEligibilityView = !formId
   const { isLoggedIn, user, loading: authLoading } = useAuth()
 
   const [applicationForm, setApplicationForm] = useState(null)
@@ -60,8 +68,8 @@ export default function Sponsorship() {
   }, [])
 
   if (authLoading) return null
-  if (!isLoggedIn) return <Navigate to="/login" replace />
-  if (user.role !== 'youth') {
+  if (!isLoggedIn && !isEligibilityView) return <Navigate to="/login" replace />
+  if (isLoggedIn && user.role !== 'youth') {
     return (
       <PageLayout>
         <div className="min-h-[60vh] flex items-center justify-center px-margin-mobile text-center">
@@ -126,7 +134,8 @@ export default function Sponsorship() {
         <section className="px-margin-mobile md:px-margin-desktop -mt-12 relative z-20">
           <div className="max-w-[800px] mx-auto">
             {!formId ? (
-              <div className="bg-surface-container-lowest rounded-xl p-md md:p-lg border border-outline-variant/30 shadow-[0px_4px_20px_rgba(13,31,8,0.05)] text-center space-y-md">
+              <div className="space-y-md">
+                <div className="bg-surface-container-lowest rounded-xl p-md md:p-lg border border-outline-variant/30 shadow-[0px_4px_20px_rgba(13,31,8,0.05)]">
                 <div className="w-16 h-16 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center">
                   <Icon name="volunteer_activism" filled className="text-3xl" />
                 </div>
@@ -143,10 +152,45 @@ export default function Sponsorship() {
                   Browse Forms to Apply
                   <Icon name="arrow_forward" />
                 </Link>
+                </div>
+
+                <div className="bg-secondary-container/25 rounded-xl p-md md:p-lg border border-secondary/20 text-left">
+                  <div className="flex items-start gap-3 mb-4">
+                    <Icon name="fact_check" className="text-secondary text-2xl shrink-0" />
+                    <div>
+                      <h2 className="font-headline-sm text-headline-sm text-on-surface">Check your eligibility first</h2>
+                      <p className="font-body-md text-body-md text-on-surface-variant mt-1">
+                        Review these requirements before choosing a form. Meeting them does not guarantee funding, but it helps you submit a complete request.
+                      </p>
+                    </div>
+                  </div>
+                  <ul className="space-y-3">
+                    {ELIGIBILITY_POINTS.map((point) => (
+                      <li key={point} className="flex items-start gap-3">
+                        <Icon name="check_circle" className="text-secondary text-xl mt-0.5 shrink-0" filled />
+                        <span className="font-body-md text-body-md text-on-surface">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant mt-4">
+                    Not sure if you qualify? Use the DERA Guide button or contact the Help Centre before applying.
+                  </p>
+                </div>
               </div>
             ) : (
             <div className="bg-surface-container-lowest rounded-xl p-md md:p-lg border border-outline-variant/30 shadow-[0px_4px_20px_rgba(13,31,8,0.05)]">
               <form className="space-y-gutter" onSubmit={handleSubmit}>
+                <div className="bg-secondary-container/25 rounded-xl p-md border border-secondary/20 text-left">
+                  <div className="flex items-start gap-3">
+                    <Icon name="fact_check" className="text-secondary text-2xl shrink-0" />
+                    <div>
+                      <h2 className="font-headline-sm text-headline-sm text-on-surface">Eligibility reminder</h2>
+                      <p className="font-body-md text-body-md text-on-surface-variant mt-1">
+                        Before submitting, confirm that you need help with an official form, can provide accurate academic details, and can explain your financial need. Requests are reviewed individually.
+                      </p>
+                    </div>
+                  </div>
+                </div>
                 {/* Header Information */}
                 <div className="border-b border-outline-variant pb-md">
                   <h2 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">

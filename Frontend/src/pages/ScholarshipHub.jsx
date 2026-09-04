@@ -217,7 +217,7 @@ export default function ScholarshipHub() {
             </p>
             {subscribed ? (
               <p className="font-label-md text-label-md bg-white/10 rounded-xl py-4 px-6 inline-block">
-                Thanks for subscribing! Check your inbox for a confirmation.
+                Thanks! Your email has been saved for scholarship alerts. Email confirmation will be enabled when the mail service is connected.
               </p>
             ) : (
               <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubscribe}>

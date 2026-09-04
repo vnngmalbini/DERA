@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
 import { useAuth } from '../context/AuthContext'
-import { getDashboardMeta } from '../config/dashboardNav'
+import { getDashboardMetaForUser } from '../config/dashboardNav'
 import { ApiError } from '../services/apiClient'
 
 const ROLES = [
@@ -14,6 +14,7 @@ const ROLES = [
 
 export default function Login() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { login } = useAuth()
   const [mode, setMode] = useState('login') // 'login' | 'forgot' | 'sent'
   const [role, setRole] = useState(ROLES[0].key)
@@ -25,6 +26,7 @@ export default function Login() {
   const [resetStatus, setResetStatus] = useState('idle')
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState(location.state?.message || '')
 
   // The role tabs above are a cosmetic pre-selection only — the server is
   // the source of truth for identity, so the redirect below always uses
@@ -35,7 +37,7 @@ export default function Login() {
     setSubmitting(true)
     try {
       const me = await login(identifier, password)
-      navigate(getDashboardMeta(me.role)?.basePath ?? '/')
+      navigate(me.profileComplete === false ? '/complete-profile' : getDashboardMetaForUser(me)?.basePath ?? '/')
     } catch (err) {
       setErrorMessage(
         err instanceof ApiError ? err.message : 'Something went wrong. Please try again.'
@@ -136,6 +138,12 @@ export default function Login() {
                         <div className="p-md rounded-lg bg-error-container flex items-start gap-2">
                           <span className="material-symbols-outlined text-on-error-container text-[20px]">error</span>
                           <p className="font-body-md text-body-md text-on-error-container">{errorMessage}</p>
+                        </div>
+                      )}
+                      {successMessage && (
+                        <div className="p-md rounded-lg bg-primary-container flex items-start gap-2">
+                          <span className="material-symbols-outlined text-on-primary-container text-[20px]">mark_email_read</span>
+                          <p className="font-body-md text-body-md text-on-primary-container">{successMessage}</p>
                         </div>
                       )}
                       <div className="space-y-xs">

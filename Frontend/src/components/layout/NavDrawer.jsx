@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import { useAuth } from '../../context/AuthContext'
-import { getDashboardMeta } from '../../config/dashboardNav'
+import { getDashboardMetaForUser } from '../../config/dashboardNav'
 
 const SECTIONS = [
   {
@@ -34,7 +34,7 @@ export default function NavDrawer({ open, onClose }) {
   const navigate = useNavigate()
   const { isLoggedIn, user, logout } = useAuth()
 
-  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMeta(user?.role) : null
+  const dashboard = isLoggedIn && user?.profileComplete !== false ? getDashboardMetaForUser(user) : null
 
   const sections = dashboard
     ? [

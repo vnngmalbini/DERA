@@ -97,9 +97,9 @@ export default function CareerDetail() {
                       </div>
                       <Link
                         to={`/courses/${course.id}`}
-                        className="flex-shrink-0 text-secondary font-label-md text-label-md hover:underline whitespace-nowrap"
+                        className="read-more-link flex-shrink-0"
                       >
-                        Read more
+                        Read more <Icon name="arrow_forward" className="text-base" />
                       </Link>
                     </li>
                   ))}

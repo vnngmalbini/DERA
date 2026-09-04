@@ -104,6 +104,7 @@ class RegisterSerializer(serializers.Serializer):
     institution = serializers.PrimaryKeyRelatedField(
         queryset=Institution.objects.all(), required=False, allow_null=True
     )
+    custom_institution_name = serializers.CharField(required=False, allow_blank=True)
 
     # Counselor-specific (optional)
     role_title = serializers.CharField(required=False, allow_blank=True)
@@ -127,10 +128,24 @@ class RegisterSerializer(serializers.Serializer):
             password=validated_data['password'],
             phone=validated_data.get('phone') or None,
             role=role,
+            is_active=True,
         )
 
         full_name = validated_data['full_name']
         if role == User.Role.YOUTH:
+            institution = validated_data.get('institution')
+            custom_institution_name = validated_data.get('custom_institution_name', '').strip()
+            if institution is None and custom_institution_name:
+                institution_type = (
+                    Institution.Type.UNIVERSITY
+                    if validated_data.get('education_level') in ('shs_graduate', 'tertiary')
+                    else Institution.Type.SCHOOL
+                )
+                institution = Institution.objects.create(
+                    name=custom_institution_name,
+                    type=institution_type,
+                    region=validated_data.get('region') or None,
+                )
             YouthProfile.objects.create(
                 user=user,
                 full_name=full_name,
@@ -138,14 +153,21 @@ class RegisterSerializer(serializers.Serializer):
                 region=validated_data.get('region') or None,
                 district=validated_data.get('district') or None,
                 education_level=validated_data.get('education_level') or None,
-                institution=validated_data.get('institution'),
+                institution=institution,
                 gender=validated_data.get('gender') or None,
             )
         elif role == User.Role.COUNSELOR:
+            institution = validated_data.get('institution')
+            custom_institution_name = validated_data.get('custom_institution_name', '').strip()
+            if institution is None and custom_institution_name:
+                institution = Institution.objects.create(
+                    name=custom_institution_name,
+                    type=Institution.Type.SCHOOL,
+                )
             CounselorProfile.objects.create(
                 user=user,
                 full_name=full_name,
-                institution=validated_data.get('institution'),
+                institution=institution,
                 role_title=validated_data.get('role_title') or None,
             )
         elif role == User.Role.DONOR:

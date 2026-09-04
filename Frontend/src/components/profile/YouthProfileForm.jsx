@@ -76,7 +76,14 @@ function needsFreeTextInstitution(educationLevel) {
   return FREE_TEXT_INSTITUTION_LEVELS.includes(educationLevel)
 }
 
-export default function YouthProfileForm({ onSubmit, submitting, institutions = [], defaultValues, submitLabel }) {
+export default function YouthProfileForm({
+  onSubmit,
+  submitting,
+  institutions = [],
+  defaultValues,
+  submitLabel,
+  deferInstitutionCreation = false,
+}) {
   const [values, setValues] = useState({
     dateOfBirth: '',
     region: '',
@@ -154,6 +161,11 @@ export default function YouthProfileForm({ onSubmit, submitting, institutions = 
 
     if (!needsInstitution) {
       onSubmit({ ...values, institution: '', customInstitutionName: '' })
+      return
+    }
+
+    if (deferInstitutionCreation && (freeText || values.institution === OTHER_INSTITUTION)) {
+      onSubmit({ ...values, institution: '' })
       return
     }
 

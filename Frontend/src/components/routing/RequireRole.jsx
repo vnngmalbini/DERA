@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { getDashboardMeta } from '../../config/dashboardNav'
+import { getDashboardMetaForUser } from '../../config/dashboardNav'
 import AccessDenied from '../../pages/dashboard/AccessDenied'
 
 /**
@@ -19,7 +19,7 @@ export default function RequireRole({ role, children }) {
   if (!isLoggedIn) return <Navigate to="/login" replace />
   if (user?.role === role) return children
 
-  const ownDashboard = getDashboardMeta(user?.role)
+  const ownDashboard = getDashboardMetaForUser(user)
   if (ownDashboard) return <Navigate to={ownDashboard.basePath} replace />
 
   return <AccessDenied />

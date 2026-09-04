@@ -119,7 +119,7 @@ export default function CareerQuiz() {
 
   return (
     <PageLayout>
-      <div className="max-w-6xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+      <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
         <section className="py-md text-center">
           <h2 className="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-background mb-3">Career Discovery Quiz</h2>
           <p className="text-body-lg text-on-surface-variant max-w-lg mx-auto">

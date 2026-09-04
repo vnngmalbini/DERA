@@ -8,7 +8,14 @@ import { apiPost } from '../../services/apiClient'
 const OTHER_INSTITUTION = '__other__'
 const REQUIRED_FIELDS = ['institution', 'roleTitle']
 
-export default function CounselorProfileForm({ onSubmit, submitting, institutions = [], defaultValues, submitLabel }) {
+export default function CounselorProfileForm({
+  onSubmit,
+  submitting,
+  institutions = [],
+  defaultValues,
+  submitLabel,
+  deferInstitutionCreation = false,
+}) {
   const [values, setValues] = useState({ institution: '', roleTitle: '', customInstitutionName: '', ...defaultValues })
   const [errors, setErrors] = useState({})
   const [creatingInstitution, setCreatingInstitution] = useState(false)
@@ -23,6 +30,11 @@ export default function CounselorProfileForm({ onSubmit, submitting, institution
     }
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
+
+    if (deferInstitutionCreation && values.institution === OTHER_INSTITUTION) {
+      onSubmit({ ...values, institution: '' })
+      return
+    }
 
     if (values.institution === OTHER_INSTITUTION) {
       setCreatingInstitution(true)

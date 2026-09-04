@@ -29,12 +29,31 @@ export default function UnifiedBookCard({ book, userBook, onAdd, onUpdate, onRem
   const isFree = book.kind === 'free_book'
 
   const run = async (fn) => {
+    if (!fn || typeof fn !== 'function') return
     setBusy(true)
     try {
       await fn()
     } finally {
       setBusy(false)
     }
+  }
+
+  const handleFavoriteToggle = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    if (!userBook || !onUpdate) return
+    run(() => onUpdate(userBook, { is_favorite: !userBook.is_favorite }))
+  }
+
+  const handleDelete = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    if (!userBook || !onRemove) return
+
+    const confirmed = window.confirm('Are you sure you want to delete this book from your reading tracker?')
+    if (!confirmed) return
+
+    run(() => onRemove(userBook))
   }
 
   return (
@@ -63,7 +82,8 @@ export default function UnifiedBookCard({ book, userBook, onAdd, onUpdate, onRem
         {userBook && (
           <div className="flex items-center gap-1 shrink-0">
             <button
-              onClick={() => run(() => onUpdate(userBook, { is_favorite: !userBook.is_favorite }))}
+              type="button"
+              onClick={handleFavoriteToggle}
               disabled={busy}
               aria-label="Toggle favorite"
               className={`p-1.5 rounded-full transition-colors ${
@@ -75,7 +95,8 @@ export default function UnifiedBookCard({ book, userBook, onAdd, onUpdate, onRem
               <Icon name="favorite" filled={userBook.is_favorite} className="text-[18px]" />
             </button>
             <button
-              onClick={() => run(() => onRemove(userBook))}
+              type="button"
+              onClick={handleDelete}
               disabled={busy}
               aria-label="Remove from tracker"
               className="p-1.5 rounded-full text-on-surface-variant/60 hover:text-error hover:bg-error-container/20 transition-colors"

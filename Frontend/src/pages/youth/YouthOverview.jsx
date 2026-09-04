@@ -7,6 +7,8 @@ import DashboardSkeleton from '../../components/dashboard/DashboardSkeleton'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
 import { useDashboardSummary } from '../../hooks/useDashboardSummary'
+import TeenMotherDashboard from './TeenMotherDashboard'
+import DropoutReentryDashboard from './DropoutReentryDashboard'
 
 const SESSION_TYPE_LABELS = {
   academic_checkin: 'Academic Check-in',
@@ -26,6 +28,15 @@ function formatSessionTime(iso) {
 }
 
 export default function YouthOverview() {
+  const { user } = useAuth()
+
+  if (user?.educationLevel === 'teen_mother_program') return <TeenMotherDashboard />
+  if (user?.educationLevel === 'dropout_re_entry') return <DropoutReentryDashboard />
+
+  return <StandardYouthOverview />
+}
+
+function StandardYouthOverview() {
   const { user } = useAuth()
   const { summary, loading } = useDashboardSummary('youth')
   const firstName = (user?.fullName || 'there').split(' ')[0]

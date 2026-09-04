@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import NotificationBell from './NotificationBell'
+import GlobalAssistant from './GlobalAssistant'
 import { useAuth } from '../../context/AuthContext'
 import { getDashboardMeta } from '../../config/dashboardNav'
 
@@ -44,7 +45,7 @@ export default function DashboardLayout({ role, children }) {
   const { user, logout } = useAuth()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
-  const meta = getDashboardMeta(role)
+  const meta = getDashboardMeta(role, user?.educationLevel)
 
   if (!user || !meta) {
     return (
@@ -85,7 +86,15 @@ export default function DashboardLayout({ role, children }) {
       )
     })
 
-  const visibleGeneralLinks = GENERAL_LINKS.filter((item) => !item.roles || item.roles.includes(role))
+  const isSpecialYouthPathway =
+    role === 'youth' && ['teen_mother_program', 'dropout_re_entry'].includes(user?.educationLevel)
+  const visibleGeneralLinks = isSpecialYouthPathway
+    ? []
+    : GENERAL_LINKS.filter(
+        (item) =>
+          (!item.roles || item.roles.includes(role)) &&
+          !navItems.some((navItem) => navItem.to === item.to),
+      )
 
   const navLinks = (onNavigate) => renderLinks(navItems, onNavigate)
   const generalLinks = (onNavigate) => renderLinks(visibleGeneralLinks, onNavigate)
@@ -176,6 +185,7 @@ export default function DashboardLayout({ role, children }) {
         )}
 
         <main className="flex-1 px-margin-mobile md:px-lg py-lg max-w-7xl w-full mx-auto">{children}</main>
+        <GlobalAssistant />
       </div>
     </div>
   )

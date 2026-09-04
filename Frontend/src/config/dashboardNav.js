@@ -28,6 +28,9 @@ export const DASHBOARD_META = {
       { key: 'opportunities', label: 'Opportunities', to: '/dashboard/youth/opportunities', icon: 'explore' },
       { key: 'learning', label: 'Learning Resources', to: '/dashboard/youth/learning', icon: 'auto_stories' },
       { key: 'messages', label: 'Messages', to: '/dashboard/youth/messages', icon: 'chat_bubble' },
+      { key: 'real-stories', label: 'Real Stories', to: '/stories', icon: 'auto_stories' },
+      { key: 'forms-marketplace', label: 'Forms Marketplace', to: '/forms', icon: 'assignment' },
+      { key: 'help-centre', label: 'Help Centre', to: '/help', icon: 'support_agent' },
       { key: 'profile', label: 'Profile', to: '/dashboard/youth/profile', icon: 'person' },
       { key: 'settings', label: 'Settings', to: '/dashboard/youth/settings', icon: 'settings' },
     ],
@@ -41,6 +44,7 @@ export const DASHBOARD_META = {
       { key: 'sessions', label: 'Counseling Sessions', to: '/dashboard/counselor/sessions', icon: 'event_available' },
       { key: 'reports', label: 'Reports', to: '/dashboard/counselor/reports', icon: 'analytics' },
       { key: 'messages', label: 'Messages', to: '/dashboard/counselor/messages', icon: 'chat_bubble' },
+      { key: 'forms-marketplace', label: 'Forms Marketplace', to: '/forms', icon: 'assignment' },
       { key: 'profile', label: 'Profile', to: '/dashboard/counselor/profile', icon: 'person' },
       { key: 'settings', label: 'Settings', to: '/dashboard/counselor/settings', icon: 'settings' },
     ],
@@ -54,6 +58,7 @@ export const DASHBOARD_META = {
       { key: 'impact', label: 'Impact Reports', to: '/dashboard/donor/impact', icon: 'insights' },
       { key: 'projects', label: 'Sponsored Projects', to: '/dashboard/donor/projects', icon: 'handshake' },
       { key: 'messages', label: 'Messages', to: '/dashboard/donor/messages', icon: 'chat_bubble' },
+      { key: 'forms-marketplace', label: 'Forms Marketplace', to: '/forms', icon: 'assignment' },
       { key: 'profile', label: 'Profile', to: '/dashboard/donor/profile', icon: 'person' },
       { key: 'settings', label: 'Settings', to: '/dashboard/donor/settings', icon: 'settings' },
     ],
@@ -81,12 +86,53 @@ export const DASHBOARD_META = {
         to: '/dashboard/admin/learning-resources',
         icon: 'auto_stories',
       },
+      { key: 'forms-marketplace', label: 'Forms Marketplace', to: '/forms', icon: 'assignment' },
       { key: 'content', label: 'Content Management', to: '/dashboard/admin/content', icon: 'edit_note' },
       { key: 'settings', label: 'Settings', to: '/dashboard/admin/settings', icon: 'settings' },
     ],
   },
 }
 
-export function getDashboardMeta(role) {
+const PATHWAY_META = {
+  teen_mother_program: {
+    label: 'Teen Mother',
+    basePath: '/dashboard/youth/teen-mother',
+    navItems: [
+      { key: 'overview', label: 'My Support Plan', to: '/dashboard/youth/teen-mother', icon: 'dashboard', end: true },
+      { key: 'support', label: 'Support Services', to: '/dashboard/youth/teen-mother-support', icon: 'pregnant_woman' },
+      { key: 'learning', label: 'Flexible Learning', to: '/dashboard/youth/learning', icon: 'school' },
+      { key: 'opportunities', label: 'Opportunities', to: '/dashboard/youth/opportunities', icon: 'explore' },
+      { key: 'mentorship', label: 'Mentorship', to: '/dashboard/youth/mentorship', icon: 'diversity_3' },
+      { key: 'messages', label: 'Messages', to: '/dashboard/youth/messages', icon: 'chat_bubble' },
+      { key: 'real-stories', label: 'Real Stories', to: '/stories', icon: 'auto_stories' },
+      { key: 'help-centre', label: 'Help Centre', to: '/help', icon: 'support_agent' },
+      { key: 'profile', label: 'Profile', to: '/dashboard/youth/profile', icon: 'person' },
+      { key: 'settings', label: 'Settings', to: '/dashboard/youth/settings', icon: 'settings' },
+    ],
+  },
+  dropout_re_entry: {
+    label: 'Dropout Re-entry',
+    basePath: '/dashboard/youth/dropout-re-entry',
+    navItems: [
+      { key: 'overview', label: 'My Re-entry Plan', to: '/dashboard/youth/dropout-re-entry', icon: 'dashboard', end: true },
+      { key: 'learning', label: 'Learning Options', to: '/dashboard/youth/learning', icon: 'school' },
+      { key: 'support', label: 'Re-entry Support', to: '/dashboard/youth/dropout-re-entry-support', icon: 'support_agent' },
+      { key: 'opportunities', label: 'Opportunities', to: '/dashboard/youth/opportunities', icon: 'explore' },
+      { key: 'mentorship', label: 'Mentorship', to: '/dashboard/youth/mentorship', icon: 'diversity_3' },
+      { key: 'messages', label: 'Messages', to: '/dashboard/youth/messages', icon: 'chat_bubble' },
+      { key: 'real-stories', label: 'Real Stories', to: '/stories', icon: 'auto_stories' },
+      { key: 'help-centre', label: 'Help Centre', to: '/help', icon: 'support_agent' },
+      { key: 'profile', label: 'Profile', to: '/dashboard/youth/profile', icon: 'person' },
+      { key: 'settings', label: 'Settings', to: '/dashboard/youth/settings', icon: 'settings' },
+    ],
+  },
+}
+
+export function getDashboardMeta(role, educationLevel) {
+  if (role === 'youth' && PATHWAY_META[educationLevel]) return PATHWAY_META[educationLevel]
   return DASHBOARD_META[role] ?? null
+}
+
+export function getDashboardMetaForUser(user) {
+  return getDashboardMeta(user?.role, user?.educationLevel || user?.youth_profile?.education_level)
 }

@@ -71,13 +71,14 @@ export function AuthProvider({ children }) {
     const tokens = await apiPost('/auth/token/', { email, password })
     setTokens(tokens)
     const me = await apiGet('/auth/me/')
-    setUser(withDerived(me))
-    return me
+    const derivedUser = withDerived(me)
+    setUser(derivedUser)
+    return derivedUser
   }
 
   async function register(payload) {
-    await apiPost('/auth/register/', payload)
-    return login(payload.email, payload.password)
+    const result = await apiPost('/auth/register/', payload)
+    return result
   }
 
   function logout() {

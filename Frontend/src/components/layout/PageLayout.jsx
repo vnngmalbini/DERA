@@ -3,6 +3,7 @@ import MobileBottomNav from './MobileBottomNav'
 import Footer from './Footer'
 import Fab from './Fab'
 import DashboardLayout from './DashboardLayout'
+import GlobalAssistant from './GlobalAssistant'
 import { useAuth } from '../../context/AuthContext'
 
 /**
@@ -51,6 +52,7 @@ export default function PageLayout({
       <main className={`pt-16 pb-24 md:pb-0 ${mainClassName}`}>{children}</main>
       <MobileBottomNav />
       {showFab && <Fab />}
+        <GlobalAssistant />
       {showFooter && <Footer />}
     </>
   )

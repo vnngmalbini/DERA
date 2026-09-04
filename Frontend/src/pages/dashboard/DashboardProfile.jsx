@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
-import { getDashboardMeta } from '../../config/dashboardNav'
+import { getDashboardMetaForUser } from '../../config/dashboardNav'
 import { apiGet } from '../../services/apiClient'
 import { submitProfile, toSnakeCasePayload, uploadProfilePicture } from '../../services/profileService'
 import YouthProfileForm from '../../components/profile/YouthProfileForm'
@@ -55,7 +55,7 @@ function initialsFor(name) {
 
 export default function DashboardProfile() {
   const { user, refreshUser } = useAuth()
-  const meta = getDashboardMeta(user?.role)
+  const meta = getDashboardMetaForUser(user)
   const fields = ROLE_FIELDS[user?.role] ?? []
   const Form = ROLE_FORM[user?.role]
 

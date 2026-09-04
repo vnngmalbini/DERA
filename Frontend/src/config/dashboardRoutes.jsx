@@ -7,11 +7,15 @@
 import { lazy } from 'react'
 
 const YouthOverview = lazy(() => import('../pages/youth/YouthOverview'))
+const TeenMotherDashboard = lazy(() => import('../pages/youth/TeenMotherDashboard'))
+const DropoutReentryDashboard = lazy(() => import('../pages/youth/DropoutReentryDashboard'))
 const Mentorship = lazy(() => import('../pages/youth/Mentorship'))
 const Opportunities = lazy(() => import('../pages/youth/Opportunities'))
 const LearningResources = lazy(() => import('../pages/youth/LearningResources'))
 const ReadingTracker = lazy(() => import('../pages/youth/ReadingTracker'))
 const SelfDevelopmentLibrary = lazy(() => import('../pages/youth/SelfDevelopmentLibrary'))
+const TeenMotherSupport = lazy(() => import('../pages/youth/TeenMotherSupport'))
+const DropoutReentry = lazy(() => import('../pages/youth/DropoutReentry'))
 
 const CounselorOverview = lazy(() => import('../pages/counselor/CounselorOverview'))
 const AssignedYouth = lazy(() => import('../pages/counselor/AssignedYouth'))
@@ -42,7 +46,11 @@ const DashboardSettings = lazy(() => import('../pages/dashboard/DashboardSetting
 export const DASHBOARD_PAGES = {
   youth: {
     '/dashboard/youth': YouthOverview,
+    '/dashboard/youth/teen-mother': TeenMotherDashboard,
+    '/dashboard/youth/dropout-re-entry': DropoutReentryDashboard,
+    '/dashboard/youth/dropout-re-entry-support': DropoutReentry,
     '/dashboard/youth/mentorship': Mentorship,
+    '/dashboard/youth/teen-mother-support': TeenMotherSupport,
     '/dashboard/youth/opportunities': Opportunities,
     '/dashboard/youth/learning': LearningResources,
     '/dashboard/youth/reading-tracker': ReadingTracker,

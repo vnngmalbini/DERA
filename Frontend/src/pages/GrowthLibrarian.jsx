@@ -147,7 +147,7 @@ export default function GrowthLibrarian() {
       <div className="h-screen flex flex-col bg-background">
         <header className="sticky top-0 z-10 flex items-center gap-3 px-margin-mobile h-16 border-b border-outline-variant/30 bg-surface/80 backdrop-blur-md shrink-0">
           <Link
-            to="/"
+            to="/dashboard/youth"
             className="p-2 rounded-full text-on-surface hover:bg-secondary-container/20 transition-colors"
             aria-label="Back"
           >
