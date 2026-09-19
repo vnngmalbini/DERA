@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import EscalationContact, HelpRequest
+from .models import ContactMessage, EscalationContact, HelpRequest
 
 
 @admin.register(EscalationContact)
@@ -18,6 +18,17 @@ class HelpRequestAdmin(admin.ModelAdmin):
     list_display = ('category', 'submitted_at', 'escalation_contact')
     list_filter = ('category',)
     readonly_fields = ('category', 'message', 'submitted_at')
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'submitted_at', 'is_resolved')
+    list_filter = ('is_resolved',)
+    search_fields = ('name', 'email', 'message')
+    readonly_fields = ('name', 'email', 'message', 'submitted_at')
 
     def has_add_permission(self, request):
         return False

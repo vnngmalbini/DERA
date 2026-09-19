@@ -1,4 +1,5 @@
 from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
 from rest_framework import serializers
 
@@ -120,6 +121,10 @@ class RegisterSerializer(serializers.Serializer):
             raise serializers.ValidationError('A user with this email already exists.')
         return value
 
+    def validate_password(self, value):
+        validate_password(value)
+        return value
+
     @transaction.atomic
     def create(self, validated_data):
         role = validated_data['role']
@@ -187,6 +192,40 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = ['id', 'category', 'title', 'message', 'link', 'related_object_id', 'is_read', 'created_at']
         read_only_fields = fields
+
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    uid = serializers.CharField()
+    token = serializers.CharField()
+    new_password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        from django.contrib.auth.tokens import PasswordResetTokenGenerator
+        from django.utils.encoding import force_str
+        from django.utils.http import urlsafe_base64_decode
+
+        try:
+            user_id = force_str(urlsafe_base64_decode(attrs['uid']))
+            user = User.objects.get(pk=user_id)
+        except (User.DoesNotExist, ValueError, TypeError, OverflowError, DjangoValidationError):
+            raise serializers.ValidationError('This reset link is invalid.')
+
+        if not PasswordResetTokenGenerator().check_token(user, attrs['token']):
+            raise serializers.ValidationError('This reset link is invalid or has expired.')
+
+        validate_password(attrs['new_password'], user=user)
+        attrs['user'] = user
+        return attrs
+
+    def save(self):
+        user = self.validated_data['user']
+        user.set_password(self.validated_data['new_password'])
+        user.save(update_fields=['password'])
+        return user
 
 
 class ChangePasswordSerializer(serializers.Serializer):

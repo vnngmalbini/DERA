@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.utils import timezone
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
@@ -60,7 +61,12 @@ class FormOrderViewSet(viewsets.ModelViewSet):
         merchant credentials are available. Only reachable by the order's
         owner or an admin (same permission_classes as the rest of this
         viewset), keeping direct Payment writes admin-only everywhere else.
+
+        DEBUG-only: this marks an order PAID with no money moving, so it
+        must never be reachable once real MoMo credentials replace it.
         """
+        if not settings.DEBUG:
+            raise PermissionDenied('Payment simulation is disabled outside DEBUG.')
         order = self.get_object()
         if order.order_type != FormOrder.OrderType.DIRECT_PURCHASE:
             return Response(

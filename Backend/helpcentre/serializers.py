@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import EscalationContact, HelpRequest
+from .models import ContactMessage, EscalationContact, HelpRequest
 
 
 class EscalationContactSerializer(serializers.ModelSerializer):
@@ -21,3 +21,10 @@ class HelpRequestSerializer(serializers.ModelSerializer):
         model = HelpRequest
         fields = ['id', 'category', 'message', 'submitted_at', 'escalation_contact']
         read_only_fields = ['id', 'submitted_at']
+
+
+class ContactMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMessage
+        fields = ['id', 'name', 'email', 'message', 'submitted_at', 'is_resolved']
+        read_only_fields = ['id', 'submitted_at', 'is_resolved']

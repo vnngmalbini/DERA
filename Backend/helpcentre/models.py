@@ -49,3 +49,23 @@ class HelpRequest(models.Model):
 
     def __str__(self):
         return f'{self.category} @ {self.submitted_at}'
+
+
+class ContactMessage(models.Model):
+    """A "Contact Us" submission — unlike HelpRequest, this one is meant to
+    be followed up on directly, so it does carry the sender's name/email.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    message = models.TextField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    is_resolved = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'contact_messages'
+        ordering = ['-submitted_at']
+
+    def __str__(self):
+        return f'{self.name} <{self.email}> @ {self.submitted_at}'

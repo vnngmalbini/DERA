@@ -135,6 +135,19 @@ def _roster_queryset(request):
     return counselor_profile.assigned_youth.all()
 
 
+def _ensure_youth_in_roster(request, youth):
+    """Guards every risk-data *write*. `get_queryset()` on these viewsets
+    already scopes reads (and therefore retrieve/update/destroy, which go
+    through it via get_object()) to `_roster_queryset()` — but `create` has
+    no existing row to filter against, so without this a counselor could
+    POST a risk_score/attendance/academic record, or a RiskIndicator/
+    Intervention, against a youth (or a youth's assessment) outside their
+    roster just by knowing the UUID.
+    """
+    if not _roster_queryset(request).filter(pk=youth.pk).exists():
+        raise PermissionDenied("You don't have access to this youth's record.")
+
+
 class CounselorRosterView(APIView):
     """A counselor's real assigned-youth roster, enriched with their latest
     risk level and attendance — backs the Counselor Overview and Assigned
@@ -232,6 +245,7 @@ class RiskAssessmentViewSet(viewsets.ModelViewSet):
         counselor_profile = getattr(self.request.user, 'counselor_profile', None)
         if counselor_profile is None:
             raise PermissionDenied('Only counselor accounts can create risk assessments.')
+        _ensure_youth_in_roster(self.request, serializer.validated_data['youth'])
         serializer.save(counselor=counselor_profile)
 
 
@@ -243,6 +257,10 @@ class RiskIndicatorViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return RiskIndicator.objects.filter(assessment__youth__in=_roster_queryset(self.request))
 
+    def perform_create(self, serializer):
+        _ensure_youth_in_roster(self.request, serializer.validated_data['assessment'].youth)
+        serializer.save()
+
 
 class InterventionViewSet(viewsets.ModelViewSet):
     serializer_class = InterventionSerializer
@@ -251,6 +269,10 @@ class InterventionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Intervention.objects.filter(assessment__youth__in=_roster_queryset(self.request))
+
+    def perform_create(self, serializer):
+        _ensure_youth_in_roster(self.request, serializer.validated_data['assessment'].youth)
+        serializer.save()
 
 
 class CounselingSessionViewSet(viewsets.ModelViewSet):
@@ -279,8 +301,19 @@ class CounselingSessionViewSet(viewsets.ModelViewSet):
         counselor_profile = getattr(self.request.user, 'counselor_profile', None)
         if counselor_profile is None:
             raise PermissionDenied('Only counselor accounts can schedule sessions.')
+
+        youth = serializer.validated_data['youth']
+        # An unassigned youth may be legitimately "claimed" by whichever
+        # counselor schedules their first session — that's the intended
+        # onboarding path, so it isn't gated by _roster_queryset (which
+        # would only ever contain youth already assigned to this counselor,
+        # rejecting every first session). What must be blocked is scheduling
+        # with — and thereby gaining standing access to — a youth who is
+        # already assigned to a *different* counselor.
+        if youth.assigned_counselor_id not in (None, counselor_profile.id):
+            raise PermissionDenied('This youth is already assigned to another counselor.')
+
         session = serializer.save(counselor=counselor_profile)
-        youth = session.youth
         if youth.assigned_counselor_id is None:
             youth.assigned_counselor = counselor_profile
             youth.save(update_fields=['assigned_counselor'])
@@ -294,6 +327,10 @@ class AttendanceRecordViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return AttendanceRecord.objects.filter(youth__in=_roster_queryset(self.request))
 
+    def perform_create(self, serializer):
+        _ensure_youth_in_roster(self.request, serializer.validated_data['youth'])
+        serializer.save()
+
 
 class AcademicRecordViewSet(viewsets.ModelViewSet):
     serializer_class = AcademicRecordSerializer
@@ -302,3 +339,7 @@ class AcademicRecordViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return AcademicRecord.objects.filter(youth__in=_roster_queryset(self.request))
+
+    def perform_create(self, serializer):
+        _ensure_youth_in_roster(self.request, serializer.validated_data['youth'])
+        serializer.save()

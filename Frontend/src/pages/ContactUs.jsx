@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import Button from '../components/ui/Button'
+import { submitContactMessage } from '../services/contactService'
 
 const INITIAL_FORM = { name: '', email: '', message: '' }
 
@@ -13,25 +13,28 @@ const CONTACT_DETAILS = [
 
 export default function ContactUs() {
   const [form, setForm] = useState(INITIAL_FORM)
-  const [status, setStatus] = useState('idle') // idle | sending | sent
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')
-    setTimeout(() => {
+    try {
+      await submitContactMessage(form)
       setStatus('sent')
       setForm(INITIAL_FORM)
       setTimeout(() => setStatus('idle'), 3000)
-    }, 1200)
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
-    <PageLayout>
+    <>
       <div className="px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto">
         {/* Hero Section */}
         <section className="py-lg text-center md:text-left">
@@ -96,6 +99,14 @@ export default function ContactUs() {
                   required
                 />
               </div>
+              {status === 'error' && (
+                <div className="p-md rounded-lg bg-error-container flex items-start gap-2">
+                  <Icon name="error" className="text-on-error-container text-[20px]" />
+                  <p className="font-body-md text-body-md text-on-error-container">
+                    Something went wrong sending your message. Please try again, or email us directly.
+                  </p>
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={status === 'sending'}
@@ -105,7 +116,7 @@ export default function ContactUs() {
                     : 'bg-secondary text-on-secondary hover:opacity-90'
                 }`}
               >
-                {status === 'idle' && (
+                {(status === 'idle' || status === 'error') && (
                   <>
                     Send Message
                     <Icon name="send" />
@@ -208,6 +219,6 @@ export default function ContactUs() {
           </div>
         </section>
       </div>
-    </PageLayout>
+    </>
   )
 }

@@ -1,23 +1,15 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import { useAuth } from '../context/AuthContext'
 import { getDashboardMetaForUser } from '../config/dashboardNav'
 import { ApiError } from '../services/apiClient'
-
-const ROLES = [
-  { key: 'youth', label: 'Young Person', icon: 'person' },
-  { key: 'donor', label: 'Sponsor', icon: 'volunteer_activism' },
-  { key: 'counselor', label: 'Counselor', icon: 'support_agent' },
-  { key: 'admin', label: 'Admin', icon: 'admin_panel_settings' },
-]
+import { requestPasswordReset } from '../services/authService'
 
 export default function Login() {
   const navigate = useNavigate()
   const location = useLocation()
   const { login } = useAuth()
   const [mode, setMode] = useState('login') // 'login' | 'forgot' | 'sent'
-  const [role, setRole] = useState(ROLES[0].key)
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -28,9 +20,9 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState(location.state?.message || '')
 
-  // The role tabs above are a cosmetic pre-selection only — the server is
-  // the source of truth for identity, so the redirect below always uses
-  // the role the API actually returns, not whichever tab was clicked.
+  // Identity comes from the server: `login` exchanges credentials for tokens
+  // and reads `/auth/me/`, so the account's own role decides which dashboard
+  // to land on. Nothing about the role is ever chosen client-side.
   async function handleSubmit(e) {
     e.preventDefault()
     setErrorMessage('')
@@ -47,18 +39,28 @@ export default function Login() {
     }
   }
 
-  function handleResetSubmit(e) {
+  // The backend always returns the same generic response whether or not
+  // the email matched an account (see PasswordResetRequestView) — that's
+  // deliberate, so this always moves to "sent" on success rather than
+  // branching on the response. A network/server failure is the only case
+  // that stays on the form so the user knows to retry.
+  async function handleResetSubmit(e) {
     e.preventDefault()
     setResetStatus('submitting')
-    setTimeout(() => {
-      setResetStatus('idle')
+    try {
+      await requestPasswordReset(resetIdentifier)
       setMode('sent')
-    }, 1200)
+    } catch {
+      setErrorMessage('Something went wrong sending the reset link. Please try again.')
+    } finally {
+      setResetStatus('idle')
+    }
   }
 
   function backToLogin() {
     setMode('login')
     setResetStatus('idle')
+    setErrorMessage('')
   }
 
   const headings = {
@@ -71,7 +73,7 @@ export default function Login() {
   }
 
   return (
-    <PageLayout bare>
+    <>
       <div className="bg-background text-on-background min-h-screen flex flex-col">
         <main className="flex-grow flex items-center justify-center px-margin-mobile py-lg">
           <div className="w-full max-w-7xl flex flex-col md:flex-row gap-lg items-center">
@@ -110,29 +112,6 @@ export default function Login() {
 
                 {mode === 'login' && (
                   <>
-                    <div className="mb-md space-y-sm">
-                      <label className="font-label-lg text-label-lg text-on-surface-variant">I am a...</label>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-sm">
-                        {ROLES.map((r) => (
-                          <button
-                            key={r.key}
-                            type="button"
-                            onClick={() => setRole(r.key)}
-                            className={`role-card group flex items-center justify-center flex-col p-md rounded-lg border-2 transition-all active:scale-95 ${
-                              role === r.key
-                                ? 'border-secondary bg-secondary-container scale-[1.02]'
-                                : 'border-outline-variant bg-surface hover:border-secondary/50'
-                            }`}
-                          >
-                            <span className="material-symbols-outlined text-secondary text-[24px] mb-2 group-hover:scale-110 transition-transform">
-                              {r.icon}
-                            </span>
-                            <span className="font-label-lg text-label-lg text-on-surface">{r.label}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
                     <form className="space-y-md" onSubmit={handleSubmit}>
                       {errorMessage && (
                         <div className="p-md rounded-lg bg-error-container flex items-start gap-2">
@@ -166,7 +145,10 @@ export default function Login() {
                           </label>
                           <button
                             type="button"
-                            onClick={() => setMode('forgot')}
+                            onClick={() => {
+                              setErrorMessage('')
+                              setMode('forgot')
+                            }}
                             className="font-label-sm text-label-sm text-secondary hover:underline transition-opacity"
                           >
                             Forgot Password? Reset Password
@@ -224,6 +206,12 @@ export default function Login() {
 
                 {mode === 'forgot' && (
                   <form className="space-y-md" onSubmit={handleResetSubmit}>
+                    {errorMessage && (
+                      <div className="p-md rounded-lg bg-error-container flex items-start gap-2">
+                        <span className="material-symbols-outlined text-on-error-container text-[20px]">error</span>
+                        <p className="font-body-md text-body-md text-on-error-container">{errorMessage}</p>
+                      </div>
+                    )}
                     <div className="space-y-xs">
                       <label className="block font-label-lg text-label-lg text-on-surface" htmlFor="reset-identifier">
                         Phone Number or Email
@@ -313,6 +301,6 @@ export default function Login() {
           </div>
         </footer>
       </div>
-    </PageLayout>
+    </>
   )
 }

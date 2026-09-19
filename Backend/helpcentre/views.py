@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.response import Response
@@ -7,8 +9,8 @@ from rest_framework.views import APIView
 from common.permissions import IsAdminOrReadOnly, IsCounselorOrAdmin
 
 from .ai_auntie import AuntieServiceError, get_auntie_reply
-from .models import EscalationContact, HelpRequest
-from .serializers import EscalationContactSerializer, HelpRequestSerializer
+from .models import ContactMessage, EscalationContact, HelpRequest
+from .serializers import ContactMessageSerializer, EscalationContactSerializer, HelpRequestSerializer
 
 
 class AuntieUnavailable(APIException):
@@ -66,3 +68,29 @@ class HelpRequestViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return [permissions.AllowAny()]
         return [IsCounselorOrAdmin()]
+
+
+class ContactMessageViewSet(viewsets.ModelViewSet):
+    """Public "Contact Us" submissions. Anyone can submit one; only staff
+    can read the list back (the sender isn't shown any of it again).
+    """
+
+    queryset = ContactMessage.objects.all()
+    serializer_class = ContactMessageSerializer
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'contact_message'
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [permissions.AllowAny()]
+        return [IsCounselorOrAdmin()]
+
+    def perform_create(self, serializer):
+        message = serializer.save()
+        send_mail(
+            subject=f'New DERA contact message from {message.name}',
+            message=f'From: {message.name} <{message.email}>\n\n{message.message}',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.CONTACT_TEAM_EMAIL],
+            fail_silently=True,
+        )

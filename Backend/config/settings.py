@@ -11,6 +11,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -26,13 +27,39 @@ environ.Env.read_env(BASE_DIR / '.env')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
+_INSECURE_DEFAULT_SECRET_KEY = 'django-insecure-&vg(y**=0ic$)r9xx5eii1*)#%hf8er2gkxe^2p^81c%iqqao$'
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='django-insecure-&vg(y**=0ic$)r9xx5eii1*)#%hf8er2gkxe^2p^81c%iqqao$')
+SECRET_KEY = env('SECRET_KEY', default=_INSECURE_DEFAULT_SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
 
+# The insecure default key is fine for local dev (DEBUG=True hides it from
+# real traffic), but a deploy that forgot to set SECRET_KEY would otherwise
+# silently sign sessions/JWTs with a value published in this repo's history
+# — fail loudly instead of shipping that.
+if not DEBUG and SECRET_KEY == _INSECURE_DEFAULT_SECRET_KEY:
+    raise RuntimeError(
+        'SECRET_KEY is unset (using the insecure default) while DEBUG=False. '
+        'Set a real SECRET_KEY in the environment before running with DEBUG off.'
+    )
+
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+
+# Only enforced when DEBUG=False — forcing HTTPS/HSTS/secure cookies in
+# local dev would break plain http://localhost.
+if not DEBUG:
+    SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=True)
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', default=60 * 60 * 24 * 30)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    # Render (and similar PaaS) terminate TLS at the load balancer and
+    # proxy plain HTTP to the app, so Django needs this to recognize the
+    # original request was HTTPS rather than redirect-looping forever.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
@@ -107,6 +134,19 @@ DATABASES = {
     },
 }
 
+# `manage.py test` always runs against local SQLite, never DATABASE_URL —
+# creating/tearing down a throwaway test database on the real (often
+# remote, e.g. Supabase) database is slow, can hang, and risks touching
+# shared infrastructure. This intentionally overrides DATABASE_URL rather
+# than just setting DATABASES['default']['TEST'], since TEST only
+# customizes the test DB for the *same* engine (Postgres), not a swap to
+# SQLite.
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -168,6 +208,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_THROTTLE_RATES': {
         'auntie_chat': '20/min',
+        'password_reset': '5/hour',
+        'contact_message': '10/hour',
     },
 }
 
@@ -195,6 +237,9 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@localhost')
 FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:5173')
+
+# Where "Contact Us" submissions get forwarded to (see helpcentre.ContactMessage).
+CONTACT_TEAM_EMAIL = env('CONTACT_TEAM_EMAIL', default='deravee2602@gmail.com')
 
 
 # Gemini API (AI Auntie)

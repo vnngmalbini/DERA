@@ -1,7 +1,12 @@
-from django.contrib import messages
+from django.conf import settings
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.mail import send_mail
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from rest_framework import generics, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
 
 from common.permissions import (
     IsAdmin,
@@ -20,6 +25,8 @@ from .serializers import (
     DonorProfileSerializer,
     InstitutionSerializer,
     NotificationSerializer,
+    PasswordResetConfirmSerializer,
+    PasswordResetRequestSerializer,
     RegisterSerializer,
     UserSerializer,
     YouthProfileSerializer,
@@ -46,6 +53,54 @@ class MeView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class PasswordResetRequestView(generics.GenericAPIView):
+    """Starts a password reset. Always returns the same generic response
+    regardless of whether the email matched an account, so this can't be
+    used to enumerate registered emails.
+    """
+
+    permission_classes = [permissions.AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'password_reset'
+    serializer_class = PasswordResetRequestSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = User.objects.filter(email__iexact=serializer.validated_data['email'], is_active=True).first()
+        if user is not None:
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = PasswordResetTokenGenerator().make_token(user)
+            reset_url = f'{settings.FRONTEND_URL}/reset-password/{uid}/{token}'
+            send_mail(
+                subject='Reset your DERA password',
+                message=(
+                    f'Someone (hopefully you) asked to reset the password for this DERA account.\n\n'
+                    f'Reset it here: {reset_url}\n\n'
+                    f"If you didn't request this, you can ignore this email."
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                fail_silently=True,
+            )
+
+        return Response({'detail': "If that account exists, we've sent password reset instructions to it."})
+
+
+class PasswordResetConfirmView(generics.GenericAPIView):
+    permission_classes = [permissions.AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'password_reset'
+    serializer_class = PasswordResetConfirmSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'detail': 'Password updated successfully. Please log in with your new password.'})
 
 
 class ChangePasswordView(generics.GenericAPIView):
