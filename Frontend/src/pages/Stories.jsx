@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import StoryCard from '../components/ui/StoryCard'
 import { apiGet } from '../services/apiClient'
@@ -28,7 +27,7 @@ export default function Stories() {
   }, [stories, activeFilter])
 
   return (
-    <PageLayout>
+    <>
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
         {/* Hero Section */}
         <section className="mb-lg text-center md:text-left">
@@ -98,6 +97,6 @@ export default function Stories() {
           </div>
         </section>
       </div>
-    </PageLayout>
+    </>
   )
 }

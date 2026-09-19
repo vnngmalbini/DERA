@@ -2,6 +2,9 @@ import PageLayout from '../components/layout/PageLayout'
 import Button from '../components/ui/Button'
 import ActionCard from '../components/ui/ActionCard'
 import StatCard from '../components/ui/StatCard'
+import Icon from '../components/ui/Icon'
+import SafeImage from '../components/ui/SafeImage'
+import Reveal from '../components/ui/Reveal'
 
 const MEDIA_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '')
 
@@ -62,7 +65,7 @@ export default function Home() {
 
       {/* Quick Actions Grid */}
       <section className="bg-inverse-surface py-xl px-margin-mobile md:px-margin-desktop">
-        <div className="max-w-7xl mx-auto">
+        <Reveal className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h3 className="font-headline-md text-headline-md text-on-primary-container mb-2">Quick Actions</h3>
             <p className="font-body-md text-body-md text-outline-variant">
@@ -74,12 +77,12 @@ export default function Home() {
               <ActionCard key={action.title} {...action} />
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Donate CTA */}
       <section className="py-xl px-margin-mobile md:px-margin-desktop">
-        <div className="max-w-7xl mx-auto bg-primary-container rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+        <Reveal className="max-w-7xl mx-auto bg-primary-container rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="text-center md:text-left max-w-xl">
             <h3 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-primary-container mb-3">
               Help a Young Ghanaian Take Their Next Step
@@ -92,12 +95,12 @@ export default function Home() {
           <Button to="/donate" icon="favorite" className="whitespace-nowrap">
             Donate Now
           </Button>
-        </div>
+        </Reveal>
       </section>
 
       {/* Stories Bento */}
       <section className="py-xl px-margin-mobile md:px-margin-desktop bg-surface-container-low">
-        <div className="max-w-7xl mx-auto">
+        <Reveal className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
             <div className="max-w-xl">
               <h3 className="font-display-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">
@@ -112,14 +115,15 @@ export default function Home() {
             </Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 h-auto md:h-[600px]">
-            <div className="md:col-span-2 md:row-span-2 relative rounded-3xl overflow-hidden group">
+            <div className="md:col-span-2 md:row-span-2 relative rounded-3xl overflow-hidden group bg-primary-container flex items-center justify-center">
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
-              <img
+              <SafeImage
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 alt="Portrait of Veronica Nakol Ngmalbini, who found her way into tech."
                 loading="lazy"
                 decoding="async"
                 src={`${MEDIA_BASE_URL}/media/stories/WhatsApp_Image_2026-07-22_at_21.52.24.jpeg`}
+                fallback={<Icon name="auto_stories" className="text-primary text-[120px] opacity-30" />}
               />
               <div className="absolute bottom-0 left-0 p-8 z-20">
                 <span className="bg-tertiary-fixed text-primary font-label-sm text-label-sm px-3 py-1 rounded-full mb-4 inline-block">
@@ -174,18 +178,18 @@ export default function Home() {
               <Button variant="dark" to="/sponsorship">Join as Mentor</Button>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Stats */}
       <section className="py-xl overflow-hidden">
-        <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+        <Reveal className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
           <div className="flex overflow-x-auto gap-6 pb-8 snap-x no-scrollbar md:grid md:grid-cols-3">
             <StatCard value="500+" label="Scholarships Awarded" tone="primary" />
             <StatCard value="10k+" label="Career Quizzes Taken" tone="primary-fixed" />
             <StatCard value="85%" label="Employment Rate" tone="secondary-fixed" />
           </div>
-        </div>
+        </Reveal>
       </section>
     </PageLayout>
   )

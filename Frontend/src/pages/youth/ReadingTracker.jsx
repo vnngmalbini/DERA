@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import DashboardStatCard from '../../components/dashboard/DashboardStatCard'
 import Icon from '../../components/ui/Icon'
@@ -120,20 +119,20 @@ export default function ReadingTracker() {
 
   if (loading) {
     return (
-      <DashboardLayout role="youth">
+      <>
         <div className="flex items-center gap-2 text-on-surface-variant py-xl justify-center">
           <Icon name="progress_activity" className="animate-spin" />
           Loading your reading tracker…
         </div>
-      </DashboardLayout>
+      </>
     )
   }
 
   if (loadError) {
     return (
-      <DashboardLayout role="youth">
+      <>
         <p className="text-error">{loadError}</p>
-      </DashboardLayout>
+      </>
     )
   }
 
@@ -141,7 +140,7 @@ export default function ReadingTracker() {
   const lockedBadges = stats?.badges.filter((b) => !b.earned) ?? []
 
   return (
-    <DashboardLayout role="youth">
+    <>
       <DashboardPageHeader
         title="Reading Tracker"
         description="Track what you're reading, reflect on what you finish, and grow your library."
@@ -249,6 +248,6 @@ export default function ReadingTracker() {
       )}
 
       {readerTarget && <FreeBookReaderModal book={readerTarget} onClose={() => setReaderTarget(null)} />}
-    </DashboardLayout>
+    </>
   )
 }

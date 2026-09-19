@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   overflow-x: hidden;
@@ -17,6 +21,36 @@ body {
 body {
   font-family: 'Inter', 'Segoe UI', sans-serif;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* A visible, on-brand focus ring for keyboard users — the default browser
+   outline gets clipped by rounded/overflow-hidden containers all over this
+   app (cards, pills, the chat panels), so every interactive element needs
+   its own ring instead of relying on that outline. Mouse/touch clicks never
+   trigger :focus-visible, so this never shows up as an unwanted click flash. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #366800;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 #root {

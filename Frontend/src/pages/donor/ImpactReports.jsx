@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import ContentCard from '../../components/dashboard/ContentCard'
 import Modal from '../../components/ui/Modal'
@@ -19,7 +18,7 @@ export default function ImpactReports() {
   }, [])
 
   return (
-    <DashboardLayout role="donor">
+    <>
       <DashboardPageHeader
         title="Impact Reports"
         description="See the measurable outcomes of your giving."
@@ -59,6 +58,6 @@ export default function ImpactReports() {
           </div>
         )}
       </Modal>
-    </DashboardLayout>
+    </>
   )
 }

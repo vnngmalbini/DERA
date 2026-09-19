@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { apiGet } from '../../services/apiClient'
 
@@ -73,7 +72,7 @@ export default function AssignedYouth() {
   }, [roster, search, riskFilter, levelFilter])
 
   return (
-    <DashboardLayout role="counselor">
+    <>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-xl">
         <div>
           <nav className="flex items-center gap-2 text-on-surface-variant mb-2">
@@ -203,6 +202,6 @@ export default function AssignedYouth() {
           </div>
         )}
       </div>
-    </DashboardLayout>
+    </>
   )
 }

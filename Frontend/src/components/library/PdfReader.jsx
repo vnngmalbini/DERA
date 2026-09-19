@@ -89,7 +89,14 @@ export default function PdfReader({ data, initialPage = 1, onPageChange }) {
     return () => {
       cancelled = true
     }
-  }, [pageNum, containerWidth])
+    // `numPages` flips from 0 once getDocument() resolves — it has to be a
+    // dependency here too, not just pageNum/containerWidth. pdfDocRef is a
+    // ref, so populating it doesn't trigger this effect on its own, and
+    // when initialPage is 1 (the common case) setPageNum(1) on load is a
+    // same-value no-op that never changes `pageNum` either. Without
+    // `numPages` here, the very first open renders nothing until something
+    // else (e.g. turning a page) happens to change pageNum/containerWidth.
+  }, [pageNum, containerWidth, numPages])
 
   useEffect(() => {
     if (numPages > 0) onPageChange?.(pageNum, numPages)

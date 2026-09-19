@@ -19,7 +19,15 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: false,
       devOptions: {
-        enabled: true,
+        // The dev-mode service worker runs the same Workbox NetworkFirst
+        // caching on /api/* GETs as production, but `npm run dev` talks to
+        // the Django server on a different origin/port than any built
+        // deploy ever will — that combination makes the SW's fetch
+        // interception fail outright on cross-origin GETs (e.g. login's
+        // /api/auth/me/ call comes back net::ERR_FAILED), and any stale
+        // cache from a previous backend port makes it worse. PWA behavior
+        // should be verified against `vite build && vite preview` instead.
+        enabled: false,
         type: 'module',
       },
       manifest: {
@@ -81,11 +89,25 @@ export default defineConfig({
             },
           },
           {
-            // Same-origin or cross-origin API GET requests: try the network first
-            // (so data is always fresh when online) but fall back to the last
-            // successful response on a flaky/offline connection instead of a
-            // blank/broken screen.
-            urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+            // Same-origin or cross-origin PUBLIC API GET requests only: try
+            // the network first (so data is always fresh when online) but
+            // fall back to the last successful response on a flaky/offline
+            // connection instead of a blank/broken screen.
+            //
+            // Deliberately excludes any request carrying an Authorization
+            // header — nearly every /api/* GET a logged-in user makes
+            // returns personal or otherwise sensitive data (their own
+            // /auth/me/, notifications, a counselor's youth roster with
+            // risk scores, quiz responses, donation history, ...), and
+            // Cache Storage isn't cleared just because a user logs out.
+            // Caching those would let a second person on a shared device
+            // see the first person's data offline, or have it served back
+            // to a *different* logged-in account. Public catalog data
+            // (institutions, scholarships, the free-book library, ...) is
+            // requested without a token and is exactly what this cache is
+            // for.
+            urlPattern: ({ url, request }) =>
+              url.pathname.startsWith('/api/') && !request.headers.has('Authorization'),
             method: 'GET',
             handler: 'NetworkFirst',
             options: {

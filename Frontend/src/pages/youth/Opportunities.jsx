@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import ContentCard from '../../components/dashboard/ContentCard'
 import { apiGet } from '../../services/apiClient'
@@ -17,7 +16,7 @@ export default function Opportunities() {
   }, [])
 
   return (
-    <DashboardLayout role="youth">
+    <>
       <DashboardPageHeader
         title="Opportunities"
         description="Internships, fellowships, and competitions curated for you."
@@ -35,6 +34,6 @@ export default function Opportunities() {
           ))}
         </div>
       )}
-    </DashboardLayout>
+    </>
   )
 }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import ContentCard from '../../components/dashboard/ContentCard'
 import { apiGet } from '../../services/apiClient'
@@ -17,7 +16,7 @@ export default function Mentorship() {
   }, [])
 
   return (
-    <DashboardLayout role="youth">
+    <>
       <DashboardPageHeader
         title="Mentorship"
         description="Connect with mentors matched to your interests and career goals."
@@ -35,6 +34,6 @@ export default function Mentorship() {
           ))}
         </div>
       )}
-    </DashboardLayout>
+    </>
   )
 }

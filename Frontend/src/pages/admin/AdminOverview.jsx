@@ -1,4 +1,3 @@
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardStatCard from '../../components/dashboard/DashboardStatCard'
 import QuickActions from '../../components/dashboard/QuickActions'
 import ActivityFeed from '../../components/dashboard/ActivityFeed'
@@ -12,7 +11,7 @@ export default function AdminOverview() {
   const firstName = (user?.fullName || 'Admin').split(' ')[0]
 
   return (
-    <DashboardLayout role="admin">
+    <>
       {loading || !summary ? (
         <DashboardSkeleton />
       ) : (
@@ -47,6 +46,6 @@ export default function AdminOverview() {
           </section>
         </>
       )}
-    </DashboardLayout>
+    </>
   )
 }

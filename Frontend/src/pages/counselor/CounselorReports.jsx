@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet } from '../../services/apiClient'
@@ -37,24 +36,24 @@ export default function CounselorReports() {
 
   if (loading) {
     return (
-      <DashboardLayout role="counselor">
+      <>
         <p className="text-on-surface-variant">Loading…</p>
-      </DashboardLayout>
+      </>
     )
   }
 
   if (loadError || !report) {
     return (
-      <DashboardLayout role="counselor">
+      <>
         <p className="text-error">{loadError || 'No report data available.'}</p>
-      </DashboardLayout>
+      </>
     )
   }
 
   const maxSubjectScore = Math.max(100, ...report.subject_averages.map((s) => s.avg_score))
 
   return (
-    <DashboardLayout role="counselor">
+    <>
       <DashboardPageHeader
         title="Reports & Insights"
         description={`Based on ${report.assigned_youth_count} youth assigned to you.`}
@@ -183,6 +182,6 @@ export default function CounselorReports() {
           )}
         </div>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

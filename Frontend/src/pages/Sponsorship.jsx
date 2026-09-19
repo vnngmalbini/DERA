@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { useAuth } from '../context/AuthContext'
 import { apiGet, apiPost, ApiError } from '../services/apiClient'
@@ -71,14 +70,14 @@ export default function Sponsorship() {
   if (!isLoggedIn && !isEligibilityView) return <Navigate to="/login" replace />
   if (isLoggedIn && user.role !== 'youth') {
     return (
-      <PageLayout>
+      <>
         <div className="min-h-[60vh] flex items-center justify-center px-margin-mobile text-center">
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
             Only youth accounts can request form sponsorships. If you'd like to fund a request instead, visit the
             donor dashboard.
           </p>
         </div>
-      </PageLayout>
+      </>
     )
   }
 
@@ -113,7 +112,7 @@ export default function Sponsorship() {
   }
 
   return (
-    <PageLayout>
+    <>
       {/* Hero Section / Encouragement */}
         <section className="relative overflow-hidden pt-lg pb-xl px-margin-mobile md:px-margin-desktop bg-primary-container text-on-primary">
           <div className="max-w-[800px] mx-auto text-center relative z-10">
@@ -371,6 +370,6 @@ export default function Sponsorship() {
           </div>
         </div>
       )}
-    </PageLayout>
+    </>
   )
 }

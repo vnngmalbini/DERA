@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { search } from '../services/searchService'
 
@@ -65,7 +64,7 @@ export default function SearchResults() {
   const totalResults = Object.values(results).reduce((sum, list) => sum + list.length, 0)
 
   return (
-    <PageLayout>
+    <>
       <div className="px-margin-mobile md:px-margin-desktop max-w-[900px] mx-auto py-lg">
         <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-sm">
           Search DERA
@@ -129,6 +128,6 @@ export default function SearchResults() {
           </div>
         )}
       </div>
-    </PageLayout>
+    </>
   )
 }

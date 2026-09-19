@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import FreeBookReaderModal from '../../components/library/FreeBookReaderModal'
@@ -51,7 +50,7 @@ export default function SelfDevelopmentLibrary() {
   }, [freeBooks, categoryFilter])
 
   return (
-    <DashboardLayout role="youth">
+    <>
       <DashboardPageHeader
         title="Self Development Library"
         description="Free, public-domain classics — read in full or download for free, right here on the platform."
@@ -112,6 +111,6 @@ export default function SelfDevelopmentLibrary() {
       )}
 
       {readerTarget && <FreeBookReaderModal book={readerTarget} onClose={() => setReaderTarget(null)} />}
-    </DashboardLayout>
+    </>
   )
 }

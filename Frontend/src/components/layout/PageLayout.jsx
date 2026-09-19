@@ -1,7 +1,5 @@
 import Header from './Header'
-import MobileBottomNav from './MobileBottomNav'
 import Footer from './Footer'
-import Fab from './Fab'
 import DashboardLayout from './DashboardLayout'
 import GlobalAssistant from './GlobalAssistant'
 import { useAuth } from '../../context/AuthContext'
@@ -9,7 +7,7 @@ import { useAuth } from '../../context/AuthContext'
 /**
  * Shared app chrome for the main product screens.
  * Pass `bare` for chromeless screens (auth, standalone forms) that
- * shouldn't get the header/bottom-nav/footer/fab.
+ * shouldn't get the header/footer/assistant.
  *
  * Logged-in users get the same role-scoped DashboardLayout sidebar here as
  * on their `/dashboard/*` routes — not a separate "public" sidebar — so the
@@ -28,7 +26,6 @@ export default function PageLayout({
   children,
   bare = false,
   forcePublic = false,
-  showFab = true,
   showFooter = true,
   mainClassName = '',
 }) {
@@ -49,10 +46,8 @@ export default function PageLayout({
   return (
     <>
       <Header />
-      <main className={`pt-16 pb-24 md:pb-0 ${mainClassName}`}>{children}</main>
-      <MobileBottomNav />
-      {showFab && <Fab />}
-        <GlobalAssistant />
+      <main className={`pt-16 ${mainClassName}`}>{children}</main>
+      <GlobalAssistant />
       {showFooter && <Footer />}
     </>
   )

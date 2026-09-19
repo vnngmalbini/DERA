@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { useAuth } from '../context/AuthContext'
 import { apiGet, apiPost, ApiError } from '../services/apiClient'
@@ -40,20 +39,20 @@ export default function PurchaseForm() {
   if (!isLoggedIn) return <Navigate to="/login" replace />
   if (user.role !== 'youth') {
     return (
-      <PageLayout>
+      <>
         <div className="min-h-[60vh] flex items-center justify-center px-margin-mobile text-center">
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
             Only youth accounts can purchase application forms directly. If you'd like to support a student instead,
             visit the sponsorship dashboard.
           </p>
         </div>
-      </PageLayout>
+      </>
     )
   }
   if (!formId) return <Navigate to="/forms" replace />
   if (applicationForm && applicationForm.price_ghs === null) {
     return (
-      <PageLayout>
+      <>
         <div className="min-h-[60vh] flex items-center justify-center px-margin-mobile text-center">
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
             This form doesn&apos;t have a listed price yet. Please apply directly on{' '}
@@ -64,7 +63,7 @@ export default function PurchaseForm() {
             .
           </p>
         </div>
-      </PageLayout>
+      </>
     )
   }
 
@@ -95,7 +94,7 @@ export default function PurchaseForm() {
   }
 
   return (
-    <PageLayout>
+    <>
       <div className="flex items-center justify-center py-xl px-margin-mobile">
         <div className="max-w-[1000px] w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter">
           <div className="lg:col-span-5 flex flex-col gap-gutter">
@@ -274,6 +273,6 @@ export default function PurchaseForm() {
         </div>
       )}
 
-    </PageLayout>
+    </>
   )
 }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
 import { getDashboardMetaForUser } from '../../config/dashboardNav'
@@ -106,7 +105,7 @@ export default function DashboardProfile() {
   }
 
   return (
-    <DashboardLayout role={user?.role}>
+    <>
       <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-lg">
         Profile
       </h1>
@@ -214,6 +213,6 @@ export default function DashboardProfile() {
           </>
         )}
       </div>
-    </DashboardLayout>
+    </>
   )
 }

@@ -19,6 +19,15 @@ export function setTokens({ access, refresh }) {
 export function clearTokens() {
   localStorage.removeItem(ACCESS_KEY)
   localStorage.removeItem(REFRESH_KEY)
+  // The service worker's runtime cache no longer stores authenticated
+  // responses going forward (see vite.config.js), but this clears out
+  // anything already cached under an older build before that fix shipped
+  // — otherwise it could keep serving this account's data (or, on a
+  // shared device, the next account's requests could turn up a stale hit
+  // from a previous user) until it naturally expires.
+  if (typeof caches !== 'undefined') {
+    caches.delete('api-get-responses').catch(() => {})
+  }
 }
 
 export class ApiError extends Error {

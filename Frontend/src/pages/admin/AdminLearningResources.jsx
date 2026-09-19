@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet, apiPost, apiDelete, ApiError } from '../../services/apiClient'
@@ -205,7 +204,7 @@ export default function AdminLearningResources() {
   })
 
   return (
-    <DashboardLayout role="admin">
+    <>
       <DashboardPageHeader
         title="Learning Resources"
         description="Courses and study materials shown on the youth Learning Resources page."
@@ -299,6 +298,6 @@ export default function AdminLearningResources() {
       {showAddModal && (
         <AddLearningResourceModal onClose={() => setShowAddModal(false)} onCreated={handleCreated} />
       )}
-    </DashboardLayout>
+    </>
   )
 }

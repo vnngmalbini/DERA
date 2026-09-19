@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import ContentCard from '../../components/dashboard/ContentCard'
 import { apiGet } from '../../services/apiClient'
@@ -17,7 +16,7 @@ export default function LearningResources() {
   }, [])
 
   return (
-    <DashboardLayout role="youth">
+    <>
       <DashboardPageHeader
         title="Learning Resources"
         description="Free courses and study materials to help you get ahead."
@@ -35,6 +34,6 @@ export default function LearningResources() {
           ))}
         </div>
       )}
-    </DashboardLayout>
+    </>
   )
 }

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
 import { apiGet } from '../../services/apiClient'
@@ -70,7 +69,7 @@ export default function CounselorOverview() {
   const filteredRoster = roster.filter((s) => s.full_name.toLowerCase().includes(search.toLowerCase()))
 
   return (
-    <DashboardLayout role="counselor">
+    <>
       <section className="mb-xl">
         <h2 className="font-headline-lg text-headline-lg text-primary mb-2">Akwaaba, {firstName}</h2>
         <p className="font-body-lg text-body-lg text-on-surface-variant">
@@ -236,6 +235,6 @@ export default function CounselorOverview() {
           </div>
         </section>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

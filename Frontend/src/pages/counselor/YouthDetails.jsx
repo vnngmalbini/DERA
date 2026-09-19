@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Modal from '../../components/ui/Modal'
 import Icon from '../../components/ui/Icon'
 import { apiGet, apiPost } from '../../services/apiClient'
@@ -200,17 +199,17 @@ export default function YouthDetails() {
 
   if (loading) {
     return (
-      <DashboardLayout role="counselor">
+      <>
         <p className="text-on-surface-variant">Loading…</p>
-      </DashboardLayout>
+      </>
     )
   }
 
   if (loadError || !youth) {
     return (
-      <DashboardLayout role="counselor">
+      <>
         <p className="text-error">{loadError || 'Youth not found.'}</p>
-      </DashboardLayout>
+      </>
     )
   }
 
@@ -225,7 +224,7 @@ export default function YouthDetails() {
   const hasAssessments = youth.risk_assessments.length > 0
 
   return (
-    <DashboardLayout role="counselor">
+    <>
       <section className="mb-lg">
         <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between bg-surface-container-lowest border border-outline-variant/40 p-md rounded-xl shadow-sm">
           <div className="flex items-center gap-6">
@@ -707,6 +706,6 @@ export default function YouthDetails() {
           </div>
         </form>
       </Modal>
-    </DashboardLayout>
+    </>
   )
 }

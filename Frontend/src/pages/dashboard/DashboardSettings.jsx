@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
 import { changePassword } from '../../services/profileService'
@@ -149,7 +148,7 @@ export default function DashboardSettings() {
   const [language, setLanguage] = useState('English')
 
   return (
-    <DashboardLayout role={user?.role}>
+    <>
       <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-lg">
         Settings
       </h1>
@@ -192,6 +191,6 @@ export default function DashboardSettings() {
           <ChangePasswordForm />
         </div>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

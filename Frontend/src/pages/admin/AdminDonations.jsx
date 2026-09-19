@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import DashboardStatCard from '../../components/dashboard/DashboardStatCard'
 import { apiGet } from '../../services/apiClient'
@@ -51,7 +50,7 @@ export default function AdminDonations() {
   })
 
   return (
-    <DashboardLayout role="admin">
+    <>
       <DashboardPageHeader
         title="Donations"
         description="Platform-wide donation activity across all donors."
@@ -135,6 +134,6 @@ export default function AdminDonations() {
           </table>
         </div>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

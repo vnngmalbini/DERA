@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { apiGet } from '../services/apiClient'
 
@@ -20,7 +19,7 @@ export default function CareerDetail() {
   }, [careerId])
 
   return (
-    <PageLayout>
+    <>
       <div className="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
         <Link
           to={career ? `/career-fields/${career.career_path.id}` : '/career-quiz'}
@@ -117,6 +116,6 @@ export default function CareerDetail() {
           </>
         )}
       </div>
-    </PageLayout>
+    </>
   )
 }

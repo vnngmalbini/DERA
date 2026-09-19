@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet, apiPost, apiDelete, ApiError } from '../../services/apiClient'
@@ -188,7 +187,7 @@ export default function AdminMentors() {
   })
 
   return (
-    <DashboardLayout role="admin">
+    <>
       <DashboardPageHeader
         title="Mentors"
         description="Mentors shown to youth on the Mentorship page."
@@ -270,6 +269,6 @@ export default function AdminMentors() {
       </div>
 
       {showAddModal && <AddMentorModal onClose={() => setShowAddModal(false)} onCreated={handleCreated} />}
-    </DashboardLayout>
+    </>
   )
 }

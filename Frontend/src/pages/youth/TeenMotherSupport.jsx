@@ -1,4 +1,3 @@
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 
 const supports = [
@@ -21,7 +20,7 @@ const supports = [
 
 export default function TeenMotherSupport() {
   return (
-    <DashboardLayout role="youth">
+    <>
       <div className="space-y-6">
         <section className="rounded-2xl bg-gradient-to-br from-primary/10 via-secondary-container/20 to-surface-container-lowest p-5 md:p-7 border border-outline-variant/30">
           <div className="flex items-center gap-3 mb-3">
@@ -50,6 +49,6 @@ export default function TeenMotherSupport() {
           ))}
         </section>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

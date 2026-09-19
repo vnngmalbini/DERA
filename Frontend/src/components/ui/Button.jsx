@@ -4,10 +4,10 @@ const VARIANTS = {
   primary:
     'bg-primary text-on-primary shadow-lg hover:shadow-xl active:scale-95',
   outline:
-    'border-2 border-outline text-on-surface-variant hover:bg-surface-container',
-  white: 'bg-white text-on-surface hover:bg-primary-fixed',
-  dark: 'bg-on-tertiary-container text-tertiary-container hover:opacity-90',
-  text: 'text-primary hover:translate-x-2',
+    'border-2 border-outline text-on-surface-variant hover:bg-surface-container active:scale-95',
+  white: 'bg-white text-on-surface hover:bg-primary-fixed active:scale-95',
+  dark: 'bg-on-tertiary-container text-tertiary-container hover:opacity-90 active:scale-95',
+  text: 'text-primary hover:translate-x-2 active:translate-x-1',
 }
 
 export default function Button({
@@ -22,8 +22,8 @@ export default function Button({
 }) {
   const base =
     variant === 'text'
-      ? 'inline-flex items-center gap-2 font-label-md text-label-md transition-transform py-2 -my-2'
-      : 'inline-flex items-center justify-center gap-2 py-4 px-8 rounded-full font-label-md text-label-md transition-all'
+      ? 'inline-flex items-center gap-2 font-label-md text-label-md transition-transform duration-200 ease-emphasized py-2 -my-2'
+      : 'inline-flex items-center justify-center gap-2 py-4 px-8 rounded-full font-label-md text-label-md transition-all duration-200 ease-emphasized'
 
   const classes = `${base} ${VARIANTS[variant]} ${className}`
   const content = (

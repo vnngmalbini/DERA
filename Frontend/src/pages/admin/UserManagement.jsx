@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet, apiPatch } from '../../services/apiClient'
@@ -53,7 +52,7 @@ export default function UserManagement() {
   })
 
   return (
-    <DashboardLayout role="admin">
+    <>
       <DashboardPageHeader
         title="User Management"
         description="View and manage every account on the platform."
@@ -138,6 +137,6 @@ export default function UserManagement() {
           </table>
         </div>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

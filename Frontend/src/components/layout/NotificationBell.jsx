@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import { fetchNotifications, markAllNotificationsRead, markNotificationRead } from '../../services/notificationService'
 
 const POLL_INTERVAL_MS = 60_000
+const PANEL_WIDTH = 320
+const VIEWPORT_MARGIN = 8
 
 function timeAgo(dateString) {
   const diffMs = Date.now() - new Date(dateString).getTime()
@@ -18,14 +21,17 @@ function timeAgo(dateString) {
 
 /**
  * Bell icon + unread badge, polled so a youth sees a "closing soon"
- * scholarship alert without refreshing. Self-contained (own open/close and
- * click-outside handling) so it can drop into both the desktop sidebar and
- * mobile header in DashboardLayout without extra plumbing.
+ * scholarship alert without refreshing. The dropdown panel is portaled to
+ * `document.body` and positioned from the button's live bounding rect, so
+ * it always stays inside the viewport instead of being clipped by a
+ * narrow or scrolling ancestor (e.g. the dashboard header it sits in).
  */
 export default function NotificationBell() {
   const [notifications, setNotifications] = useState([])
   const [open, setOpen] = useState(false)
-  const containerRef = useRef(null)
+  const [panelPos, setPanelPos] = useState(null)
+  const buttonRef = useRef(null)
+  const panelRef = useRef(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -49,11 +55,38 @@ export default function NotificationBell() {
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (containerRef.current && !containerRef.current.contains(e.target)) setOpen(false)
+      if (buttonRef.current?.contains(e.target)) return
+      if (panelRef.current?.contains(e.target)) return
+      setOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  // Position the portaled panel from the button's actual screen location so
+  // it can never be clipped by a narrow/scrolling ancestor (e.g. the
+  // sidebar), and re-clamp it to stay inside the viewport on resize/scroll.
+  useEffect(() => {
+    if (!open) return
+
+    const updatePosition = () => {
+      const rect = buttonRef.current?.getBoundingClientRect()
+      if (!rect) return
+      const left = Math.min(
+        Math.max(rect.right - PANEL_WIDTH, VIEWPORT_MARGIN),
+        window.innerWidth - PANEL_WIDTH - VIEWPORT_MARGIN,
+      )
+      setPanelPos({ top: rect.bottom + 8, left })
+    }
+
+    updatePosition()
+    window.addEventListener('resize', updatePosition)
+    window.addEventListener('scroll', updatePosition, true)
+    return () => {
+      window.removeEventListener('resize', updatePosition)
+      window.removeEventListener('scroll', updatePosition, true)
+    }
+  }, [open])
 
   const unreadCount = notifications.filter((n) => !n.is_read).length
 
@@ -73,8 +106,9 @@ export default function NotificationBell() {
   }
 
   return (
-    <div className="relative" ref={containerRef}>
+    <>
       <button
+        ref={buttonRef}
         onClick={() => setOpen((v) => !v)}
         aria-label="Notifications"
         className="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
@@ -87,8 +121,12 @@ export default function NotificationBell() {
         )}
       </button>
 
-      {open && (
-        <div className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-surface-container-lowest rounded-xl shadow-2xl border border-outline-variant/30 z-50">
+      {open && panelPos && createPortal(
+        <div
+          ref={panelRef}
+          style={{ position: 'fixed', top: panelPos.top, left: panelPos.left, width: PANEL_WIDTH }}
+          className="max-h-96 overflow-y-auto bg-surface-container-lowest rounded-xl shadow-2xl border border-outline-variant/30 z-50"
+        >
           <div className="flex items-center justify-between px-4 py-3 border-b border-outline-variant/30">
             <span className="font-label-lg text-label-lg text-on-surface">Notifications</span>
             {unreadCount > 0 && (
@@ -133,8 +171,9 @@ export default function NotificationBell() {
               ))}
             </ul>
           )}
-        </div>
+        </div>,
+        document.body,
       )}
-    </div>
+    </>
   )
 }

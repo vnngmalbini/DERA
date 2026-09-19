@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import { ApiError } from '../services/apiClient'
 
 const ROLES = [
@@ -61,7 +60,7 @@ export default function SignUp() {
   }
 
   return (
-    <PageLayout bare>
+    <>
       <div className="min-h-screen flex flex-col text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
         <main className="flex-grow flex items-center justify-center relative overflow-hidden px-margin-mobile py-lg">
           <div className="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 bg-secondary-container/20 rounded-full blur-[100px] pointer-events-none" />
@@ -282,6 +281,6 @@ export default function SignUp() {
           <p className="font-label-sm text-label-sm text-on-surface-variant/40 italic">Part of the DERA Collective © 2024</p>
         </footer>
       </div>
-    </PageLayout>
+    </>
   )
 }

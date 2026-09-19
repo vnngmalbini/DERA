@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { useAuth } from '../context/AuthContext'
 import { ApiError } from '../services/apiClient'
@@ -77,7 +76,7 @@ export default function Donate() {
 
   if (status === 'success') {
     return (
-      <PageLayout>
+      <>
         <div className="min-h-[70vh] flex items-center justify-center px-margin-mobile">
           <div className="max-w-md w-full text-center bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg shadow-sm">
             <div className="w-16 h-16 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-4">
@@ -99,12 +98,12 @@ export default function Donate() {
             </button>
           </div>
         </div>
-      </PageLayout>
+      </>
     )
   }
 
   return (
-    <PageLayout>
+    <>
       <div className="px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto">
         <section className="py-lg text-center md:text-left">
           <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-sm">
@@ -217,6 +216,6 @@ export default function Donate() {
           </div>
         </div>
       </div>
-    </PageLayout>
+    </>
   )
 }

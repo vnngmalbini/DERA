@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
 
@@ -11,7 +10,7 @@ export default function DashboardMessages() {
   const [selected, setSelected] = useState(null)
 
   return (
-    <DashboardLayout role={user?.role}>
+    <>
       <h1 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-lg">
         Messages
       </h1>
@@ -46,6 +45,6 @@ export default function DashboardMessages() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

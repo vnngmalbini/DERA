@@ -15,13 +15,13 @@ export default function Modal({ open, onClose, title, children }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-margin-mobile"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-margin-mobile animate-fade-in"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
-        className="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full p-md md:p-lg max-h-[85vh] overflow-y-auto"
+        className="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full p-md md:p-lg max-h-[85vh] overflow-y-auto animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 mb-md">

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
 
@@ -14,7 +13,7 @@ export default function DropoutReentryDashboard() {
   const firstName = (user?.fullName || 'there').split(' ')[0]
 
   return (
-    <DashboardLayout role="youth">
+    <>
       <div className="space-y-6">
         <section className="rounded-2xl bg-gradient-to-br from-secondary-container/20 via-surface-container-lowest to-primary/10 p-5 md:p-8 border border-outline-variant/30">
           <p className="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-2">Dropout re-entry dashboard</p>
@@ -42,6 +41,6 @@ export default function DropoutReentryDashboard() {
           </div>
         </section>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

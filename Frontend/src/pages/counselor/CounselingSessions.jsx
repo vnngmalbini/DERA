@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet, apiPatch, apiPost, ApiError } from '../../services/apiClient'
@@ -98,7 +97,7 @@ export default function CounselingSessions() {
   }
 
   return (
-    <DashboardLayout role="counselor">
+    <>
       <DashboardPageHeader
         title="Counseling Sessions"
         description="Upcoming and past sessions with your assigned youth."
@@ -251,6 +250,6 @@ export default function CounselingSessions() {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </>
   )
 }

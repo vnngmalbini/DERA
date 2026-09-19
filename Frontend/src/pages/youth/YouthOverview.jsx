@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardStatCard from '../../components/dashboard/DashboardStatCard'
 import QuickActions from '../../components/dashboard/QuickActions'
 import ActivityFeed from '../../components/dashboard/ActivityFeed'
@@ -42,7 +41,7 @@ function StandardYouthOverview() {
   const firstName = (user?.fullName || 'there').split(' ')[0]
 
   return (
-    <DashboardLayout role="youth">
+    <>
       {loading || !summary ? (
         <DashboardSkeleton />
       ) : (
@@ -115,6 +114,6 @@ function StandardYouthOverview() {
           </section>
         </>
       )}
-    </DashboardLayout>
+    </>
   )
 }

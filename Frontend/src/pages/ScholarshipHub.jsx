@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { apiGet } from '../services/apiClient'
 import { formatDeadline, isClosed } from '../utils/scholarships'
@@ -54,7 +53,7 @@ export default function ScholarshipHub() {
   }
 
   return (
-    <PageLayout>
+    <>
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
         {/* Hero Section */}
         <section className="mb-12">
@@ -239,6 +238,6 @@ export default function ScholarshipHub() {
           </div>
         </section>
       </div>
-    </PageLayout>
+    </>
   )
 }

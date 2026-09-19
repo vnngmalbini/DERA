@@ -1,4 +1,3 @@
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 
 const PILLARS = [
@@ -76,7 +75,7 @@ function PillarCard({ icon, title, description, variant }) {
 
 export default function About() {
   return (
-    <PageLayout>
+    <>
       {/* Hero Section */}
       <section className="relative w-full h-[618px] flex items-center justify-center overflow-hidden">
         <div
@@ -249,6 +248,6 @@ export default function About() {
           </div>
         </div>
       </section>
-    </PageLayout>
+    </>
   )
 }

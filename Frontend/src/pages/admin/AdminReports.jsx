@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import { apiGet } from '../../services/apiClient'
 
@@ -61,7 +60,7 @@ export default function AdminReports() {
   const maxBreakdown = Math.max(1, ...breakdown.map((b) => b.value))
 
   return (
-    <DashboardLayout role="admin">
+    <>
       <DashboardPageHeader
         title="Reports & Analytics"
         description="Platform-wide growth and usage trends."
@@ -110,6 +109,6 @@ export default function AdminReports() {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </>
   )
 }

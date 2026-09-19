@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet, apiPost, apiDelete, ApiError } from '../../services/apiClient'
@@ -232,7 +231,7 @@ export default function AdminScholarships() {
   })
 
   return (
-    <DashboardLayout role="admin">
+    <>
       <DashboardPageHeader
         title="Scholarships"
         description="Real scholarship listings shown on the Scholarship Hub."
@@ -333,6 +332,6 @@ export default function AdminScholarships() {
       {showAddModal && (
         <AddScholarshipModal careerPaths={careerPaths} onClose={() => setShowAddModal(false)} onCreated={handleCreated} />
       )}
-    </DashboardLayout>
+    </>
   )
 }

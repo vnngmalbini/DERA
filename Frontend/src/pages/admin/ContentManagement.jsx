@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet, apiPostForm, apiDelete, ApiError } from '../../services/apiClient'
@@ -249,7 +248,7 @@ export default function ContentManagement() {
   })
 
   return (
-    <DashboardLayout role="admin">
+    <>
       <DashboardPageHeader
         title="Content Management"
         description="Real stories shown on the public Real Stories page. Only stories added here — verified by an admin — are visible to youth."
@@ -359,6 +358,6 @@ export default function ContentManagement() {
           onCreated={handleStoryCreated}
         />
       )}
-    </DashboardLayout>
+    </>
   )
 }

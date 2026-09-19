@@ -1,4 +1,3 @@
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardStatCard from '../../components/dashboard/DashboardStatCard'
 import QuickActions from '../../components/dashboard/QuickActions'
 import ActivityFeed from '../../components/dashboard/ActivityFeed'
@@ -12,7 +11,7 @@ export default function DonorOverview() {
   const firstName = (user?.fullName || 'there').split(' ')[0]
 
   return (
-    <DashboardLayout role="donor">
+    <>
       {loading || !summary ? (
         <DashboardSkeleton />
       ) : (
@@ -67,6 +66,6 @@ export default function DonorOverview() {
           </section>
         </>
       )}
-    </DashboardLayout>
+    </>
   )
 }

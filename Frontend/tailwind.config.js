@@ -100,6 +100,36 @@ export default {
         'display-lg': ['48px', { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' }],
         'display-lg-mobile': ['36px', { lineHeight: '44px', letterSpacing: '-0.01em', fontWeight: '700' }],
       },
+      // Shared motion vocabulary — every animated element in the app draws
+      // from these instead of one-off durations/eases, so movement feels
+      // consistent whether it's a page section, a modal, or a button press.
+      transitionTimingFunction: {
+        emphasized: 'cubic-bezier(0.2, 0, 0, 1)',
+      },
+      keyframes: {
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'scale-in': {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'slide-up': {
+          '0%': { opacity: '0', transform: 'translateY(100%)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-in-up': 'fade-in-up 0.5s cubic-bezier(0.2, 0, 0, 1) both',
+        'fade-in': 'fade-in 0.3s ease-out both',
+        'scale-in': 'scale-in 0.2s cubic-bezier(0.2, 0, 0, 1) both',
+        'slide-up': 'slide-up 0.3s cubic-bezier(0.2, 0, 0, 1) both',
+      },
     },
   },
   plugins: [],

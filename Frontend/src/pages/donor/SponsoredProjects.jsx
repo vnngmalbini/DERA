@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import ContentCard from '../../components/dashboard/ContentCard'
 import Modal from '../../components/ui/Modal'
@@ -27,7 +26,7 @@ export default function SponsoredProjects() {
   }, [])
 
   return (
-    <DashboardLayout role="donor">
+    <>
       <DashboardPageHeader
         title="Sponsored Projects"
         description="Projects you're currently funding or have completed."
@@ -78,6 +77,6 @@ export default function SponsoredProjects() {
           </div>
         )}
       </Modal>
-    </DashboardLayout>
+    </>
   )
 }

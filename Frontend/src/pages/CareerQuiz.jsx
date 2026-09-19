@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import CareerFieldResults from '../components/career/CareerFieldResults'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { useAuth } from '../context/AuthContext'
 import { apiGet, apiPost } from '../services/apiClient'
@@ -118,7 +117,7 @@ export default function CareerQuiz() {
   }
 
   return (
-    <PageLayout>
+    <>
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
         <section className="py-md text-center">
           <h2 className="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-background mb-3">Career Discovery Quiz</h2>
@@ -323,6 +322,6 @@ export default function CareerQuiz() {
           </div>
         )}
       </div>
-    </PageLayout>
+    </>
   )
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import { apiGet } from '../../services/apiClient'
@@ -24,7 +23,7 @@ export default function Donations() {
   }, [])
 
   return (
-    <DashboardLayout role="donor">
+    <>
       <DashboardPageHeader
         title="Donations"
         description="Your giving history and a quick way to make a new donation."
@@ -87,6 +86,6 @@ export default function Donations() {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </>
   )
 }

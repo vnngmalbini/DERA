@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import SideNav from '../components/layout/SideNav'
 import { useAuth } from '../context/AuthContext'
 import { getDashboardMetaForUser } from '../config/dashboardNav'
@@ -72,7 +71,7 @@ export default function CompleteProfile() {
   }
 
   return (
-    <PageLayout bare>
+    <>
       <SideNav>
         <div className="bg-background text-on-background min-h-screen flex flex-col">
           <main className="flex-grow flex items-center justify-center px-margin-mobile py-lg md:py-xl">
@@ -113,6 +112,6 @@ export default function CompleteProfile() {
           </main>
         </div>
       </SideNav>
-    </PageLayout>
+    </>
   )
 }

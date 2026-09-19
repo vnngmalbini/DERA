@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import DashboardPageHeader from '../../components/dashboard/DashboardPageHeader'
 import Icon from '../../components/ui/Icon'
 import Modal from '../../components/ui/Modal'
@@ -170,7 +169,7 @@ export default function InstitutionManagement() {
   })
 
   return (
-    <DashboardLayout role="admin">
+    <>
       <DashboardPageHeader
         title="Institution Management"
         description="Schools and institutions registered on the platform."
@@ -254,6 +253,6 @@ export default function InstitutionManagement() {
       {showAddModal && (
         <AddInstitutionModal onClose={() => setShowAddModal(false)} onCreated={handleCreated} />
       )}
-    </DashboardLayout>
+    </>
   )
 }

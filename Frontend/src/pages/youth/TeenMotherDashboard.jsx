@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import DashboardLayout from '../../components/layout/DashboardLayout'
 import Icon from '../../components/ui/Icon'
 import { useAuth } from '../../context/AuthContext'
 
@@ -14,7 +13,7 @@ export default function TeenMotherDashboard() {
   const firstName = (user?.fullName || 'there').split(' ')[0]
 
   return (
-    <DashboardLayout role="youth">
+    <>
       <div className="space-y-6">
         <section className="rounded-2xl bg-gradient-to-br from-primary/10 via-secondary-container/20 to-surface-container-lowest p-5 md:p-8 border border-outline-variant/30">
           <p className="font-label-sm text-label-sm uppercase tracking-wider text-primary mb-2">Teen mother dashboard</p>
@@ -42,6 +41,6 @@ export default function TeenMotherDashboard() {
           </div>
         </section>
       </div>
-    </DashboardLayout>
+    </>
   )
 }

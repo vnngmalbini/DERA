@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import CareerFieldResults from '../components/career/CareerFieldResults'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { apiGet } from '../services/apiClient'
 
@@ -28,7 +27,7 @@ export default function CareerFieldDetail() {
   }, [careerPathId])
 
   return (
-    <PageLayout>
+    <>
       <div className="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
         <Link
           to="/career-quiz"
@@ -59,6 +58,6 @@ export default function CareerFieldDetail() {
           </>
         )}
       </div>
-    </PageLayout>
+    </>
   )
 }

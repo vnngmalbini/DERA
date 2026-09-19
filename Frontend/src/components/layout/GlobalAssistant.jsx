@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext'
 import { getDashboardMetaForUser } from '../../config/dashboardNav'
 
 const QUICK_ACTIONS = [
+  { label: 'Chat with AI Counsellor', to: '/ai-chat', icon: 'chat_bubble' },
   { label: 'Find scholarships', to: '/scholarships', icon: 'school' },
   { label: 'Career quiz', to: '/career-quiz', icon: 'psychology' },
   { label: 'Forms marketplace', to: '/forms', icon: 'assignment' },
@@ -34,7 +35,7 @@ export default function GlobalAssistant() {
   ).filter((action) => action.to !== dashboardPath || isLoggedIn)
 
   return (
-    <div className="fixed bottom-20 right-4 z-[70] sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-6 right-4 z-[70] sm:right-6">
       {open && (
         <div className="mb-3 w-[min(92vw,22rem)] rounded-2xl border border-outline-variant bg-surface-container-lowest shadow-2xl overflow-hidden">
           <div className="flex items-center justify-between gap-3 bg-primary-container px-4 py-3 text-on-primary-container">

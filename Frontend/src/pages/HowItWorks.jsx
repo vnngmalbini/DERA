@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 
 const STEPS = [
@@ -66,7 +65,7 @@ function StepCard({ step, icon, title, description, iconBg, iconText, buttonLabe
 
 export default function HowItWorks() {
   return (
-    <PageLayout>
+    <>
       <div className="pt-xl pb-xl px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto">
         {/* Hero Section */}
         <section className="mt-lg mb-xl text-center md:text-left grid md:grid-cols-2 gap-lg items-center">
@@ -151,6 +150,6 @@ export default function HowItWorks() {
           </div>
         </section>
       </div>
-    </PageLayout>
+    </>
   )
 }

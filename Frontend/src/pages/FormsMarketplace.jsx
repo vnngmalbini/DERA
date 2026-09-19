@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { apiGet } from '../services/apiClient'
 
@@ -89,7 +88,7 @@ export default function FormsMarketplace() {
       : forms.filter((form) => form.institution?.type === activeCategory)
 
   return (
-    <PageLayout>
+    <>
       <div className="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-lg space-y-xl">
         {/* Hero Section */}
         <section className="relative rounded-3xl overflow-hidden bg-primary-container text-on-primary min-h-[300px] flex items-center p-md md:p-xl shadow-lg">
@@ -179,6 +178,6 @@ export default function FormsMarketplace() {
           </div>
         </section>
       </div>
-    </PageLayout>
+    </>
   )
 }

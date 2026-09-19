@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import PageLayout from '../components/layout/PageLayout'
 import Icon from '../components/ui/Icon'
 import { sendAuntieMessage } from '../services/auntieService'
 
@@ -138,8 +137,8 @@ export default function HelpCentre() {
   }
 
   return (
-    <PageLayout>
-      <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-base pb-24 md:pb-12">
+    <>
+      <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-base pb-12">
         {/* Hero Section: Safe & Anonymous */}
         <section className="mt-8 mb-xl">
           <div className="relative overflow-hidden bg-primary-container rounded-3xl p-md md:p-lg flex flex-col md:flex-row items-center gap-md">
@@ -311,6 +310,6 @@ export default function HelpCentre() {
           </div>
         </section>
       </div>
-    </PageLayout>
+    </>
   )
 }
