@@ -156,19 +156,19 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 bg-surface dark:bg-background h-16">
+      <header className="fixed top-0 left-0 w-full z-50 bg-surface/95 dark:bg-background/95 backdrop-blur-md border-b border-outline-variant/20 h-16 pt-safe">
         <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full max-w-7xl mx-auto">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden material-symbols-outlined text-primary text-2xl cursor-pointer hover:bg-secondary-container/20 p-2.5 rounded-full transition-colors"
+              className="lg:hidden material-symbols-outlined text-primary text-2xl cursor-pointer hover:bg-secondary-container/20 p-2.5 -ml-2 rounded-full transition-colors"
               aria-label="Open menu"
             >
               menu
             </button>
             <Link to="/" className="flex items-center gap-1">
               <Icon name="spa" className="text-primary text-2xl" filled />
-              <h1 className="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg font-bold text-primary dark:text-primary-fixed tracking-tight">
+              <h1 className="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg font-bold text-primary dark:text-primary-fixed tracking-tight truncate">
                 DERA
               </h1>
             </Link>
@@ -184,7 +184,7 @@ export default function Header() {
               )
             )}
           </nav>
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
             <Link
               to="/search"
               aria-label="Search"
@@ -195,7 +195,7 @@ export default function Header() {
             {dashboard ? (
               <Link
                 to={dashboard.basePath}
-                className="bg-primary text-on-primary font-label-md text-label-md px-5 py-2.5 rounded-full hover:shadow-lg transition-all whitespace-nowrap flex items-center gap-1.5"
+                className="bg-primary text-on-primary font-label-md text-label-md px-3 sm:px-5 py-2.5 rounded-full hover:shadow-lg transition-all whitespace-nowrap flex items-center gap-1.5"
               >
                 <Icon name="dashboard" className="text-[18px]" />
                 Dashboard
@@ -210,7 +210,7 @@ export default function Header() {
                 </Link>
                 <Link
                   to="/signup"
-                  className="bg-primary text-on-primary font-label-md text-label-md px-5 py-2.5 rounded-full hover:shadow-lg transition-all whitespace-nowrap"
+                  className="mobile-signup bg-primary text-on-primary font-label-md text-label-md px-3 sm:px-5 py-2.5 rounded-full hover:shadow-lg transition-all whitespace-nowrap"
                 >
                   Sign Up
                 </Link>

@@ -22,6 +22,7 @@ const AssignedYouth = lazy(() => import('../pages/counselor/AssignedYouth'))
 const YouthDetails = lazy(() => import('../pages/counselor/YouthDetails'))
 const CounselingSessions = lazy(() => import('../pages/counselor/CounselingSessions'))
 const CounselorReports = lazy(() => import('../pages/counselor/CounselorReports'))
+const DropoutRiskAssessment = lazy(() => import('../pages/counselor/DropoutRiskAssessment'))
 
 const DonorOverview = lazy(() => import('../pages/donor/DonorOverview'))
 const Donations = lazy(() => import('../pages/donor/Donations'))
@@ -65,6 +66,7 @@ export const DASHBOARD_PAGES = {
     '/dashboard/counselor/youth/:youthId': YouthDetails,
     '/dashboard/counselor/sessions': CounselingSessions,
     '/dashboard/counselor/reports': CounselorReports,
+    '/dashboard/counselor/dropout-risk': DropoutRiskAssessment,
     '/dashboard/counselor/messages': DashboardMessages,
     '/dashboard/counselor/profile': DashboardProfile,
     '/dashboard/counselor/settings': DashboardSettings,

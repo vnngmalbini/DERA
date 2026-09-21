@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import Icon from '../components/ui/Icon'
 import { useAuth } from '../context/AuthContext'
 import { ApiError } from '../services/apiClient'
@@ -8,6 +9,8 @@ const QUICK_AMOUNTS = [20, 50, 100, 200, 500]
 
 export default function Donate() {
   const { user } = useAuth()
+  const location = useLocation()
+  const paymentCompleted = useRef(false)
   const [amount, setAmount] = useState(50)
   const [customAmount, setCustomAmount] = useState('')
   const [donorName, setDonorName] = useState(user?.fullName || '')
@@ -16,6 +19,20 @@ export default function Donate() {
   const [error, setError] = useState('')
 
   const selectedAmount = customAmount ? Number(customAmount) : amount
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const payment = params.get('payment')
+    const reference = sessionStorage.getItem('dera_payment_reference')
+    const paidAmount = sessionStorage.getItem('dera_payment_amount')
+    if (payment !== 'success' || !reference) return
+
+    if (paidAmount) setAmount(Number(paidAmount))
+    setStatus('success')
+    sessionStorage.removeItem('dera_payment_reference')
+    sessionStorage.removeItem('dera_payment_amount')
+    verifyDonation(reference).catch(() => {})
+  }, [location.search])
 
   function handleQuickAmount(value) {
     setAmount(value)
@@ -52,13 +69,13 @@ export default function Donate() {
         currency: 'GHS',
         ref: donation.reference,
         callback: (response) => {
-          verifyDonation(response.reference)
-            .then((verified) => {
-              setStatus(verified.status === 'success' ? 'success' : 'failed')
-            })
-            .catch(() => setStatus('failed'))
+          paymentCompleted.current = true
+          sessionStorage.setItem('dera_payment_reference', response.reference)
+          sessionStorage.setItem('dera_payment_amount', String(selectedAmount))
+          window.location.replace('/donate?payment=success')
         },
         onClose: () => {
+          if (paymentCompleted.current) return
           setStatus((current) => (current === 'processing' ? 'idle' : current))
           // The popup was closed without completing payment — verify anyway
           // so the backend resolves this reference to "failed" instead of
@@ -78,24 +95,38 @@ export default function Donate() {
     return (
       <>
         <div className="min-h-[70vh] flex items-center justify-center px-margin-mobile">
-          <div className="max-w-md w-full text-center bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg shadow-sm">
-            <div className="w-16 h-16 mx-auto bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-4">
-              <Icon name="favorite" className="text-4xl" filled />
+          <div className="max-w-xl w-full text-center bg-surface-container-lowest border border-outline-variant/20 rounded-2xl p-8 md:p-10 shadow-sm">
+            <div className="w-14 h-14 mx-auto bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-5">
+              <Icon name="check" className="text-2xl" filled />
             </div>
-            <h2 className="font-headline-sm text-headline-sm text-on-surface mb-2">Thank You!</h2>
-            <p className="font-body-md text-body-md text-on-surface-variant mb-6">
-              Your donation of GHS {Number(selectedAmount).toFixed(2)} was received. You're helping a young Ghanaian
-              take the next step in their future.
+            <p className="font-label-sm text-label-sm uppercase tracking-[0.12em] text-primary mb-2">Payment received</p>
+            <h2 className="font-headline-md text-headline-md text-on-surface mb-3">
+              Your donation was submitted successfully.
+            </h2>
+            <div className="inline-flex items-center gap-2 rounded-full bg-secondary-container px-4 py-2 mb-5">
+              <Icon name="check_circle" className="text-primary" filled />
+              <span className="font-label-md text-label-md text-on-secondary-container">GHS {Number(selectedAmount).toFixed(2)} · Paystack</span>
+            </div>
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mb-8">
+              Thank you for supporting DERA. Your transaction is being securely confirmed and your donation will be
+              recorded once verification is complete.
             </p>
-            <button
-              onClick={() => {
-                setStatus('idle')
-                setCustomAmount('')
-              }}
-              className="h-12 px-8 rounded-full bg-primary text-on-primary font-label-md inline-flex items-center justify-center gap-2"
-            >
-              Donate Again
-            </button>
+            <div className="flex flex-col sm:flex-row items-stretch justify-center gap-3">
+              <Link to="/" className="h-12 flex-1 px-6 rounded-full bg-primary text-on-primary font-label-md inline-flex items-center justify-center gap-2 whitespace-nowrap">
+                Return home
+                <Icon name="arrow_forward" />
+              </Link>
+              <button
+                onClick={() => {
+                  setStatus('idle')
+                  setCustomAmount('')
+                  paymentCompleted.current = false
+                }}
+                className="h-12 flex-1 px-6 rounded-full border border-outline text-on-surface-variant font-label-md inline-flex items-center justify-center gap-2 hover:bg-surface-container whitespace-nowrap"
+              >
+                Make another donation
+              </button>
+            </div>
           </div>
         </div>
       </>

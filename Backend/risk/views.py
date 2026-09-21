@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django.db.models import Avg, Count, Q
 from django.utils import timezone
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -11,7 +11,16 @@ from rest_framework.views import APIView
 from accounts.models import YouthProfile
 from common.permissions import IsCounselorOrAdmin
 
-from .models import AcademicRecord, AttendanceRecord, CounselingSession, Intervention, RiskAssessment, RiskIndicator
+from .dropout_model import predict_dropout
+from .models import (
+    AcademicRecord,
+    AttendanceRecord,
+    CounselingSession,
+    DropoutRiskAssessment,
+    Intervention,
+    RiskAssessment,
+    RiskIndicator,
+)
 from .serializers import (
     AcademicRecordSerializer,
     AttendanceRecordSerializer,
@@ -19,6 +28,8 @@ from .serializers import (
     InterventionSerializer,
     RiskAssessmentSerializer,
     RiskIndicatorSerializer,
+    DropoutPredictionSerializer,
+    DropoutRiskAssessmentSerializer,
 )
 
 # Score bands used to translate a RiskAssessment's numeric risk_score into
@@ -230,6 +241,63 @@ class CounselorReportsView(APIView):
             'recent_academic_records': AcademicRecordSerializer(
                 academic_qs.order_by('-recorded_at')[:10], many=True
             ).data,
+        })
+
+
+class DropoutPredictionView(APIView):
+    permission_classes = [IsCounselorOrAdmin]
+
+    def post(self, request):
+        serializer = DropoutPredictionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        youth_id = serializer.validated_data['youth_id']
+        youth = _roster_queryset(request).filter(id=youth_id).first()
+        if youth is None:
+            raise PermissionDenied("You don't have access to this youth's record.")
+
+        level = serializer.validated_data['education_level']
+        prediction = predict_dropout(level, serializer.validated_data['data'])
+        counselor = getattr(request.user, 'counselor_profile', None)
+        if counselor is None:
+            # Admins can review assessments but do not impersonate a counselor.
+            counselor = youth.assigned_counselor
+        if counselor is None:
+            raise PermissionDenied('Assign a counselor before recording an assessment.')
+        assessment = DropoutRiskAssessment.objects.create(
+            youth=youth,
+            counselor=counselor,
+            education_level=level,
+            input_data=serializer.validated_data['data'],
+            **prediction,
+        )
+        response = DropoutRiskAssessmentSerializer(assessment).data
+        response['risk_probability'] = float(response['risk_probability'])
+        response['disclaimer'] = (
+            'This assessment is an early-warning tool and does not guarantee that a student will drop out. '
+            'Results should be used to guide appropriate support and intervention.'
+        )
+        return Response(response, status=status.HTTP_201_CREATED)
+
+
+class DropoutRiskSummaryView(APIView):
+    permission_classes = [IsCounselorOrAdmin]
+
+    def get(self, request):
+        queryset = DropoutRiskAssessment.objects.filter(youth__in=_roster_queryset(request))
+        latest = {}
+        for assessment in queryset.order_by('-assessed_at'):
+            latest.setdefault(assessment.youth_id, assessment)
+        assessments = list(latest.values())
+        by_level = {level: {'LOW': 0, 'MEDIUM': 0, 'HIGH': 0} for level in ('BASIC', 'JHS', 'SHS', 'TERTIARY')}
+        for assessment in assessments:
+            by_level[assessment.education_level][assessment.risk_level] += 1
+        return Response({
+            'total_assessed': len(assessments),
+            'low_risk': sum(a.risk_level == 'LOW' for a in assessments),
+            'medium_risk': sum(a.risk_level == 'MEDIUM' for a in assessments),
+            'high_risk': sum(a.risk_level == 'HIGH' for a in assessments),
+            'requiring_intervention': sum(a.risk_level == 'HIGH' for a in assessments),
+            'by_education_level': by_level,
         })
 
 

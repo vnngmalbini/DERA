@@ -43,6 +43,7 @@ export const DASHBOARD_META = {
       { key: 'youth', label: 'Assigned Youth', to: '/dashboard/counselor/youth', icon: 'groups' },
       { key: 'sessions', label: 'Counseling Sessions', to: '/dashboard/counselor/sessions', icon: 'event_available' },
       { key: 'reports', label: 'Reports', to: '/dashboard/counselor/reports', icon: 'analytics' },
+      { key: 'dropout-risk', label: 'Dropout Risk', to: '/dashboard/counselor/dropout-risk', icon: 'health_and_safety' },
       { key: 'messages', label: 'Messages', to: '/dashboard/counselor/messages', icon: 'chat_bubble' },
       { key: 'forms-marketplace', label: 'Forms Marketplace', to: '/forms', icon: 'assignment' },
       { key: 'profile', label: 'Profile', to: '/dashboard/counselor/profile', icon: 'person' },

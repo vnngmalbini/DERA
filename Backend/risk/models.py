@@ -19,6 +19,42 @@ class RiskAssessment(models.Model):
         return f'{self.youth} @ {self.risk_score}'
 
 
+class DropoutRiskAssessment(models.Model):
+    class EducationLevel(models.TextChoices):
+        BASIC = 'BASIC', 'Basic School'
+        JHS = 'JHS', 'JHS'
+        SHS = 'SHS', 'SHS'
+        TERTIARY = 'TERTIARY', 'Tertiary'
+
+    class RiskLevel(models.TextChoices):
+        LOW = 'LOW', 'Low Risk'
+        MEDIUM = 'MEDIUM', 'Medium Risk'
+        HIGH = 'HIGH', 'High Risk'
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    youth = models.ForeignKey(
+        'accounts.YouthProfile', on_delete=models.CASCADE, related_name='dropout_risk_assessments'
+    )
+    counselor = models.ForeignKey(
+        'accounts.CounselorProfile', on_delete=models.PROTECT, related_name='dropout_risk_assessments'
+    )
+    education_level = models.CharField(max_length=12, choices=EducationLevel.choices)
+    input_data = models.JSONField(default=dict)
+    risk_probability = models.DecimalField(max_digits=5, decimal_places=4)
+    risk_level = models.CharField(max_length=6, choices=RiskLevel.choices)
+    risk_factors = models.JSONField(default=list)
+    recommendations = models.JSONField(default=list)
+    model_version = models.CharField(max_length=50, default='synthetic-demo-v1')
+    assessed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'dropout_risk_assessments'
+        ordering = ['-assessed_at']
+
+    def __str__(self):
+        return f'{self.youth} — {self.risk_level} ({self.risk_probability})'
+
+
 class RiskIndicator(models.Model):
     class Category(models.TextChoices):
         ACADEMIC_DECLINE = 'academic_decline', 'Academic Decline'

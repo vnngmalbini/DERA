@@ -46,4 +46,4 @@ def _build_contents(history, message):
 def get_auntie_reply(history, message):
     """Call Gemini as Auntie DERA and return a short, friendly reply."""
     contents = _build_contents(history, message)
-    return call_gemini(contents, system_prompt=SYSTEM_PROMPT, max_output_tokens=1024)
+    return call_gemini(contents, system_prompt=SYSTEM_PROMPT, max_output_tokens=256)

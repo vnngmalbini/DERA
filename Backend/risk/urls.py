@@ -8,6 +8,8 @@ from .views import (
     CounselorReportsView,
     CounselorRosterDetailView,
     CounselorRosterView,
+    DropoutPredictionView,
+    DropoutRiskSummaryView,
     InterventionViewSet,
     RiskAssessmentViewSet,
     RiskIndicatorViewSet,
@@ -25,4 +27,6 @@ urlpatterns = [
     path('counselor-roster/', CounselorRosterView.as_view(), name='counselor-roster'),
     path('counselor-roster/<uuid:youth_id>/', CounselorRosterDetailView.as_view(), name='counselor-roster-detail'),
     path('counselor-reports/', CounselorReportsView.as_view(), name='counselor-reports'),
+    path('dropout/predict/', DropoutPredictionView.as_view(), name='dropout-predict'),
+    path('dropout/summary/', DropoutRiskSummaryView.as_view(), name='dropout-summary'),
 ] + router.urls

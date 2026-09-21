@@ -46,6 +46,9 @@ export default function ScholarshipHub() {
       })
   }, [scholarships, search, level])
 
+  const openCount = scholarships.filter((scholarship) => !isClosed(scholarship.deadline)).length
+  const rollingCount = scholarships.filter((scholarship) => !scholarship.deadline).length
+
   const handleSubscribe = (e) => {
     e.preventDefault()
     if (!email.trim()) return
@@ -56,23 +59,34 @@ export default function ScholarshipHub() {
     <>
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
         {/* Hero Section */}
-        <section className="mb-12">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="flex-1 space-y-4">
-              <h2 className="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg md:text-display-lg text-primary max-w-xl leading-tight">
-                Empowering Your Journey Through Education
+        <section className="mb-10 overflow-hidden rounded-[1.75rem] bg-primary px-6 py-8 text-on-primary shadow-[0_20px_50px_rgba(31,45,34,0.14)] md:px-10 md:py-10">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <p className="mb-3 font-label-sm text-label-sm uppercase tracking-[0.12em] text-tertiary-fixed">Scholarship hub</p>
+              <h2 className="max-w-xl font-headline-lg-mobile text-headline-lg-mobile leading-tight md:font-headline-lg md:text-headline-lg">
+                Find funding for what comes next.
               </h2>
-              <p className="text-body-lg text-on-surface-variant max-w-lg">
-                Every Young Person Belongs Here. Find scholarships and grants specifically designed for Ghanaian
-                students from JHS to Tertiary levels. Your growth starts here.
+              <p className="mt-4 max-w-xl text-body-lg text-on-primary/85">
+                Explore Ghanaian and Africa-focused scholarships with clear eligibility details, official application
+                links, and deadlines in one place.
               </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:items-stretch">
+              <div className="rounded-2xl bg-white/10 px-4 py-3 backdrop-blur-sm">
+                <p className="font-headline-md text-headline-md">{openCount}</p>
+                <p className="font-label-sm text-label-sm text-on-primary/75">Open listings</p>
+              </div>
+              <div className="rounded-2xl bg-white/10 px-4 py-3 backdrop-blur-sm">
+                <p className="font-headline-md text-headline-md">{rollingCount}</p>
+                <p className="font-label-sm text-label-sm text-on-primary/75">Rolling deadlines</p>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Search & Filter Section */}
         <section className="mb-12">
-          <div className="bg-white p-6 rounded-2xl border border-outline-variant/30 shadow-sm space-y-6">
+          <div className="space-y-6 rounded-2xl border border-outline-variant/30 bg-white p-5 shadow-sm md:p-6">
             <div className="relative group">
               <Icon
                 name="search"
@@ -111,10 +125,12 @@ export default function ScholarshipHub() {
 
         {/* Results Grid */}
         <section className="mb-xl">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="font-headline-md text-headline-md text-on-background">
-              Available Scholarships ({filtered.length})
-            </h3>
+          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-1 font-label-sm text-label-sm uppercase tracking-[0.1em] text-primary">Opportunities</p>
+              <h3 className="font-headline-md text-headline-md text-on-background">Available scholarships</h3>
+            </div>
+            <p className="font-label-md text-label-md text-on-surface-variant">{filtered.length} matches</p>
           </div>
           {loading ? (
             <p className="text-on-surface-variant font-label-md text-label-md py-12 text-center">Loading…</p>
@@ -131,10 +147,10 @@ export default function ScholarshipHub() {
                 return (
                   <article
                     key={s.id}
-                    className={`bg-white rounded-2xl border border-outline-variant/30 flex flex-col transition-all duration-300 hover:shadow-lg p-6 ${closed ? 'opacity-70' : ''}`}
+                    className={`flex flex-col rounded-2xl border border-outline-variant/30 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${closed ? 'opacity-70' : ''}`}
                   >
                     <div className="mb-4">
-                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <div className="mb-3 flex flex-wrap items-center gap-2">
                         {s.education_level && (
                           <span className="inline-block bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-label-sm">
                             {s.education_level}
@@ -157,8 +173,8 @@ export default function ScholarshipHub() {
                     <div className="space-y-3 mb-6 flex-1">
                       <div className="flex items-start gap-3">
                         <Icon name="event" className="text-primary text-[20px] mt-0.5" />
-                        <p className={`text-label-md leading-tight ${closed ? 'text-error font-semibold' : 'text-on-surface-variant'}`}>
-                          Deadline: {formatDeadline(s.deadline)}
+                        <p className={`leading-tight ${closed ? 'font-semibold text-error' : 'text-on-surface-variant'} text-label-md`}>
+                          <span className="font-semibold text-on-surface">Deadline</span> · {formatDeadline(s.deadline)}
                         </p>
                       </div>
                       {s.eligibility_criteria && (

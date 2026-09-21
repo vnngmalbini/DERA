@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import ProfileCompletionGate from './components/routing/ProfileCompletionGate'
 import RequireRole from './components/routing/RequireRole'
 import InstallPrompt from './components/pwa/InstallPrompt'
@@ -72,9 +73,20 @@ function withPageLayout(Component, layoutProps) {
   )
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [pathname])
+
+  return null
+}
+
 export default function App() {
   return (
     <ProfileCompletionGate>
+      <ScrollToTop />
       <OfflineBanner />
       <UpdateToast />
       <InstallPrompt />

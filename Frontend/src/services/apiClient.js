@@ -179,11 +179,19 @@ export async function apiGetBlob(path, { retry = true } = {}) {
  * for the anonymous Help Centre submission, to preserve anonymity end to
  * end rather than relying solely on the backend ignoring identity.
  */
-export async function apiPostAnonymous(path, body) {
-  const res = await fetch(`${BASE_URL}${path}`, {
+export async function apiPostAnonymous(path, body, { timeoutMs = 12000 } = {}) {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), timeoutMs)
+  let res
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-  })
-  return parseResponse(res)
+      signal: controller.signal,
+    })
+    return parseResponse(res)
+  } finally {
+    clearTimeout(timeout)
+  }
 }

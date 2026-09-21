@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '../../components/ui/Icon'
+import DashboardStatCard from '../../components/dashboard/DashboardStatCard'
 import { useAuth } from '../../context/AuthContext'
 import { apiGet } from '../../services/apiClient'
+import { fetchDropoutRiskSummary } from '../../services/dropoutRiskService'
 
 const STATUS_STYLES = {
   Critical: 'bg-error-container text-on-error-container',
@@ -36,6 +38,7 @@ export default function CounselorOverview() {
   const [roster, setRoster] = useState([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState('')
+  const [dropoutSummary, setDropoutSummary] = useState(null)
   const firstName = (user?.fullName || 'there').split(' ')[0]
 
   useEffect(() => {
@@ -43,6 +46,10 @@ export default function CounselorOverview() {
       .then(setRoster)
       .catch(() => setLoadError('Could not load your roster right now.'))
       .finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => {
+    fetchDropoutRiskSummary().then(setDropoutSummary).catch(() => {})
   }, [])
 
   const atRiskStudents = useMemo(
@@ -70,62 +77,65 @@ export default function CounselorOverview() {
 
   return (
     <>
-      <section className="mb-xl">
-        <h2 className="font-headline-lg text-headline-lg text-primary mb-2">Akwaaba, {firstName}</h2>
-        <p className="font-body-lg text-body-lg text-on-surface-variant">
-          Here is a summary of student performance and alerts for today.
-        </p>
+      <section className="mb-xl flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div>
+          <h2 className="font-headline-lg text-headline-lg text-primary mb-2">Akwaaba, {firstName}</h2>
+          <p className="font-body-lg text-body-lg text-on-surface-variant">
+            Here is a summary of student performance and alerts for today.
+          </p>
+        </div>
+        <Link
+          to="/dashboard/counselor/dropout-risk"
+          className="inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-on-primary shadow-sm hover:bg-primary/90"
+        >
+          <Icon name="add_circle" className="text-lg" />
+          New risk assessment
+        </Link>
       </section>
 
       {loadError && <p className="text-error mb-lg">{loadError}</p>}
 
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-xl">
-        <div className="bg-surface-container p-md rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
-          <div>
-            <Icon name="warning" className="text-error text-3xl mb-md block" />
-            <h3 className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
-              At Risk Students
-            </h3>
-          </div>
-          <div className="flex items-end gap-3 mt-md">
-            <span className="text-5xl font-bold text-on-surface">{atRiskStudents.length}</span>
-          </div>
-        </div>
-
-        <div className="bg-primary-container text-on-primary-container p-md rounded-xl shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
-          <div>
-            <Icon name="calendar_month" className="text-3xl mb-md block" />
-            <h3 className="font-label-md text-label-md uppercase tracking-wider opacity-90">
-              Avg. Attendance (30d)
-            </h3>
-          </div>
-          <div className="mt-md">
-            <span className="text-5xl font-bold">{avgAttendance !== null ? `${avgAttendance}%` : '—'}</span>
-            {avgAttendance !== null && (
-              <div className="w-full bg-on-primary-container/20 h-2 rounded-full mt-3 overflow-hidden">
-                <div className="bg-on-primary-container h-full rounded-full" style={{ width: `${avgAttendance}%` }} />
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="bg-surface-container-high p-md rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
-          <div>
-            <Icon name="history_edu" className="text-tertiary text-3xl mb-md block" />
-            <h3 className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
-              Open Interventions
-            </h3>
-          </div>
-          <div className="flex items-end gap-3 mt-md">
-            <span className="text-5xl font-bold text-on-surface">{openInterventions}</span>
-          </div>
-        </div>
+      <section className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <DashboardStatCard icon="warning" value={atRiskStudents.length} label="Students needing attention" tone="error" />
+        <DashboardStatCard icon="calendar_month" value={avgAttendance !== null ? `${avgAttendance}%` : '—'} label="Average attendance, last 30 days" tone="primary" />
+        <DashboardStatCard icon="history_edu" value={openInterventions} label="Open support interventions" tone="tertiary" />
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <section className="lg:col-span-4 flex flex-col gap-4">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="font-headline-md text-headline-md text-on-surface font-bold">Priority Alerts</h3>
+      {dropoutSummary && (
+        <section className="mb-8 overflow-hidden rounded-2xl border border-outline-variant/30 bg-surface-container-lowest shadow-sm">
+          <div className="flex flex-col justify-between gap-4 border-b border-outline-variant/20 px-5 py-5 md:flex-row md:items-center md:px-6">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-error-container text-error"><Icon name="health_and_safety" /></span>
+                <h3 className="font-headline-md text-headline-md font-bold text-on-surface">Dropout-risk early warning</h3>
+              </div>
+              <p className="mt-2 text-sm text-on-surface-variant">Latest assessments across your assigned students</p>
+            </div>
+            <Link to="/dashboard/counselor/dropout-risk" className="inline-flex items-center gap-1 text-sm font-bold text-primary hover:underline">Open assessment tool <Icon name="arrow_forward" className="text-lg" /></Link>
+          </div>
+          <div className="grid grid-cols-2 divide-x divide-y divide-outline-variant/20 md:grid-cols-5 md:divide-y-0">
+            {[['total_assessed', 'Assessed', 'text-on-surface'], ['low_risk', 'Low risk', 'text-secondary'], ['medium_risk', 'Medium risk', 'text-tertiary'], ['high_risk', 'High risk', 'text-error'], ['requiring_intervention', 'Needs support', 'text-error']].map(([key, label, color]) => (
+              <div key={key} className="px-5 py-4 md:px-4"><p className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">{label}</p><p className={`mt-1 text-2xl font-bold ${color}`}>{dropoutSummary[key]}</p></div>
+            ))}
+          </div>
+          <div className="border-t border-outline-variant/20 bg-surface-container-low px-5 py-4 md:px-6">
+            <p className="mb-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Risk distribution by level</p>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {Object.entries(dropoutSummary.by_education_level).map(([educationLevel, counts]) => (
+                <div key={educationLevel} className="rounded-xl border border-outline-variant/30 bg-surface-container-lowest px-4 py-3">
+                  <p className="text-xs font-bold uppercase text-on-surface">{educationLevel}</p>
+                  <div className="mt-2 flex items-center gap-2 text-xs text-on-surface-variant"><span className="font-bold text-secondary">{counts.LOW} low</span><span>•</span><span className="font-bold text-tertiary">{counts.MEDIUM} medium</span><span>•</span><span className="font-bold text-error">{counts.HIGH} high</span></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <section className="flex flex-col gap-4 lg:col-span-4">
+          <div className="flex items-center justify-between border-b border-outline-variant/30 pb-3">
+            <div><p className="text-xs font-bold uppercase tracking-wider text-error">Action queue</p><h3 className="mt-1 font-headline-md text-headline-md font-bold text-on-surface">Priority alerts</h3></div>
             {priorityAlerts.length > 0 && (
               <span className="bg-error text-on-error text-xs font-bold px-2 py-1 rounded-full">
                 {priorityAlerts.length}
@@ -140,7 +150,7 @@ export default function CounselorOverview() {
           {priorityAlerts.map((alert) => (
             <div
               key={alert.id}
-              className="bg-white p-4 rounded-xl border-l-4 border-error shadow-sm hover:shadow-md transition-shadow"
+              className="rounded-xl border border-outline-variant/30 border-l-4 border-l-error bg-surface-container-lowest p-4 shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="flex gap-3">
                 <div className="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0 text-on-primary-container font-label-md text-label-md">
@@ -163,9 +173,9 @@ export default function CounselorOverview() {
         </section>
 
         <section className="lg:col-span-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-outline-variant/20 overflow-hidden h-full flex flex-col">
-            <div className="p-md border-b border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
-              <h3 className="font-headline-md text-headline-md text-on-surface font-bold">Student Roster</h3>
+          <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-outline-variant/30 bg-surface-container-lowest shadow-sm">
+            <div className="flex flex-col justify-between gap-4 border-b border-outline-variant/20 p-5 md:flex-row md:items-center">
+              <div><p className="text-xs font-bold uppercase tracking-wider text-primary">Your caseload</p><h3 className="mt-1 font-headline-md text-headline-md font-bold text-on-surface">Student roster</h3></div>
               <div className="relative w-full md:w-72">
                 <Icon
                   name="search"
@@ -174,7 +184,7 @@ export default function CounselorOverview() {
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                  className="w-full rounded-lg border border-outline-variant bg-surface-container-low px-4 py-2 pl-10 text-sm outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
                   placeholder="Search students..."
                   type="text"
                 />
@@ -182,7 +192,7 @@ export default function CounselorOverview() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="bg-surface-container-lowest border-b border-outline-variant/10 text-on-surface-variant font-label-md text-label-md">
+                <thead className="border-b border-outline-variant/20 bg-surface-container-low text-on-surface-variant font-label-md text-label-md">
                   <tr>
                     <th className="px-6 py-4">Student Name</th>
                     <th className="px-6 py-4">Risk Level</th>
@@ -193,7 +203,7 @@ export default function CounselorOverview() {
                 </thead>
                 <tbody className="divide-y divide-outline-variant/10">
                   {filteredRoster.map((s) => (
-                    <tr key={s.id} className="hover:bg-surface-variant/10 transition-colors">
+                    <tr key={s.id} className="transition-colors hover:bg-surface-container-low">
                       <td className="px-6 py-4 font-bold text-on-surface">{s.full_name}</td>
                       <td className="px-6 py-4">
                         <StatusBadge status={s.risk_level} />
@@ -223,7 +233,7 @@ export default function CounselorOverview() {
                 </tbody>
               </table>
             </div>
-            <div className="p-4 bg-surface-container-lowest flex justify-center border-t border-outline-variant/10 mt-auto">
+            <div className="mt-auto flex justify-center border-t border-outline-variant/20 bg-surface-container-low p-4">
               <Link
                 to="/dashboard/counselor/youth"
                 className="text-primary font-bold hover:underline flex items-center gap-2"

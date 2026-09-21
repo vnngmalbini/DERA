@@ -19,7 +19,7 @@ body {
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family: 'Work Sans', 'Segoe UI', sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -109,6 +109,12 @@ textarea {
 
 .pt-safe {
   padding-top: env(safe-area-inset-top);
+}
+
+@media (max-width: 420px) {
+  .mobile-signup {
+    display: none;
+  }
 }
 
 .material-symbols-outlined {

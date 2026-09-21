@@ -12,8 +12,8 @@ class GeminiServiceError(Exception):
 
 # Google's servers occasionally return a transient 503 under high demand;
 # a couple of quick retries clears most of these without surfacing an error.
-_MAX_ATTEMPTS = 3
-_RETRY_DELAY_SECONDS = 2
+_MAX_ATTEMPTS = 2
+_RETRY_DELAY_SECONDS = 1
 
 
 def call_gemini(contents, system_prompt, max_output_tokens=1024):

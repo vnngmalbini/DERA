@@ -107,7 +107,7 @@ class DonationViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.G
                 response = requests.get(
                     PAYSTACK_VERIFY_URL.format(reference=reference),
                     headers={'Authorization': f'Bearer {settings.PAYSTACK_SECRET_KEY}'},
-                    timeout=15,
+                    timeout=8,
                 )
                 payload = response.json()
             except (requests.RequestException, ValueError) as exc:
