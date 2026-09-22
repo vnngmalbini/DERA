@@ -2,6 +2,7 @@ import Header from './Header'
 import Footer from './Footer'
 import DashboardLayout from './DashboardLayout'
 import GlobalAssistant from './GlobalAssistant'
+import MobileBottomNav from './MobileBottomNav'
 import { useAuth } from '../../context/AuthContext'
 
 /**
@@ -46,9 +47,10 @@ export default function PageLayout({
   return (
     <>
       <Header />
-      <main className={`pt-16 ${mainClassName}`}>{children}</main>
+      <main className={`pt-16 pb-20 md:pb-0 ${mainClassName}`}>{children}</main>
       <GlobalAssistant />
       {showFooter && <Footer />}
+      <MobileBottomNav />
     </>
   )
 }

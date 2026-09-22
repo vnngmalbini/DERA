@@ -106,7 +106,7 @@ export default function GlobalAssistant() {
   }
 
   return (
-    <div className="fixed bottom-6 right-4 z-[70] sm:right-6">
+    <div className="fixed bottom-20 right-4 z-[70] sm:right-6 md:bottom-6">
       {open && (
         <section
           aria-label="Chat with Auntie DERA"

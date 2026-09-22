@@ -353,6 +353,10 @@ class CounselingSessionViewSet(viewsets.ModelViewSet):
         return [IsCounselorOrAdmin()]
 
     def get_queryset(self):
+        CounselingSession.objects.filter(
+            status=CounselingSession.Status.UPCOMING, scheduled_at__lt=timezone.now()
+        ).update(status=CounselingSession.Status.COMPLETED)
+
         role = self.request.user.role
         if role == 'admin':
             return CounselingSession.objects.all()
