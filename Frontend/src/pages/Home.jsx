@@ -5,8 +5,8 @@ import StatCard from '../components/ui/StatCard'
 import Icon from '../components/ui/Icon'
 import SafeImage from '../components/ui/SafeImage'
 import Reveal from '../components/ui/Reveal'
+import { imagekitUrl } from '../utils/imagekit'
 
-const MEDIA_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '')
 
 const QUICK_ACTIONS = [
   { icon: 'school', title: 'Scholarships', description: 'Find local and international funding.', to: '/scholarships' },
@@ -132,7 +132,7 @@ export default function Home() {
                 alt="Portrait of Veronica Nakol Ngmalbini, who found her way into tech."
                 loading="lazy"
                 decoding="async"
-                src={`${MEDIA_BASE_URL}/media/stories/WhatsApp_Image_2026-07-22_at_21.52.24.jpeg`}
+                src={imagekitUrl('stories/WhatsApp_Image_2026-07-22_at_21.52.24.jpeg')}
                 fallback={<Icon name="auto_stories" className="text-primary text-[120px] opacity-30" />}
               />
               <div className="absolute bottom-0 left-0 z-20 max-w-2xl p-6 md:p-8">

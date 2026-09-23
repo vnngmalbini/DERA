@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Icon from '../components/ui/Icon'
 import { sendAuntieMessage } from '../services/auntieService'
+import { imagekitUrl } from '../utils/imagekit'
 
-const MEDIA_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '')
 
 const PRIVACY_BADGES = [
   { icon: 'no_accounts', label: 'No Identity Required' },
@@ -164,7 +164,7 @@ export default function HelpCentre() {
                 alt="Portrait of Veronica Nakol Ngmalbini, the trustworthy mentor persona for the DERA platform."
                 fetchPriority="high"
                 decoding="async"
-                src={`${MEDIA_BASE_URL}/media/stories/WhatsApp_Image_2026-07-22_at_21.52.24.jpeg`}
+                src={imagekitUrl('stories/WhatsApp_Image_2026-07-22_at_21.52.24.jpeg')}
               />
               <div className="absolute bottom-2 right-2 bg-secondary-container text-on-secondary-fixed px-3 py-1 rounded-full font-label-lg shadow-lg">
                 Auntie DERA

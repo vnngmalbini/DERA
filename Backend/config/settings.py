@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'donations',
     'search',
     'library',
+    'common',
 ]
 
 MIDDLEWARE = [
@@ -189,6 +190,23 @@ STATIC_URL = 'static/'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# ImageKit (imagekit.io -> Developer options). When both are set, uploaded
+# media goes straight to ImageKit and API responses return ImageKit URLs;
+# otherwise uploads fall back to MEDIA_ROOT on local disk.
+IMAGEKIT_PRIVATE_KEY = env('IMAGEKIT_PRIVATE_KEY', default='')
+IMAGEKIT_URL_ENDPOINT = env('IMAGEKIT_URL_ENDPOINT', default='')
+
+STORAGES = {
+    'default': {
+        'BACKEND': (
+            'common.storage.ImageKitStorage'
+            if IMAGEKIT_PRIVATE_KEY and IMAGEKIT_URL_ENDPOINT
+            else 'django.core.files.storage.FileSystemStorage'
+        ),
+    },
+    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+}
 
 
 # Django REST Framework
