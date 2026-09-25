@@ -15,6 +15,26 @@ const ROLE_META = {
   donor: { label: 'Donor', Form: DonorProfileForm },
 }
 
+const GENERIC_ERROR = 'Something went wrong while saving your profile. Please try again.'
+
+function humanizeField(key) {
+  const words = key.replace(/_/g, ' ')
+  return words.charAt(0).toUpperCase() + words.slice(1)
+}
+
+// The register and profile endpoints use DRF's default error format:
+// serializer validation gives { field: ["message", ...] }, while auth,
+// permission, not-found and throttle errors give { detail: "message" }.
+function getErrorMessages(error) {
+  const data = error?.data
+  if (!data || typeof data !== 'object') return [GENERIC_ERROR]
+  if (typeof data.detail === 'string') return [data.detail]
+  const messages = Object.entries(data).flatMap(([field, fieldErrors]) =>
+    [].concat(fieldErrors).map((message) => `${humanizeField(field)}: ${message}`),
+  )
+  return messages.length > 0 ? messages : [GENERIC_ERROR]
+}
+
 const PROFILE_ID_KEY = {
   youth: 'youth_profile',
   counselor: 'counselor_profile',
@@ -26,7 +46,7 @@ export default function CompleteProfile() {
   const location = useLocation()
   const navigate = useNavigate()
   const [status, setStatus] = useState('idle') // idle | submitting | error
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessages, setErrorMessages] = useState([])
   const [institutions, setInstitutions] = useState([])
   const registration = location.state?.registration
   const isRegistrationFlow = Boolean(registration)
@@ -48,7 +68,7 @@ export default function CompleteProfile() {
 
   async function handleSubmit(values) {
     setStatus('submitting')
-    setErrorMessage('')
+    setErrorMessages([])
     try {
       if (isRegistrationFlow) {
         await register({ ...registration, ...toSnakeCasePayload(registration.role, values, registration.full_name) })
@@ -64,9 +84,9 @@ export default function CompleteProfile() {
       await submitProfile(user.role, profile?.id, toSnakeCasePayload(user.role, values, profile?.full_name))
       const updatedUser = await refreshUser()
       navigate(getDashboardMetaForUser(updatedUser)?.basePath ?? '/', { replace: true })
-    } catch {
+    } catch (error) {
       setStatus('error')
-      setErrorMessage('Something went wrong while saving your profile. Please try again.')
+      setErrorMessages(getErrorMessages(error))
     }
   }
 
@@ -96,7 +116,11 @@ export default function CompleteProfile() {
                 {status === 'error' && (
                   <div className="mb-md p-md rounded-lg bg-error-container flex items-start gap-2">
                     <span className="material-symbols-outlined text-on-error-container text-[20px]">error</span>
-                    <p className="font-body-md text-body-md text-on-error-container">{errorMessage}</p>
+                    <div className="font-body-md text-body-md text-on-error-container space-y-xs">
+                      {errorMessages.map((message) => (
+                        <p key={message}>{message}</p>
+                      ))}
+                    </div>
                   </div>
                 )}
 
