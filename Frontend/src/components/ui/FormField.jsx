@@ -31,7 +31,7 @@ export default function FormField({
             const optValue = isObject ? opt.value : opt
             const optLabel = isObject ? opt.label : opt
             return (
-              <option key={optValue} value={optValue}>
+              <option key={optValue} value={optValue} disabled={isObject && Boolean(opt.disabled)}>
                 {optLabel}
               </option>
             )

@@ -35,14 +35,25 @@ const REGIONS = [
 ]
 
 const EDUCATION_LEVELS = [
-  { value: 'primary', label: 'Primary School' },
-  { value: 'jhs', label: 'Junior High School (JHS)' },
-  { value: 'shs', label: 'Senior High School (SHS)' },
-  { value: 'shs_graduate', label: 'SHS Graduate' },
-  { value: 'tertiary', label: 'Tertiary' },
-  { value: 'dropout_re_entry', label: 'Dropout Re-entry' },
-  { value: 'teen_mother_program', label: 'Teen Mother Program' },
+  { value: 'primary', label: 'Primary School', isActive: true },
+  { value: 'jhs', label: 'Junior High School (JHS)', isActive: true },
+  { value: 'shs', label: 'Senior High School (SHS)', isActive: true },
+  { value: 'shs_graduate', label: 'SHS Graduate', isActive: true },
+  { value: 'tertiary', label: 'Tertiary', isActive: true },
+  { value: 'dropout_re_entry', label: 'Dropout Re-entry', isActive: false },
+  { value: 'teen_mother_program', label: 'Teen Mother Program', isActive: false },
 ]
+
+// Inactive levels stay visible so users know they're planned, but can't be picked yet.
+const EDUCATION_LEVEL_OPTIONS = EDUCATION_LEVELS.map(({ value, label, isActive }) => ({
+  value,
+  label: isActive ? label : `${label} (Coming soon)`,
+  disabled: !isActive,
+}))
+
+function isActiveEducationLevel(educationLevel) {
+  return EDUCATION_LEVELS.some((level) => level.value === educationLevel && level.isActive)
+}
 
 // Which Institution.type values are relevant for each education level —
 // drives the institution dropdown filtering below. Levels not listed here
@@ -152,6 +163,10 @@ export default function YouthProfileForm({
       }
     }
 
+    if (values.educationLevel && !nextErrors.educationLevel && !isActiveEducationLevel(values.educationLevel)) {
+      nextErrors.educationLevel = 'This education level is coming soon — please choose another.'
+    }
+
     if (needsInstitution && !freeText && values.institution === OTHER_INSTITUTION && !values.customInstitutionName.trim()) {
       nextErrors.institution = 'Type the name of your institution.'
     }
@@ -246,7 +261,7 @@ export default function YouthProfileForm({
         value={values.educationLevel}
         onChange={handleChange('educationLevel')}
         error={errors.educationLevel}
-        options={EDUCATION_LEVELS}
+        options={EDUCATION_LEVEL_OPTIONS}
       />
 
       {institutionApplies(values.educationLevel) && (
