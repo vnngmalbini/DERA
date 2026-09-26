@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { getDashboardMetaForUser } from '../config/dashboardNav'
 import { ApiError } from '../services/apiClient'
 import { requestPasswordReset } from '../services/authService'
+import { imagekitUrl } from '../utils/imagekit'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -87,7 +88,7 @@ export default function Login() {
                   alt="A serene and professional workspace with lush green plants and soft morning light streaming through a large window."
                   loading="lazy"
                   decoding="async"
-                  src="https://images.unsplash.com/photo-1755436612568-a197417c1ddf?auto=format&fit=crop&w=1200&q=80"
+                  src={imagekitUrl('site/login-1755436612568-a197417c1ddf.jpg', 'w-1200,q-80')}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent flex flex-col justify-end p-lg">
                   <h2 className="font-headline-lg text-headline-lg text-white mb-xs">Nurture Your Ambition</h2>

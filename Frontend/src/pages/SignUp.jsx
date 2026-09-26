@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ApiError } from '../services/apiClient'
+import { imagekitUrl } from '../utils/imagekit'
 
 const ROLES = [
   { key: 'youth', label: 'Young Person', icon: 'person' },
@@ -85,7 +86,7 @@ export default function SignUp() {
                   className="bg-cover bg-center w-full h-full transition-transform duration-700 group-hover:scale-105"
                   style={{
                     backgroundImage:
-                      'url("https://images.unsplash.com/photo-1584365098838-50ccef838f4a?auto=format&fit=crop&w=1200&q=80")',
+                      `url(${imagekitUrl('site/signup-1584365098838-50ccef838f4a.jpg', 'w-1200,q-80')})`,
                   }}
                 />
               </div>

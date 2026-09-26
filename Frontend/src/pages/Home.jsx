@@ -51,7 +51,7 @@ export default function Home() {
                 fetchPriority="high"
                 decoding="async"
                 sizes="(min-width: 768px) 48vw, 100vw"
-                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=85"
+                src={imagekitUrl('site/home-hero-1531482615713-2afd69097998.jpg', 'w-1600,q-85')}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
               <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1.5 backdrop-blur-md md:left-5 md:top-5">

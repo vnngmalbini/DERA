@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Icon from '../components/ui/Icon'
+import { imagekitUrl } from '../utils/imagekit'
 
 const STEPS = [
   {
@@ -86,7 +87,7 @@ export default function HowItWorks() {
               className="w-full h-full bg-cover bg-center"
               style={{
                 backgroundImage:
-                  "url('https://images.unsplash.com/photo-1758876203819-4cb3eec8e1aa?auto=format&fit=crop&w=1200&q=80')",
+                  `url(${imagekitUrl('site/how-it-works-1-1758876203819-4cb3eec8e1aa.jpg', 'w-1200,q-80')})`,
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -108,7 +109,7 @@ export default function HowItWorks() {
                 className="w-full h-full bg-cover bg-center"
                 style={{
                   backgroundImage:
-                    "url('https://images.unsplash.com/photo-1528901166007-3784c7dd3653?auto=format&fit=crop&w=1200&q=80')",
+                    `url(${imagekitUrl('site/how-it-works-2-1528901166007-3784c7dd3653.jpg', 'w-1200,q-80')})`,
                 }}
               />
             </div>

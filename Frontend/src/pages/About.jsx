@@ -1,4 +1,5 @@
 import Icon from '../components/ui/Icon'
+import { imagekitUrl } from '../utils/imagekit'
 
 const PILLARS = [
   {
@@ -82,7 +83,7 @@ export default function About() {
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1747889268735-31192c2a6df4?auto=format&fit=crop&w=1600&q=80')",
+              `url(${imagekitUrl('site/about-hero-1747889268735-31192c2a6df4.jpg', 'w-1600,q-80')})`,
           }}
         />
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/70 to-black/60" />
@@ -140,7 +141,7 @@ export default function About() {
                 className="w-full h-full bg-cover bg-center"
                 style={{
                   backgroundImage:
-                    "url('https://images.unsplash.com/photo-1655720348590-c739c860beed?auto=format&fit=crop&w=1200&q=80')",
+                    `url(${imagekitUrl('site/about-1-1655720348590-c739c860beed.jpg', 'w-1200,q-80')})`,
                 }}
               />
             </div>
@@ -238,7 +239,7 @@ export default function About() {
               className="w-full h-full bg-cover bg-center"
               style={{
                 backgroundImage:
-                  "url('https://images.unsplash.com/photo-1573164574511-73c773193279?auto=format&fit=crop&w=1200&q=80')",
+                  `url(${imagekitUrl('site/about-2-1573164574511-73c773193279.jpg', 'w-1200,q-80')})`,
               }}
             />
             <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm p-base rounded-lg shadow-md flex items-center gap-base">
